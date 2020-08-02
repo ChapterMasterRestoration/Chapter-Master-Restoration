@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\background\images\bg_space.png" />
     <Content Include="Content\images\dsgsdgsdg_0.png" />
     <Content Include="Content\images\dsgsdgsdg_1.png" />
     <Content Include="Content\images\dsgsdgsdg_10.png" />
@@ -1904,6 +1905,8 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="Content\background\bg_space.background.gmx" />
+    <None Include="Content\background\images\Thumbs.db" />
     <None Include="Content\images\Thumbs.db" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
