@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace Game1
 {
@@ -10,7 +11,9 @@ namespace Game1
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
+        GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
+        private Texture2D test;
 
         public Game1()
         {
@@ -27,7 +30,7 @@ namespace Game1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+          
             base.Initialize();
         }
 
@@ -39,8 +42,12 @@ namespace Game1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
+            // metathesis
+            FileStream file = new FileStream("Content/images/spr_honor_helm_3.png", FileMode.Open);
+            graphicsDevice = graphics.GraphicsDevice;
+            test = Texture2D.FromStream(graphicsDevice, file);
+            file.Close();
         }
 
         /// <summary>
@@ -76,7 +83,9 @@ namespace Game1
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(test,new Rectangle(0,0,167,80),Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
