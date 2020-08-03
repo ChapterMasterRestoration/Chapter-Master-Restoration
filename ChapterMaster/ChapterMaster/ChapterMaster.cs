@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ChapterMaster.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
@@ -18,7 +19,7 @@ namespace ChapterMaster
         int HEIGHT = 960;
         private Texture2D background;
         public static Texture2D[] SystemTextures = new Texture2D[6];
-        
+        Sector sector = new Sector();
         public ChapterMaster()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -36,7 +37,8 @@ namespace ChapterMaster
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-          
+            sector.Prepare();
+            sector.Generate();
             base.Initialize();
         }
 
@@ -64,6 +66,7 @@ namespace ChapterMaster
                 SystemTextures[i] = Loader.LoadPNG("spr_star_" + i);
             }
             renderer = new SectorRenderer();
+            
             renderer.Initialize();
 
         }
@@ -82,17 +85,24 @@ namespace ChapterMaster
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        bool buttonDown = false;
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            if (Keyboard.GetState().IsKeyUp(Keys.E)) buttonDown = false;
+            if (Keyboard.GetState().IsKeyDown(Keys.E) && !buttonDown)
+            {
+                sector.Systems.Clear();
+                sector.Generate(50);
+                buttonDown = true;
+            }
             // TODO: Add your update logic here
             // check for End Turn button click
             base.Update(gameTime);
         }
 
-        System system = new System(1);
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -117,10 +127,10 @@ namespace ChapterMaster
             float zoom = 1;
 
             // Draw systems // spr_star_0 to spr_star_5
-            renderer.DrawStar(spriteBatch, new Vector2(400, 400), system);
+            renderer.Render(spriteBatch, sector);
             // Draw warp lanes
             // Draw UI
-            renderer.DrawLine(spriteBatch, new Vector2(50, 50), new Vector2(200, 200), Color.Red);
+           // renderer.DrawLine(spriteBatch, new Vector2(50, 50), new Vector2(200, 200), Color.Red);
             spriteBatch.End();
             
             base.Draw(gameTime);

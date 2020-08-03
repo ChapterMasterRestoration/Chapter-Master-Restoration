@@ -9,8 +9,11 @@ namespace ChapterMaster
     class System
     {
         public int color;
-        public System(int _color) {
+        public int x, y;
+        public System(int _color, int _x, int _y) {
             color = _color;
+            x = _x;
+            y = _y;
         }
 
     }
