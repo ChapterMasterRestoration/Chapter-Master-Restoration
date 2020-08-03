@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChapterMaster", "Game1\ChapterMaster.csproj", "{5EF8A79C-AD70-475D-9CDD-095DB58C0E8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChapterMaster", "ChapterMaster\ChapterMaster.csproj", "{5EF8A79C-AD70-475D-9CDD-095DB58C0E8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
