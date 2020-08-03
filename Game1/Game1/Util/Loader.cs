@@ -11,6 +11,7 @@ namespace ChapterMaster
     class Loader
     {
         public static string CONTENT_ROOT;
+
         public static Texture2D LoadPNG(string name)
         {
             Texture2D texture;

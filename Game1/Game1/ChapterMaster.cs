@@ -13,11 +13,12 @@ namespace ChapterMaster
         GraphicsDeviceManager graphics;
         public static GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
-        Renderer renderer;
+        SectorRenderer renderer;
         int WIDTH = 1280;
         int HEIGHT = 960;
         private Texture2D background;
-
+        public static Texture2D[] SystemTextures = new Texture2D[6];
+        
         public ChapterMaster()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -58,7 +59,11 @@ namespace ChapterMaster
             graphicsDevice = graphics.GraphicsDevice;
             Loader.CONTENT_ROOT = Content.RootDirectory;
             background = Loader.LoadPNG("background/bg_space");
-            renderer = new Renderer();
+            for (int i = 0; i < SystemTextures.Length; i++)
+            {
+                SystemTextures[i] = Loader.LoadPNG("spr_star_" + i);
+            }
+            renderer = new SectorRenderer();
             renderer.Initialize();
 
         }
@@ -83,10 +88,11 @@ namespace ChapterMaster
                 Exit();
 
             // TODO: Add your update logic here
-
+            // check for End Turn button click
             base.Update(gameTime);
         }
 
+        System system = new System(1);
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -106,11 +112,12 @@ namespace ChapterMaster
             // Scale and Zoom
             float scaleX = 1;
             float scaleY = 1;
-                // Draw background
+            // Draw background
             spriteBatch.Draw(background, new Rectangle(0, 0,1280,960), Color.White);
             float zoom = 1;
 
             // Draw systems // spr_star_0 to spr_star_5
+            renderer.DrawStar(spriteBatch, new Vector2(400, 400), system);
             // Draw warp lanes
             // Draw UI
             renderer.DrawLine(spriteBatch, new Vector2(50, 50), new Vector2(200, 200), Color.Red);
