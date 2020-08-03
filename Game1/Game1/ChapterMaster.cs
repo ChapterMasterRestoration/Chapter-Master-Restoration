@@ -3,22 +3,22 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
 
-namespace Game1
+namespace ChapterMaster
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class ChapterMaster : Game
     {
         GraphicsDeviceManager graphics;
-        GraphicsDevice graphicsDevice;
+        public static GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
-        public const string IMAGE_DIRECTORY = "textures";
+        Renderer renderer;
         int WIDTH = 1280;
         int HEIGHT = 960;
         private Texture2D background;
 
-        public Game1()
+        public ChapterMaster()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = WIDTH;
@@ -49,21 +49,17 @@ namespace Game1
         graphicsDevice = graphics.GraphicsDevice;
         test = Texture2D.FromStream(graphicsDevice, file);
         file.Close(); */
-        private Texture2D LoadPNG(string name)
-        {
-            Texture2D texture;
-            FileStream file = new FileStream(Content.RootDirectory + "/" + IMAGE_DIRECTORY + "/" + name + ".png", FileMode.Open);
-            graphicsDevice = graphics.GraphicsDevice;
-            texture = Texture2D.FromStream(graphicsDevice, file);
-            file.Close();
-            return texture;
-        }
+
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-            background = LoadPNG("background/bg_space");
+            graphicsDevice = graphics.GraphicsDevice;
+            Loader.CONTENT_ROOT = Content.RootDirectory;
+            background = Loader.LoadPNG("background/bg_space");
+            renderer = new Renderer();
+            renderer.Initialize();
 
         }
 
@@ -100,7 +96,10 @@ namespace Game1
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
             spriteBatch.Begin();
+
+            // Draw each loop
             // Move and Rotate Camera
             float camX = 0; 
             float camY = 0;
@@ -111,8 +110,10 @@ namespace Game1
             spriteBatch.Draw(background, new Rectangle(0, 0,1280,960), Color.White);
             float zoom = 1;
 
-            // Draw systems
-            // Draw hyperlanes
+            // Draw systems // spr_star_0 to spr_star_5
+            // Draw warp lanes
+            // Draw UI
+            renderer.DrawLine(spriteBatch, new Vector2(50, 50), new Vector2(200, 200), Color.Red);
             spriteBatch.End();
             
             base.Draw(gameTime);
