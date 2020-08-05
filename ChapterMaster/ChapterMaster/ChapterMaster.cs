@@ -37,8 +37,9 @@ namespace ChapterMaster
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            this.IsMouseVisible = true;
             sector.Prepare();
-            sector.Generate();
+            sector.GridGenerate(50, 100, 80, 1280, 960);
             base.Initialize();
         }
 
@@ -94,7 +95,7 @@ namespace ChapterMaster
             if (Keyboard.GetState().IsKeyDown(Keys.E) && !buttonDown)
             {
                 sector.Systems.Clear();
-                sector.Generate(50);
+                sector.GridGenerate(60, 100, 80, 1280, 960);
                 buttonDown = true;
             }
             // TODO: Add your update logic here
@@ -117,8 +118,8 @@ namespace ChapterMaster
 
             // Draw each loop
             // Move and Rotate Camera
-            float camX = 0; 
-            float camY = 0;
+            int camX = 0; 
+            int camY = 0;
             // Scale and Zoom
             float scaleX = 1;
             float scaleY = 1;

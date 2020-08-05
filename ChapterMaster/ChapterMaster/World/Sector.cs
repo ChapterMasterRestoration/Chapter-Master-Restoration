@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ChapterMaster.Util;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ namespace ChapterMaster.World
         {
             return (int)Math.Round(Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2)));
         }
+        /*
         int Clusters = 0;
         int lastClusterX = 0;
         int lastClusterY = 0;
@@ -88,15 +90,93 @@ namespace ChapterMaster.World
         }
         public void Generate(int number) // still doesn't work.
         {
-            Systems.Add(new System(random.Next(6), random.Next(1280), random.Next(960)));
-            while(Systems.Count < number)
+            //Systems.Add(new System(random.Next(6), random.Next(1280), random.Next(960)));
+            while (Systems.Count < number)
             {
                 foreach (System sys in Systems)
                 {
                     int x = random.Next(1280);
                     int y = random.Next(960);
                     if (RoundedDistance(sys.x, sys.y, x, y) > 100) Systems.Add(new System(random.Next(6), x, y));
-                    Generate(number);
+                    //Generate(number);
+                }
+            }
+        }
+
+
+        int min = 30;
+        int max = 100;
+        public void NormalDistGenerate()
+        {
+            int count = (int)Math.Round(random.NormallyDistributedSingle(15, 60, min, max));
+            int sprawl = 500;
+            int average = 150;
+            int lastX = 500;
+            int lastY = 500;
+
+            for (int i = 0; i < count; i++)
+            {
+                int x = (int)Math.Round(random.NormallyDistributedSingle(sprawl, average, -500, 500));
+                int y = (int)Math.Round(random.NormallyDistributedSingle(sprawl, average, -300, 300)); ;
+                int xBorder = 1280 - x;
+                int yBorder = 960 - x;
+                if (xBorder >= 0 && xBorder < 300 && random.Next(2) == 1)
+                {
+                    x = 1280 - x;
+                }
+                if (yBorder >= 0 && yBorder < 200 && random.Next(2) == 1)
+                {
+                    y = 960 - y;
+                }
+                Systems.Add(new System(random.Next(6),
+                            MathUtil.ClampInt(lastX + x, 0, 1280),
+                            MathUtil.ClampInt(lastY + y, 0, 960)));
+                lastX = MathUtil.ClampInt(lastX + x, 0, 1280);
+                lastY = MathUtil.ClampInt(lastY + y, 0, 960);
+            }
+            //lastX = lastY = 0;
+        }
+        */
+        // 100, 100, 80, 1280, 960
+        public void GridGenerate(int clusterNo, int minDistance, int clusterSize, int width, int height)
+        {
+            for (int x = 0; x < width / clusterSize; x++)
+            {
+                for (int y = 0; y < height / clusterSize; y++)
+                {
+                    int no = Systems.Count;
+                    if (no < clusterNo)
+                    {
+                        int newX = x * clusterSize + (int)Math.Round(
+                            // 300, 300, -600, 600
+                            random.NormallyDistributedSingle(width/2, width/4, -width/2, width/2)); // skew to the east
+                        int newY = y * clusterSize + (int)Math.Round(
+                            random.NormallyDistributedSingle(100, 100, -200, 200)); // skew to the south
+                        if (random.Next(2) == 1) // sprawl out to the west
+                        {
+                            newX = width - newX;
+                        }
+                        if (random.Next(2) == 1) // sprawl out to the north
+                        {
+                            newY = height - newY;
+                        }
+                        if (no > 0)
+                        {
+                            for (int secondCircle = 0; secondCircle < no; secondCircle++) // hell loop
+                            {
+                                foreach (System s in Systems)
+                                {
+                                    int dis = RoundedDistance(s.x, s.y, newX, newY);
+                                    if (dis < minDistance) // skew away from other stars
+                                    {
+                                        newX += (int)Math.Round(random.NormallyDistributedSingle(dis, 0, -2 * dis, 2 * dis)); 
+                                        newY += (int)Math.Round(random.NormallyDistributedSingle(dis, 0, -2 * dis, 2 * dis));
+                                    }
+                                }
+                            }
+                        }
+                        Systems.Add(new System(random.Next(6), newX, newY));
+                    }
                 }
             }
         }

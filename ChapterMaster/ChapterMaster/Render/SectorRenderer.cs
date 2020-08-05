@@ -27,12 +27,13 @@ namespace ChapterMaster
                 null, color, 
                 SpriteEffects.None, 0);
         }
-        public void DrawStar(SpriteBatch spriteBatch, System system)
+        public void DrawStar(SpriteBatch spriteBatch, System system, int scaleX, int scaleY)
         {
-            spriteBatch.Draw(ChapterMaster.SystemTextures[system.color], new Rectangle(0+system.x, 0+system.y, 80, 80), Color.White);
+            spriteBatch.Draw(ChapterMaster.SystemTextures[system.color], new Rectangle(system.x, system.y, 80 * scaleX, 80 * scaleY), Color.White);
         }
         public void Render(SpriteBatch spriteBatch, Sector sector)
         {
+            
             foreach (System system in sector.Systems)
             {
                 //Console.WriteLine("x " + system.x + " y " + system.y);

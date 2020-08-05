@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Fleet\Fleet.cs" />
+    <Compile Include="Util\MathUtil.cs" />
     <Compile Include="Util\Constants.cs" />
     <Compile Include="ChapterMaster.cs" />
     <Compile Include="Util\Loader.cs" />
