@@ -15,7 +15,7 @@ namespace ChapterMaster.World
         private int systemId;
         public List<System> Systems = new List<System>();
         // static organization of lane graph
-        public List<Tuple<int, int>> WarpLanes; // like this?
+        public List<WarpLane> WarpLanes = new List<WarpLane>(); // like this?
 
         //int LocalSystem(int i)
         //{
@@ -34,7 +34,7 @@ namespace ChapterMaster.World
 
         public void Prepare()
         {
-            random = new Random();
+            random = new Random(220);
         }
         int RoundedDistance(int x1, int y1, int x2, int y2)
         {
@@ -140,6 +140,7 @@ namespace ChapterMaster.World
         // 100, 100, 80, 1280, 960
         public void GridGenerate(int clusterNo, int minDistance, int clusterSize, int width, int height)
         {
+            Systems.Clear();
             for (int x = 0; x < width / clusterSize; x++)
             {
                 for (int y = 0; y < height / clusterSize; y++)
@@ -151,15 +152,8 @@ namespace ChapterMaster.World
                             // 300, 300, -600, 600
                             random.NormallyDistributedSingle(width/2, width/4, -width/2, width/2)); // skew to the east
                         int newY = y * clusterSize + (int)Math.Round(
-                            random.NormallyDistributedSingle(100, 100, -200, 200)); // skew to the south
-                        if (random.Next(2) == 1) // sprawl out to the west
-                        {
-                            newX = width - newX;
-                        }
-                        if (random.Next(2) == 1) // sprawl out to the north
-                        {
-                            newY = height - newY;
-                        }
+                            // 100, 100, -200, 200
+                            random.NormallyDistributedSingle(height/2, height/4, -height/2, height/2)); // skew to the south
                         if (no > 0)
                         {
                             for (int secondCircle = 0; secondCircle < no; secondCircle++) // hell loop
@@ -175,7 +169,52 @@ namespace ChapterMaster.World
                                 }
                             }
                         }
+                        if (newX < 0) newX += width;
+                        if (newY < 0) newY += width;
+                        if (random.Next(2) == 1 || newX > width) // sprawl out to the west
+                        {
+                            newX = width - newX;
+                        }
+                        if (random.Next(2) == 1 || newY > height) // sprawl out to the north
+                        {
+                            newY = height - newY;
+                        }
                         Systems.Add(new System(random.Next(6), newX, newY));
+                    }
+                }
+            }
+        }
+        public void WarpLaneGenerate()
+        {
+            WarpLanes.Clear();
+            for(int system = 0; system < Systems.Count; system++)
+            {
+                for (int other = 0; other < Systems.Count; other++)
+                {
+                    if (system == other) // system is other
+                    {
+                        // ignore
+                        continue;
+                    }
+                    else
+                    {
+                        int distance = RoundedDistance(
+                            Systems[system].x, Systems[system].y, 
+                            Systems[other].x, Systems[other].y);
+                        if (distance < 100 && random.Next(10) > 1)
+                        {
+                            WarpLanes.Add(new WarpLane(system, other));
+                            Systems[system].hasLane = Systems[other].hasLane = true;
+                        } else if (distance < 200 && random.Next(10) < 2)
+                        {
+                            //WarpLanes.Add(new WarpLane(system, other));
+                        } else if (distance < 300 && random.Next(50) < 2)
+                        {
+                           // WarpLanes.Add(new WarpLane(system, other));
+                        } else if (distance < 400 && random.Next(100) < 2)
+                        {
+                           // WarpLanes.Add(new WarpLane(system, other));
+                        }
                     }
                 }
             }

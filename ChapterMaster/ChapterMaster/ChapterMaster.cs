@@ -17,6 +17,7 @@ namespace ChapterMaster
         SectorRenderer renderer;
         int WIDTH = 1280;
         int HEIGHT = 960;
+        ViewController view;
         private Texture2D background;
         public static Texture2D[] SystemTextures = new Texture2D[6];
         Sector sector = new Sector();
@@ -38,8 +39,11 @@ namespace ChapterMaster
         {
             // TODO: Add your initialization logic here
             this.IsMouseVisible = true;
+            Window.Title = "Chapter Master Revived";
             sector.Prepare();
+            // 1280 960
             sector.GridGenerate(50, 100, 80, 1280, 960);
+            sector.WarpLaneGenerate();
             base.Initialize();
         }
 
@@ -67,7 +71,7 @@ namespace ChapterMaster
                 SystemTextures[i] = Loader.LoadPNG("spr_star_" + i);
             }
             renderer = new SectorRenderer();
-            
+            view = new ViewController();
             renderer.Initialize();
 
         }
@@ -94,10 +98,11 @@ namespace ChapterMaster
             if (Keyboard.GetState().IsKeyUp(Keys.E)) buttonDown = false;
             if (Keyboard.GetState().IsKeyDown(Keys.E) && !buttonDown)
             {
-                sector.Systems.Clear();
-                sector.GridGenerate(60, 100, 80, 1280, 960);
+                sector.GridGenerate(50, 100, 80, 1280, 960);
+                sector.WarpLaneGenerate();
                 buttonDown = true;
             }
+            view.UpdateMouse();
             // TODO: Add your update logic here
             // check for End Turn button click
             base.Update(gameTime);
@@ -118,17 +123,15 @@ namespace ChapterMaster
 
             // Draw each loop
             // Move and Rotate Camera
-            int camX = 0; 
-            int camY = 0;
+
             // Scale and Zoom
             float scaleX = 1;
             float scaleY = 1;
             // Draw background
             spriteBatch.Draw(background, new Rectangle(0, 0,1280,960), Color.White);
-            float zoom = 1;
 
             // Draw systems // spr_star_0 to spr_star_5
-            renderer.Render(spriteBatch, sector);
+            renderer.Render(spriteBatch, sector,view);
             // Draw warp lanes
             // Draw UI
            // renderer.DrawLine(spriteBatch, new Vector2(50, 50), new Vector2(200, 200), Color.Red);
