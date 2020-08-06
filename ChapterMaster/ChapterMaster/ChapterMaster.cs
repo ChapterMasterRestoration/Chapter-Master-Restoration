@@ -125,18 +125,9 @@ namespace ChapterMaster
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
             spriteBatch.Begin();
-
-            // Draw each loop
-            // Move and Rotate Camera
-
-            // Scale and Zoom
-            float scaleX = 1;
-            float scaleY = 1;
-            // Draw background
+            // Draw background // Background is not tiled, merely scaled.
             spriteBatch.Draw(background, new Rectangle(0, 0,Constants.WorldWidth,Constants.WorldHeight), Color.White);
-
             // Draw systems // spr_star_0 to spr_star_5
             renderer.Render(spriteBatch, sector,view);
             // Draw warp lanes
@@ -144,7 +135,6 @@ namespace ChapterMaster
             spriteBatch.Draw(mapframe, new Rectangle(0, 0, WIDTH, HEIGHT),Color.White);
            // renderer.DrawLine(spriteBatch, new Vector2(50, 50), new Vector2(200, 200), Color.Red);
             spriteBatch.End();
-            
             base.Draw(gameTime);
         }
         public static int GetWidth()

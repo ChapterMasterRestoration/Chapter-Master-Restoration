@@ -137,7 +137,6 @@ namespace ChapterMaster.World
             //lastX = lastY = 0;
         }
         */
-        // 100, 100, 80, 1280, 960
         public void GridGenerate(int clusterNo, int minDistance, int clusterSize, int width, int height)
         {
             Systems.Clear();
@@ -149,10 +148,8 @@ namespace ChapterMaster.World
                     if (no < clusterNo)
                     {
                         int newX = x * clusterSize + (int)Math.Round(
-                            // 300, 300, -600, 600
                             random.NormallyDistributedSingle(width/2, width/4, -width/2, width/2)); // skew to the east
                         int newY = y * clusterSize + (int)Math.Round(
-                            // 100, 100, -200, 200
                             random.NormallyDistributedSingle(height/2, height/4, -height/2, height/2)); // skew to the south
                         if (no > 0)
                         {
