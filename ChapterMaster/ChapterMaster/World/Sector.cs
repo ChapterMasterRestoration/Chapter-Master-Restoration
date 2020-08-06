@@ -168,9 +168,9 @@ namespace ChapterMaster.World
                                     }
                                 }
                             }
-                        }
-                        if (newX < 0) newX += width;
-                        if (newY < 0) newY += width;
+                        } 
+                        if (newX < 0) newX += width; // randomize the new posiiton
+                        if (newY <0) newY += height; // randomize the new position
                         if (random.Next(2) == 1 || newX > width) // sprawl out to the west
                         {
                             newX = width - newX;
@@ -203,6 +203,7 @@ namespace ChapterMaster.World
                             Systems[other].x, Systems[other].y);
                         if (Systems[system].numberOfLanes < 3 && Systems[other].numberOfLanes < 3)
                         {
+                            // balance random factors
                             if (distance < 100 && random.Next(20) > 7)
                             {
                                 WarpLanes.Add(new WarpLane(system, other));
@@ -215,7 +216,7 @@ namespace ChapterMaster.World
                                 Systems[system].numberOfLanes++;
                                 Systems[other].numberOfLanes++;
                             }
-                            else if (distance < 300 && random.Next(200) < 10)
+                            else if (distance < 300 && random.Next(200) < 7)
                             {
                                 WarpLanes.Add(new WarpLane(system, other));
                                 Systems[system].numberOfLanes++;

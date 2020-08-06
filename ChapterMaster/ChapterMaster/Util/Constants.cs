@@ -10,5 +10,7 @@ namespace ChapterMaster
     {
         public const string IMAGE_DIRECTORY = "textures";
         public const int SYSTEM_WIDTH_HEIGHT = 80;
+        public const int WorldWidth = 1024;
+        public const int WorldHeight = 1024;
     }
 }

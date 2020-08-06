@@ -1,4 +1,5 @@
-﻿using ChapterMaster.World;
+﻿using ChapterMaster.Util;
+using ChapterMaster.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -32,22 +33,34 @@ namespace ChapterMaster
         //        null, color, 
         //        SpriteEffects.None, 0);
         //}
-        
-        public void DrawLine(Vector2 start, Vector2 end, Color color)
-        {
-            primitive.Line(start, end, color);
+
+        // TODO: fix zoom and scale and camera transforms
+        public void DrawLine(Vector2 start, Vector2 end, Color color, ViewController view)
+        { 
+           Vector2 camPositionTransform = new Vector2(view.camX, view.camY);
+            // primitive.Line(Vector2.Transform(start,view.Transform), Vector2.Transform(end,view.Transform), color);
+           primitive.Line((start - camPositionTransform)*view.zoom, (end-camPositionTransform)*view.zoom, color);
         }
-        public void DrawStar(SpriteBatch spriteBatch, System system, ViewController view, Color color)
+        public void DrawStar(SpriteBatch spriteBatch, System system, Color color, ViewController view)
         {
-            spriteBatch.Draw(ChapterMaster.SystemTextures[system.color], 
-                new Rectangle(system.x, system.y, Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX, Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY), 
+/*            Vector2 position = new Vector2(system.x, system.y);
+            Vector2 size = new Vector2(system.x, system.y)
+            new Rectangle(system.x - view.camX, system.y - view.camY, Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX, Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY)
+            spriteBatch.Draw(ChapterMaster.SystemTextures[system.color],
+                MathUtil.VectorToRectangle(
+               ,
+                Color.White);*/
+            spriteBatch.Draw(ChapterMaster.SystemTextures[system.color],
+                new Rectangle((int) ((system.x - view.camX)*view.zoom), (int) ((system.y - view.camY)*view.zoom),
+                (int) (Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom), 
+                (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom)),
                 Color.White);
         }
         public void Render(SpriteBatch spriteBatch, Sector sector, ViewController view)
         {
             
             foreach (System system in sector.Systems) {
-                DrawStar(spriteBatch, system,view,Color.White);
+                DrawStar(spriteBatch, system, Color.White, view);
             } // 1075 916 1000 906
             foreach (WarpLane lane in sector.WarpLanes)
             {
@@ -56,7 +69,7 @@ namespace ChapterMaster
                                 sector.Systems[lane.systemId1].y+ Constants.SYSTEM_WIDTH_HEIGHT / 2),
                     new Vector2(sector.Systems[lane.systemId2].x+ Constants.SYSTEM_WIDTH_HEIGHT / 2,
                                 sector.Systems[lane.systemId2].y+ Constants.SYSTEM_WIDTH_HEIGHT / 2),
-                                Color.White);
+                                Color.White,view);
             }
             //DrawLine(spriteBatch,
             //    new Vector2(241, 342),

@@ -15,12 +15,15 @@ namespace ChapterMaster
         public static GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
         SectorRenderer renderer;
-        int WIDTH = 1280;
-        int HEIGHT = 960;
+        
+        int WIDTH = 800;
+        int HEIGHT = 600;
         ViewController view;
         private Texture2D background;
+        private Texture2D mapframe;
         public static Texture2D[] SystemTextures = new Texture2D[6];
         Sector sector = new Sector();
+
         public ChapterMaster()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -42,7 +45,7 @@ namespace ChapterMaster
             Window.Title = "Chapter Master Revived";
             sector.Prepare();
             // 1280 960
-            sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, 1280, 960);
+            sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, Constants.WorldWidth, Constants.WorldHeight);
             sector.WarpLaneGenerate();
             base.Initialize();
         }
@@ -66,6 +69,7 @@ namespace ChapterMaster
             graphicsDevice = graphics.GraphicsDevice;
             Loader.CONTENT_ROOT = Content.RootDirectory;
             background = Loader.LoadPNG("background/bg_space");
+            mapframe = Loader.LoadPNG("spr_new_ui_0");
             for (int i = 0; i < SystemTextures.Length; i++)
             {
                 SystemTextures[i] = Loader.LoadPNG("spr_star_" + i);
@@ -101,7 +105,7 @@ namespace ChapterMaster
             if (Keyboard.GetState().IsKeyUp(Keys.E)) buttonDown = false;
             if (Keyboard.GetState().IsKeyDown(Keys.E) && !buttonDown)
             {
-                sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, 1280, 960);
+                sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, Constants.WorldWidth, Constants.WorldHeight);
                 sector.WarpLaneGenerate();
                 buttonDown = true;
             }
@@ -131,16 +135,25 @@ namespace ChapterMaster
             float scaleX = 1;
             float scaleY = 1;
             // Draw background
-            spriteBatch.Draw(background, new Rectangle(0, 0,1280,960), Color.White);
+            spriteBatch.Draw(background, new Rectangle(0, 0,Constants.WorldWidth,Constants.WorldHeight), Color.White);
 
             // Draw systems // spr_star_0 to spr_star_5
             renderer.Render(spriteBatch, sector,view);
             // Draw warp lanes
             // Draw UI
+            spriteBatch.Draw(mapframe, new Rectangle(0, 0, WIDTH, HEIGHT),Color.White);
            // renderer.DrawLine(spriteBatch, new Vector2(50, 50), new Vector2(200, 200), Color.Red);
             spriteBatch.End();
             
             base.Draw(gameTime);
+        }
+        public static int GetWidth()
+        {
+            return graphicsDevice.Viewport.Width;
+        }
+        public static int GetHeight()
+        {
+            return graphicsDevice.Viewport.Height;
         }
     }
 }

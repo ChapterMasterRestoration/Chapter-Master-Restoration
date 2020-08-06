@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,10 @@ namespace ChapterMaster.Util
         public static int ClampInt(int x, int min, int max)
         {
             return Math.Max(Math.Min(x,max),min);
+        }
+        public static Rectangle VectorToRectangle(Vector2 start, Vector2 end)
+        {
+            return new Rectangle((int)start.X, (int)start.Y, (int)end.X, (int)end.Y);
         }
     }
 }
