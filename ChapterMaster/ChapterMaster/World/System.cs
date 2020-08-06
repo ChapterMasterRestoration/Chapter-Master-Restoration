@@ -10,7 +10,7 @@ namespace ChapterMaster
     {
         public int color;
         public int x, y;
-        public bool hasLane = false;
+        public int numberOfLanes = 0;
         public System(int _color, int _x, int _y) {
             color = _color;
             x = _x;

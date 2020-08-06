@@ -42,7 +42,7 @@ namespace ChapterMaster
             Window.Title = "Chapter Master Revived";
             sector.Prepare();
             // 1280 960
-            sector.GridGenerate(50, 100, 80, 1280, 960);
+            sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, 1280, 960);
             sector.WarpLaneGenerate();
             base.Initialize();
         }
@@ -72,7 +72,7 @@ namespace ChapterMaster
             }
             renderer = new SectorRenderer();
             view = new ViewController();
-            renderer.Initialize();
+            renderer.Initialize(graphicsDevice,spriteBatch);
 
         }
 
@@ -91,18 +91,21 @@ namespace ChapterMaster
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         bool buttonDown = false;
-        protected override void Update(GameTime gameTime)
-        {
+        protected override void Update(GameTime gameTime) {
+
+
+            view.UpdateMouse();
+            view.UpdateKeyboard();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             if (Keyboard.GetState().IsKeyUp(Keys.E)) buttonDown = false;
             if (Keyboard.GetState().IsKeyDown(Keys.E) && !buttonDown)
             {
-                sector.GridGenerate(50, 100, 80, 1280, 960);
+                sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, 1280, 960);
                 sector.WarpLaneGenerate();
                 buttonDown = true;
             }
-            view.UpdateMouse();
+
             // TODO: Add your update logic here
             // check for End Turn button click
             base.Update(gameTime);

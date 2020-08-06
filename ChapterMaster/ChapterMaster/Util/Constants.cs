@@ -9,5 +9,6 @@ namespace ChapterMaster
     class Constants
     {
         public const string IMAGE_DIRECTORY = "textures";
+        public const int SYSTEM_WIDTH_HEIGHT = 80;
     }
 }

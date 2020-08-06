@@ -34,7 +34,7 @@ namespace ChapterMaster.World
 
         public void Prepare()
         {
-            random = new Random(220);
+            random = new Random(41); //220
         }
         int RoundedDistance(int x1, int y1, int x2, int y2)
         {
@@ -201,19 +201,32 @@ namespace ChapterMaster.World
                         int distance = RoundedDistance(
                             Systems[system].x, Systems[system].y, 
                             Systems[other].x, Systems[other].y);
-                        if (distance < 100 && random.Next(10) > 1)
+                        if (Systems[system].numberOfLanes < 3 && Systems[other].numberOfLanes < 3)
                         {
-                            WarpLanes.Add(new WarpLane(system, other));
-                            Systems[system].hasLane = Systems[other].hasLane = true;
-                        } else if (distance < 200 && random.Next(10) < 2)
-                        {
-                            //WarpLanes.Add(new WarpLane(system, other));
-                        } else if (distance < 300 && random.Next(50) < 2)
-                        {
-                           // WarpLanes.Add(new WarpLane(system, other));
-                        } else if (distance < 400 && random.Next(100) < 2)
-                        {
-                           // WarpLanes.Add(new WarpLane(system, other));
+                            if (distance < 100 && random.Next(20) > 7)
+                            {
+                                WarpLanes.Add(new WarpLane(system, other));
+                                Systems[system].numberOfLanes++;
+                                Systems[other].numberOfLanes++;
+                            }
+                            else if (distance < 200 && random.Next(100) < 5)
+                            {
+                                WarpLanes.Add(new WarpLane(system, other));
+                                Systems[system].numberOfLanes++;
+                                Systems[other].numberOfLanes++;
+                            }
+                            else if (distance < 300 && random.Next(200) < 10)
+                            {
+                                WarpLanes.Add(new WarpLane(system, other));
+                                Systems[system].numberOfLanes++;
+                                Systems[other].numberOfLanes++;
+                            }
+                            else if (distance < 400 && random.Next(200) < 5)
+                            {
+                                WarpLanes.Add(new WarpLane(system, other));
+                                Systems[system].numberOfLanes++;
+                                Systems[other].numberOfLanes++;
+                            }
                         }
                     }
                 }
