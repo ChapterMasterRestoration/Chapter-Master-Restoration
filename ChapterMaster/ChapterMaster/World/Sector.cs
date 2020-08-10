@@ -181,6 +181,7 @@ namespace ChapterMaster.World
                 }
             }
         }
+        //Pain.
         public void WarpLaneGenerate()
         {
             WarpLanes.Clear();
@@ -201,13 +202,13 @@ namespace ChapterMaster.World
                         if (Systems[system].numberOfLanes < 3 && Systems[other].numberOfLanes < 3)
                         {
                             // balance random factors
-                            if (distance < 100 && random.Next(20) > 7)
+                            if (distance < 100 && random.Next(60) > 7)
                             {
                                 WarpLanes.Add(new WarpLane(system, other));
                                 Systems[system].numberOfLanes++;
                                 Systems[other].numberOfLanes++;
                             }
-                            else if (distance < 200 && random.Next(100) < 5)
+                            else if (distance < 200 && random.Next(125) < 5)
                             {
                                 WarpLanes.Add(new WarpLane(system, other));
                                 Systems[system].numberOfLanes++;
@@ -219,7 +220,7 @@ namespace ChapterMaster.World
                                 Systems[system].numberOfLanes++;
                                 Systems[other].numberOfLanes++;
                             }
-                            else if (distance < 400 && random.Next(200) < 5)
+                            else if (distance < 400 && random.Next(250) < 5)
                             {
                                 WarpLanes.Add(new WarpLane(system, other));
                                 Systems[system].numberOfLanes++;

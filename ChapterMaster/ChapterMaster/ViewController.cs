@@ -75,7 +75,8 @@ namespace ChapterMaster
         public void AdjustZoom(float factor)
         {
             zoom += factor;
-            Debug.WriteLine("z " + zoom);
+            zoom = (float) Math.Round(Math.Abs(zoom), 1);
+            //Debug.WriteLine("z " + zoom);
         }
         public void CheckBoundaries()
         { 

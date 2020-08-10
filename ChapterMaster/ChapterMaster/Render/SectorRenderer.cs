@@ -28,16 +28,17 @@ namespace ChapterMaster
         public void DrawLine(Vector2 start, Vector2 end, Color color, ViewController view)
         { 
            Vector2 camPositionTransform = new Vector2(view.camX, view.camY);
+            Vector2 originTransform = new Vector2(ChapterMaster.GetWidth() / 2, ChapterMaster.GetHeight() / 2);
             // primitive.Line(Vector2.Transform(start,view.Transform), Vector2.Transform(end,view.Transform), color);
-           primitive.Line((start - camPositionTransform)*view.zoom, (end-camPositionTransform)*view.zoom, color);
+           primitive.Line((start - camPositionTransform)*view.zoom + originTransform , (end-camPositionTransform)*view.zoom + originTransform, color);
         }
         public void DrawStar(SpriteBatch spriteBatch, System system, Color color, ViewController view)
         {
 
             spriteBatch.Draw(ChapterMaster.SystemTextures[system.color],
-                new Rectangle((int) ((system.x - view.camX)*view.zoom), (int) ((system.y - view.camY)*view.zoom),
+                new Rectangle((int) ((system.x - view.camX) *view.zoom + ChapterMaster.GetWidth() / 2), (int) ((system.y - view.camY) *view.zoom + ChapterMaster.GetHeight() / 2),
                 (int) (Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom), 
-                (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom)),
+                (int) (Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom)),
                 Color.White);
         }
         public void Render(SpriteBatch spriteBatch, Sector sector, ViewController view)
