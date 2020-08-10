@@ -23,17 +23,7 @@ namespace ChapterMaster
             primitive = new PrimitiveBuddy.Primitive(graphicsDevice, spriteBatch);
             
         }
-        //public void DrawLine(SpriteBatch spriteBatch, Vector2 _start, Vector2 _end, Color color)
-        //{
-        //    Vector2 start = new Vector2(Math.Min(_start.X, _end.X), Math.Min(_start.Y, _end.Y));
-        //    Vector2 end = new Vector2(Math.Max(_start.X, _end.X), Math.Max(_start.Y, _end.Y));
-        //    double angle = Math.Atan2(end.Y-start.Y,end.X-start.X);
-        //    spriteBatch.Draw(Pixel, null, new Rectangle((int)start.X, (int)start.Y, (int)end.Length(), 1),
-        //        null, null, (float) angle,
-        //        null, color, 
-        //        SpriteEffects.None, 0);
-        //}
-
+        
         // TODO: fix zoom and scale and camera transforms
         public void DrawLine(Vector2 start, Vector2 end, Color color, ViewController view)
         { 
@@ -43,13 +33,7 @@ namespace ChapterMaster
         }
         public void DrawStar(SpriteBatch spriteBatch, System system, Color color, ViewController view)
         {
-/*            Vector2 position = new Vector2(system.x, system.y);
-            Vector2 size = new Vector2(system.x, system.y)
-            new Rectangle(system.x - view.camX, system.y - view.camY, Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX, Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY)
-            spriteBatch.Draw(ChapterMaster.SystemTextures[system.color],
-                MathUtil.VectorToRectangle(
-               ,
-                Color.White);*/
+
             spriteBatch.Draw(ChapterMaster.SystemTextures[system.color],
                 new Rectangle((int) ((system.x - view.camX)*view.zoom), (int) ((system.y - view.camY)*view.zoom),
                 (int) (Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom), 
@@ -61,7 +45,7 @@ namespace ChapterMaster
             
             foreach (System system in sector.Systems) {
                 DrawStar(spriteBatch, system, Color.White, view);
-            } // 1075 916 1000 906
+            } 
             foreach (WarpLane lane in sector.WarpLanes)
             {
                 DrawLine(
@@ -71,10 +55,7 @@ namespace ChapterMaster
                                 sector.Systems[lane.systemId2].y+ Constants.SYSTEM_WIDTH_HEIGHT / 2),
                                 Color.White,view);
             }
-            //DrawLine(spriteBatch,
-            //    new Vector2(241, 342),
-            //     new Vector2(246, 385),
-            //                 Color.White);
+            
         }
     }
 }

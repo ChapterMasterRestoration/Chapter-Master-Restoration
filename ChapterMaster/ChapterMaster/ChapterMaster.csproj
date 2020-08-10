@@ -53,6 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\SectorRenderer.cs" />
     <Compile Include="ViewController.cs" />
+    <Compile Include="World\Battlefield.cs" />
     <Compile Include="World\Sector.cs" />
     <Compile Include="World\System.cs" />
     <Compile Include="World\WarpLane.cs" />
