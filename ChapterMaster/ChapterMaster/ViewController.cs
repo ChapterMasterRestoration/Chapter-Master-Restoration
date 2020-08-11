@@ -133,7 +133,7 @@ namespace ChapterMaster
         public void Update() { 
         }
 
-        int DeselectionDelay = 5000;
+        int DeselectionDelay = 400;
         int delayTimer;
         public void MouseSelection(Sector sector)
         {
