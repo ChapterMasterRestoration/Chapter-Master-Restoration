@@ -11,12 +11,10 @@ namespace ChapterMaster
         public int color;
         public int x, y;
         public int numberOfLanes = 0;
-        public bool isSelected;
         public System(int _color, int _x, int _y) {
             color = _color;
             x = _x;
             y = _y;
         }
-
     }
 }

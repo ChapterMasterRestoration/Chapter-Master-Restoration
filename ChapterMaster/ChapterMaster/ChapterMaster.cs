@@ -2,7 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.IO;
+using System;
+using System.Collections.Generic;
 
 namespace ChapterMaster
 {
@@ -11,16 +12,18 @@ namespace ChapterMaster
     /// </summary>
     public class ChapterMaster : Game
     {
+        public static GameWindow window;
         GraphicsDeviceManager graphics;
         public static GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
+        SpriteBatch fontBatch;
         SectorRenderer renderer;
-        
-        int WIDTH = 800;
-        int HEIGHT = 600;
         ViewController view;
+        public static SpriteFont caslon_antique_regular;
+        public static SpriteFont ARJULIAN;
         private Texture2D background;
         private Texture2D mapframe;
+        public static Texture2D[] ButtonTextures = new Texture2D[4];
         public static Texture2D[] SystemTextures = new Texture2D[6];
         public static Texture2D[][] FleetTextures = new Texture2D[11][];
         Sector sector = new Sector();
@@ -28,8 +31,11 @@ namespace ChapterMaster
         public ChapterMaster()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = WIDTH;
-            graphics.PreferredBackBufferHeight = HEIGHT;
+            window = Window;
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
+            Window.AllowUserResizing = true;
+            Window.ClientSizeChanged += new EventHandler<EventArgs>(WindowResized);
             Content.RootDirectory = "Content";
         }
 
@@ -57,21 +63,23 @@ namespace ChapterMaster
         /// all of your content.
         /// </summary>
         /// 
-        // metathesis
-        /* FileStream file = new FileStream("Content/images/spr_honor_helm_3.png", FileMode.Open);
-        graphicsDevice = graphics.GraphicsDevice;
-        test = Texture2D.FromStream(graphicsDevice, file);
-        file.Close(); */
 
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            fontBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
             graphicsDevice = graphics.GraphicsDevice;
             Loader.CONTENT_ROOT = Content.RootDirectory;
+            caslon_antique_regular = this.Content.Load<SpriteFont>("font/caslon-antique.regular"); 
+            ARJULIAN = this.Content.Load<SpriteFont>("font/ARJULIAN");
             background = Loader.LoadPNG("background/bg_space");
             mapframe = Loader.LoadPNG("spr_new_ui_0");
+            for (int i = 0; i < ButtonTextures.Length; i++)
+            {
+                ButtonTextures[i] = Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0");
+            }
             for (int i = 0; i < SystemTextures.Length; i++)
             {
                 SystemTextures[i] = Loader.LoadPNG("spr_star_" + i);
@@ -86,6 +94,7 @@ namespace ChapterMaster
             }
             renderer = new SectorRenderer();
             view = new ViewController();
+            view.Buttons.Add(new UI.Button(0, "End Turn", new Vector2(GetWidth() - 154, GetHeight() - 65)));
             renderer.Initialize(graphicsDevice,spriteBatch);
 
         }
@@ -120,10 +129,10 @@ namespace ChapterMaster
                 buttonDown = true;
             }
             view.MouseSelection(sector);
+            view.Update();
             // check for End Turn button click
             base.Update(gameTime);
         }
-
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -132,18 +141,27 @@ namespace ChapterMaster
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred,
+                  null, SamplerState.LinearWrap, null, null);
             // Draw background // Background is not tiled, merely scaled.
-            spriteBatch.Draw(background, new Rectangle(0, 0,Constants.WorldWidth,Constants.WorldHeight), Color.White);
+            spriteBatch.Draw(background, 
+                //new Rectangle(0, 0,Constants.WorldWidth,Constants.WorldHeight), 
+                new Rectangle(0, 0, GetWidth(), GetHeight()),
+                Color.White);
             // Draw systems // spr_star_0 to spr_star_5
             renderer.Render(spriteBatch, sector,view);
             // Draw warp lanes
             // Draw UI
-            spriteBatch.Draw(mapframe, new Rectangle(0, 0, WIDTH, HEIGHT),Color.White);
-           // renderer.DrawLine(spriteBatch, new Vector2(50, 50), new Vector2(200, 200), Color.Red);
+            foreach(UI.Button button in view.Buttons)
+            {
+                button.Render(spriteBatch, view);
+            }
+            spriteBatch.Draw(mapframe, new Rectangle(0, 0, GetWidth(), GetHeight()),Color.White);
             spriteBatch.End();
+            //fontBatch.Begin();
+            
+            //fontBatch.End();
             base.Draw(gameTime);
         }
         public static int GetWidth()
@@ -153,6 +171,12 @@ namespace ChapterMaster
         public static int GetHeight()
         {
             return graphicsDevice.Viewport.Height;
+        }
+        public void WindowResized(object sender, EventArgs args)
+        {
+            graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
+            graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
+            graphics.ApplyChanges();
         }
     }
 }

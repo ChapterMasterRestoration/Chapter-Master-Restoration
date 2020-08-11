@@ -24,13 +24,6 @@ namespace ChapterMaster.Fleet
                 isMoving = false;
                 fleetMoveProgress = 0;
             }
-            
         }
-        
-
-
-
-
-
     }
 }

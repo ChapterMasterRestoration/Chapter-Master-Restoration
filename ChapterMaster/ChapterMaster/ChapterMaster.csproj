@@ -45,6 +45,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Fleet\Fleet.cs" />
+    <Compile Include="UI\Button.cs" />
+    <Compile Include="UI\InteractiveElement.cs" />
+    <Compile Include="UI\VisibleElement.cs" />
     <Compile Include="Util\MathUtil.cs" />
     <Compile Include="Util\Constants.cs" />
     <Compile Include="ChapterMaster.cs" />
@@ -113,6 +116,9 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\font\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

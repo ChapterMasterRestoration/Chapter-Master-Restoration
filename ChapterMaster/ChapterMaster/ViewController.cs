@@ -20,6 +20,7 @@ namespace ChapterMaster
         int _cameraSpeed = 3;
         public int currentSystemId;
         public bool systemSelected;
+        public List<UI.Button> Buttons = new List<UI.Button>();
         //public Rectangle VisibleArea;
         //public Matrix Transform;
         public void UpdateKeyboard()
@@ -144,6 +145,7 @@ namespace ChapterMaster
                   upperLeft, upperLeft + (new Vector2(Constants.SYSTEM_WIDTH_HEIGHT, Constants.SYSTEM_WIDTH_HEIGHT) * zoom + originTransform) */
                 int mouseX = Mouse.GetState().X;
                 int mouseY = Mouse.GetState().Y;
+                // TODO: replace with Rectangle.Contains
                 int ulCornerX = (int)((sector.Systems[systemId].x - camX) * zoom + ChapterMaster.GetWidth() / 2);
                 int ulCornerY = (int)((sector.Systems[systemId].y - camY) * zoom + ChapterMaster.GetHeight() / 2);
                 int brCornerX = (int)((sector.Systems[systemId].x + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
@@ -152,6 +154,10 @@ namespace ChapterMaster
                 {
                     currentSystemId = systemId;
                     systemSelected = true;
+                    if(Mouse.GetState().RightButton == ButtonState.Pressed)
+                    {
+
+                    }
                 } else
                 {
                     delayTimer++;
@@ -161,6 +167,11 @@ namespace ChapterMaster
                     }
                 }
             }
+            foreach(UI.Button button in Buttons)
+            {
+                button.Check(Mouse.GetState());
+            }
+            // check buttons
         }
     }
 }
