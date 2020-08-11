@@ -119,8 +119,7 @@ namespace ChapterMaster
                 sector.WarpLaneGenerate();
                 buttonDown = true;
             }
-
-            // TODO: Add your update logic here
+            view.MouseSelection(sector);
             // check for End Turn button click
             base.Update(gameTime);
         }

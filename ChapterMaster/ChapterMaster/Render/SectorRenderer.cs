@@ -72,8 +72,17 @@ namespace ChapterMaster
                 DrawFleet(spriteBatch, fleet, Color.White, view, sector);
 
             }
-
-
+            if (view.systemSelected)
+            {
+                primitive.Rectangle(new Rectangle(
+                    (int)((sector.Systems[view.currentSystemId].x - view.camX + Constants.SYSTEM_WIDTH_HEIGHT/4)
+                    * view.zoom + ChapterMaster.GetWidth() / 2),
+                    (int)((sector.Systems[view.currentSystemId].y - view.camY + Constants.SYSTEM_WIDTH_HEIGHT/4)
+                    * view.zoom + ChapterMaster.GetHeight() / 2),
+                    (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom / 2),
+                    (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom / 2)),
+                    Color.Green);
+            }
         }
     }
 }
