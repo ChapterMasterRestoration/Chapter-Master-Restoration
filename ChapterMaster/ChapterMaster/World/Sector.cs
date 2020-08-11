@@ -5,6 +5,7 @@ using ChapterMaster.Util;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChapterMaster.Fleet;
 
 namespace ChapterMaster.World
 {
@@ -16,6 +17,7 @@ namespace ChapterMaster.World
         public List<System> Systems = new List<System>();
         // static organization of lane graph
         public List<WarpLane> WarpLanes = new List<WarpLane>(); // like this?
+        public List<Fleet.Fleet> Fleets = new List<Fleet.Fleet>();
 
         //int LocalSystem(int i)
         //{

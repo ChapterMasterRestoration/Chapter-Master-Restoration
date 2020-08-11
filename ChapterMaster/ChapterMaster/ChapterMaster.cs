@@ -22,6 +22,7 @@ namespace ChapterMaster
         private Texture2D background;
         private Texture2D mapframe;
         public static Texture2D[] SystemTextures = new Texture2D[6];
+        public static Texture2D[][] FleetTextures = new Texture2D[11][];
         Sector sector = new Sector();
 
         public ChapterMaster()
@@ -47,6 +48,7 @@ namespace ChapterMaster
             // 1280 960
             sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, Constants.WorldWidth, Constants.WorldHeight);
             sector.WarpLaneGenerate();
+            sector.Fleets.Add(new Fleet.Fleet());
             base.Initialize();
         }
 
@@ -73,6 +75,14 @@ namespace ChapterMaster
             for (int i = 0; i < SystemTextures.Length; i++)
             {
                 SystemTextures[i] = Loader.LoadPNG("spr_star_" + i);
+            }
+            for (int faction = 0; faction < Constants.FLEET_TEXTURE_ID_FILE.Length; faction++)
+            {
+                FleetTextures[faction] = new Texture2D[Constants.FLEET_STATE_LIMIT[faction]];
+                for (int state = 0; state < Constants.FLEET_STATE_LIMIT[faction]; state++) 
+                {
+                    FleetTextures[faction][state] = Loader.LoadPNG("spr_fleet_" + Constants.FLEET_TEXTURE_ID_FILE[faction] + "_" + state);
+                }
             }
             renderer = new SectorRenderer();
             view = new ViewController();

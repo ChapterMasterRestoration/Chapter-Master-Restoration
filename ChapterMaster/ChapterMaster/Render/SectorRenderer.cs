@@ -41,6 +41,16 @@ namespace ChapterMaster
                 (int) (Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom)),
                 Color.White);
         }
+        public void DrawFleet(SpriteBatch spriteBatch, Fleet.Fleet fleet, Color color, ViewController view, Sector sector)
+        {
+            spriteBatch.Draw(ChapterMaster.FleetTextures[fleet.fleetFaction][fleet.fleetState], 
+                new Rectangle((int)((sector.Systems[fleet.originSystemId].x + 30 - view.camX) * view.zoom + ChapterMaster.GetWidth() / 2),
+                (int)((sector.Systems[fleet.originSystemId].y - 30 - view.camY) * view.zoom + ChapterMaster.GetHeight() / 2),
+                (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom),
+                (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom)),
+                Color.White);
+
+        }
         public void Render(SpriteBatch spriteBatch, Sector sector, ViewController view)
         {
             
@@ -57,6 +67,13 @@ namespace ChapterMaster
                                 Color.White,view);
             }
             
+            foreach (Fleet.Fleet fleet in sector.Fleets)
+            {
+                DrawFleet(spriteBatch, fleet, Color.White, view, sector);
+
+            }
+
+
         }
     }
 }
