@@ -20,7 +20,7 @@ namespace ChapterMaster
         int _cameraSpeed = 3;
         public int currentSystemId;
         public bool systemSelected;
-        public List<UI.Button> Buttons = new List<UI.Button>();
+        
         //public Rectangle VisibleArea;
         //public Matrix Transform;
         public void UpdateKeyboard()
@@ -167,11 +167,12 @@ namespace ChapterMaster
                     }
                 }
             }
-            foreach(UI.Button button in Buttons)
-            {
-                button.Check(Mouse.GetState());
-            }
+           
             // check buttons
+        }
+        public MouseState GetMouse()
+        {
+            return Mouse.GetState();
         }
     }
 }

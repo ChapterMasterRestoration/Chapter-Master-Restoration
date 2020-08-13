@@ -47,6 +47,7 @@
     <Compile Include="Fleet\Fleet.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\InteractiveElement.cs" />
+    <Compile Include="UI\Screen.cs" />
     <Compile Include="UI\VisibleElement.cs" />
     <Compile Include="Util\MathUtil.cs" />
     <Compile Include="Util\Constants.cs" />

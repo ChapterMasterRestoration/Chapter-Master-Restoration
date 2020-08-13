@@ -13,14 +13,18 @@ namespace ChapterMaster.UI
         public int buttonTextureId;
         public string text = "";
         public Vector2 position;
-        public Button(int _buttonTextureId, string _text, Vector2 _position)
+        public Vector2 size;
+        
+        public Button(int _buttonTextureId, string _text, Vector2 _position, Vector2 _size, MouseHandler mouseHandler) : base(mouseHandler)
         {
             buttonTextureId = _buttonTextureId;
+            // TODO: Fix this
             position = _position;
+            size = _size;
             x = (int) position.X;
             y = (int) position.Y;
-            width = 144;
-            height = 43;
+            width = (int) size.X;
+            height = (int) size.Y;
             text = _text;
         }
         public void Render(SpriteBatch spriteBatch, ViewController view)

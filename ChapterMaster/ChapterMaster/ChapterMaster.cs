@@ -1,9 +1,11 @@
-﻿using ChapterMaster.World;
+﻿using ChapterMaster.UI;
+using ChapterMaster.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ChapterMaster
 {
@@ -27,6 +29,7 @@ namespace ChapterMaster
         public static Texture2D[] SystemTextures = new Texture2D[6];
         public static Texture2D[][] FleetTextures = new Texture2D[11][];
         Sector sector = new Sector();
+        Screen mainScreen = new Screen();
 
         public ChapterMaster()
         {
@@ -39,6 +42,10 @@ namespace ChapterMaster
             Content.RootDirectory = "Content";
         }
 
+        private void EndTurn(MouseState mouseState, object sender)
+        {
+            Debug.WriteLine("Your Opinion is Objectively Wrong.");
+        }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -55,6 +62,8 @@ namespace ChapterMaster
             sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, Constants.WorldWidth, Constants.WorldHeight);
             sector.WarpLaneGenerate();
             sector.Fleets.Add(new Fleet.Fleet());
+            // Initialize UI
+            
             base.Initialize();
         }
 
@@ -94,9 +103,8 @@ namespace ChapterMaster
             }
             renderer = new SectorRenderer();
             view = new ViewController();
-            view.Buttons.Add(new UI.Button(0, "End Turn", new Vector2(GetWidth() - 154, GetHeight() - 65)));
+            mainScreen.Buttons.Add(new UI.Button(0, "End Turn", new Vector2(GetWidth() - 154, GetHeight() - 65), new Vector2(144, 43), new MouseHandler(EndTurn)));
             renderer.Initialize(graphicsDevice,spriteBatch);
-
         }
 
         /// <summary>
@@ -130,7 +138,7 @@ namespace ChapterMaster
             }
             view.MouseSelection(sector);
             view.Update();
-            // check for End Turn button click
+            mainScreen.Update(view);
             base.Update(gameTime);
         }
 
@@ -153,10 +161,7 @@ namespace ChapterMaster
             renderer.Render(spriteBatch, sector,view);
             // Draw warp lanes
             // Draw UI
-            foreach(UI.Button button in view.Buttons)
-            {
-                button.Render(spriteBatch, view);
-            }
+            mainScreen.Render(spriteBatch, view);
             spriteBatch.Draw(mapframe, new Rectangle(0, 0, GetWidth(), GetHeight()),Color.White);
             spriteBatch.End();
             //fontBatch.Begin();

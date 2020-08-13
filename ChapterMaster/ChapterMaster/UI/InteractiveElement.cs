@@ -8,24 +8,33 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.UI
 {
+    public delegate void MouseHandler(MouseState mouseState, object sender);
     class InteractiveElement
     {
         public int x, y;
         public int width, height;
-        public delegate void ButtonPress();
-        public void Check(MouseState mouseState)
+        MouseHandler handler;
+        bool wasClicked = false;
+        public InteractiveElement(MouseHandler mouseHandler)
         {
-            int mouseX = mouseState.X;
-            int mouseY = mouseState.Y;
+            handler = mouseHandler;
+        }
+
+        public void Check(ViewController view)
+        {
+            int mouseX = view.GetMouse().X;
+            int mouseY = view.GetMouse().Y;
             int ulCornerX = x;
             int ulCornerY = y;
             int brCornerX = x + width;
             int brCornerY = y + height;
             if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY)
             {
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                if (view.GetMouse().LeftButton == ButtonState.Released) wasClicked = false;
+                if (view.GetMouse().LeftButton == ButtonState.Pressed && !wasClicked)
                 {
-                    Debug.WriteLine("Hi");
+                    handler(view.GetMouse(), this);
+                    wasClicked = true;
                 }
             }
         }
