@@ -28,6 +28,7 @@ namespace ChapterMaster
         public static Texture2D[] ButtonTextures = new Texture2D[4];
         public static Texture2D[] SystemTextures = new Texture2D[6];
         public static Texture2D[][] FleetTextures = new Texture2D[11][];
+        public static string DebugString = "";
         Sector sector = new Sector();
         Screen mainScreen = new Screen();
 
@@ -45,6 +46,7 @@ namespace ChapterMaster
         private void EndTurn(MouseState mouseState, object sender)
         {
             Debug.WriteLine("Your Opinion is Objectively Wrong.");
+            sector.TurnUpdate();
         }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -75,20 +77,25 @@ namespace ChapterMaster
 
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            fontBatch = new SpriteBatch(GraphicsDevice);
-            // TODO: use this.Content to load your game content here
+            #region Load Batches
             graphicsDevice = graphics.GraphicsDevice;
+            spriteBatch = new SpriteBatch(graphicsDevice);
+            fontBatch = new SpriteBatch(graphicsDevice);
+            #endregion
             Loader.CONTENT_ROOT = Content.RootDirectory;
+            #region Load Fonts
             caslon_antique_regular = this.Content.Load<SpriteFont>("font/caslon-antique.regular"); 
             ARJULIAN = this.Content.Load<SpriteFont>("font/ARJULIAN");
+            #endregion
+            #region Load UI Textures
             background = Loader.LoadPNG("background/bg_space");
             mapframe = Loader.LoadPNG("spr_new_ui_0");
             for (int i = 0; i < ButtonTextures.Length; i++)
             {
                 ButtonTextures[i] = Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0");
             }
+            #endregion
+            #region Load Game Textures
             for (int i = 0; i < SystemTextures.Length; i++)
             {
                 SystemTextures[i] = Loader.LoadPNG("spr_star_" + i);
@@ -101,6 +108,7 @@ namespace ChapterMaster
                     FleetTextures[faction][state] = Loader.LoadPNG("spr_fleet_" + Constants.FLEET_TEXTURE_ID_FILE[faction] + "_" + state);
                 }
             }
+            #endregion
             renderer = new SectorRenderer();
             view = new ViewController();
             mainScreen.Buttons.Add(new UI.Button(0, "End Turn", new Vector2(GetWidth() - 154, GetHeight() - 65), new Vector2(144, 43), new MouseHandler(EndTurn)));
@@ -163,6 +171,7 @@ namespace ChapterMaster
             // Draw UI
             mainScreen.Render(spriteBatch, view);
             spriteBatch.Draw(mapframe, new Rectangle(0, 0, GetWidth(), GetHeight()),Color.White);
+            spriteBatch.DrawString(ARJULIAN, DebugString, new Vector2(0, 100), Color.White);
             spriteBatch.End();
             //fontBatch.Begin();
             

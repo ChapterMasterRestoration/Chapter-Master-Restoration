@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using ChapterMaster.Util;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ChapterMaster.Fleet;
 
 namespace ChapterMaster.World
 {
     class Sector
     {
-        //int seed = 31; // 41 is special!!!!
-        public Random random;
-        private int systemId;
         public List<System> Systems = new List<System>();
         // static organization of lane graph
         public List<WarpLane> WarpLanes = new List<WarpLane>(); // like this?
         public List<Fleet.Fleet> Fleets = new List<Fleet.Fleet>();
-
+        int Turn;
+        #region Generation
+        public Random random;
+        //int seed = 31; // 41 is special!!!!
         //int LocalSystem(int i)
         //{
         //    for (int localSystem = 0; localSystem < 4; localSystem++)
@@ -37,10 +32,6 @@ namespace ChapterMaster.World
         public void Prepare()
         {
             random = new Random(41); //220
-        }
-        int RoundedDistance(int x1, int y1, int x2, int y2)
-        {
-            return (int)Math.Round(Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2)));
         }
         /*
         int Clusters = 0;
@@ -159,7 +150,7 @@ namespace ChapterMaster.World
                             {
                                 foreach (System s in Systems)
                                 {
-                                    int dis = RoundedDistance(s.x, s.y, newX, newY);
+                                    int dis = MathUtil.RoundedDistance(s.x, s.y, newX, newY);
                                     if (dis < minDistance) // skew away from other stars
                                     {
                                         newX += (int)Math.Round(random.NormallyDistributedSingle(dis, 0, -2 * dis, 2 * dis)); 
@@ -198,7 +189,7 @@ namespace ChapterMaster.World
                     }
                     else
                     {
-                        int distance = RoundedDistance(
+                        int distance = MathUtil.RoundedDistance(
                             Systems[system].x, Systems[system].y, 
                             Systems[other].x, Systems[other].y);
                         if (Systems[system].numberOfLanes < 3 && Systems[other].numberOfLanes < 3)
@@ -232,6 +223,33 @@ namespace ChapterMaster.World
                     }
                 }
             }
+        }
+        #endregion
+        public int CalculateTravelTurns(Fleet.Fleet fleet)
+        {
+           int distance = MathUtil.RoundedDistance(Systems[fleet.originSystemId].x, Systems[fleet.originSystemId].y, Systems[fleet.destinationSystemId].x, Systems[fleet.destinationSystemId].x);
+            foreach (WarpLane warpLane in WarpLanes)
+            {
+
+                if((warpLane.systemId1 == fleet.originSystemId || warpLane.systemId1 == fleet.destinationSystemId) 
+                 &&(warpLane.systemId2 == fleet.destinationSystemId || warpLane.systemId2 == fleet.originSystemId))
+                {
+                    return distance / (fleet.fleetSpeed * 3);
+                }
+            }
+            return distance / fleet.fleetSpeed;
+        }
+        public void TurnUpdate()
+        {
+            foreach(System system in Systems)
+            {
+
+            }
+            foreach(Fleet.Fleet fleet in Fleets)
+            {
+                fleet.Update(this);
+            }
+            Turn++;
         }
     }
 }

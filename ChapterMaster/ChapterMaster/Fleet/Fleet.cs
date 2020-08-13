@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChapterMaster.World;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +11,22 @@ namespace ChapterMaster.Fleet
     {
         public int originSystemId;
         public int destinationSystemId;
-        public int fleetSpeed;
+        public int fleetSpeed = 50;
         public int fleetFaction;
         public int fleetMoveProgress;
         public bool isMoving;
         public int fleetState;
-
-        public void Update()
+        public bool isSelected;
+        public void Update(Sector sector)
         {
-            if (fleetMoveProgress == fleetSpeed)
+            if (fleetMoveProgress == sector.CalculateTravelTurns(this))
             {
                 originSystemId = destinationSystemId;
                 isMoving = false;
                 fleetMoveProgress = 0;
+            } else
+            {
+                fleetMoveProgress++;
             }
         }
     }

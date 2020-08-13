@@ -20,7 +20,7 @@ namespace ChapterMaster
         int _cameraSpeed = 3;
         public int currentSystemId;
         public bool systemSelected;
-        
+        public List<int> selectedFleets;
         //public Rectangle VisibleArea;
         //public Matrix Transform;
         public void UpdateKeyboard()
@@ -74,7 +74,7 @@ namespace ChapterMaster
             {
                 AdjustZoom(-0.1f);
             }
-            //CheckBoundaries();
+            CheckBoundaries();
         }
         public void AdjustZoom(float factor)
         {
@@ -84,21 +84,21 @@ namespace ChapterMaster
         }
         public void CheckBoundaries()
         { 
-            if(camX < 0)
+            if(camX * zoom < 0)
             {
                 camX = 0;
             } 
-            if(camY < 0)
+            if(camY * zoom < 0)
             {
                 camY = 0;
             }
-            if (camX > Constants.WorldWidth/2)
+            if (camX > Constants.WorldWidth / (2 * zoom))
             {
-                camX = Constants.WorldWidth/2;
+                camX = (int)(Constants.WorldWidth / (2 * zoom));
             }
-            if (camY > Constants.WorldHeight / 2)
+            if (camY > Constants.WorldHeight / (2 * zoom))
             {
-                camY = Constants.WorldHeight / 2;
+                camY = (int)(Constants.WorldHeight / (2 * zoom));
             }
         }
 
@@ -135,16 +135,19 @@ namespace ChapterMaster
 
         int DeselectionDelay = 400;
         int delayTimer;
+        public int lastSelectedFleet = 0;
         public void MouseSelection(Sector sector)
         {
-            for(int systemId = 0; systemId < sector.Systems.Count; systemId++)
+            int mouseX = Mouse.GetState().X;
+            int mouseY = Mouse.GetState().Y;
+            #region System Selection
+            for (int systemId = 0; systemId < sector.Systems.Count; systemId++)
             {
                 /*  Vector2 camPositionTransform = new Vector2(camX, camY);
                   Vector2 originTransform = new Vector2(ChapterMaster.GetWidth() / 2, ChapterMaster.GetHeight() / 2);
                   Vector2 upperLeft = (new Vector2(system.x,system.y) - camPositionTransform) * zoom + originTransform;
                   upperLeft, upperLeft + (new Vector2(Constants.SYSTEM_WIDTH_HEIGHT, Constants.SYSTEM_WIDTH_HEIGHT) * zoom + originTransform) */
-                int mouseX = Mouse.GetState().X;
-                int mouseY = Mouse.GetState().Y;
+
                 // TODO: replace with Rectangle.Contains
                 int ulCornerX = (int)((sector.Systems[systemId].x - camX) * zoom + ChapterMaster.GetWidth() / 2);
                 int ulCornerY = (int)((sector.Systems[systemId].y - camY) * zoom + ChapterMaster.GetHeight() / 2);
@@ -156,7 +159,8 @@ namespace ChapterMaster
                     systemSelected = true;
                     if(Mouse.GetState().RightButton == ButtonState.Pressed)
                     {
-
+                        sector.Fleets[lastSelectedFleet].destinationSystemId = currentSystemId;
+                        sector.Fleets[lastSelectedFleet].isMoving = true;
                     }
                 } else
                 {
@@ -167,8 +171,33 @@ namespace ChapterMaster
                     }
                 }
             }
-           
-            // check buttons
+            #endregion
+            #region Fleet Selection
+
+            for (int fleetId = 0; fleetId < sector.Fleets.Count; fleetId++)
+            {
+                int systemId = sector.Fleets[fleetId].originSystemId;
+                int ulCornerX = (int)((sector.Systems[systemId].x +(Constants.SYSTEM_WIDTH_HEIGHT / 4) + 30 - camX) * zoom + ChapterMaster.GetWidth() / 2);
+                int ulCornerY = (int)((sector.Systems[systemId].y +(Constants.SYSTEM_WIDTH_HEIGHT / 4) - 30 - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                int brCornerX = (int)((sector.Systems[systemId].x +(Constants.SYSTEM_WIDTH_HEIGHT / 4) + 30 + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
+                int brCornerY = (int)((sector.Systems[systemId].y +(Constants.SYSTEM_WIDTH_HEIGHT / 4) - 30 + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                //Debug.WriteLine("checking fleet " + sector.Systems[systemId].x);
+                if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY)
+                {
+                    //currentSystemId = systemId;
+                    //systemSelected = true;
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        sector.Fleets[fleetId].isSelected = true;
+                        lastSelectedFleet = fleetId;
+                    }
+                } else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                {
+                    sector.Fleets[lastSelectedFleet].isSelected = false;
+                }
+            }
+            #endregion 
+            ChapterMaster.DebugString = "System: " + currentSystemId + "\n" + "Fleet: " + lastSelectedFleet;
         }
         public MouseState GetMouse()
         {

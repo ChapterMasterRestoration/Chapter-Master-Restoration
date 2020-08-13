@@ -57,5 +57,13 @@ namespace ChapterMaster.Util
         {
             return new Rectangle((int)start.X, (int)start.Y, (int)end.X, (int)end.Y);
         }
+        public static int RoundedDistance(int x1, int y1, int x2, int y2)
+        {
+            return (int)Math.Round(Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2)));
+        }
+        public static int RoundedDistance(Vector2 a, Vector2 b)
+        {
+            return (int)Math.Round((b - a).Length());
+        }
     }
 }

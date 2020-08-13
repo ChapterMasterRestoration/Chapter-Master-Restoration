@@ -32,6 +32,10 @@ namespace ChapterMaster
             // primitive.Line(Vector2.Transform(start,view.Transform), Vector2.Transform(end,view.Transform), color);
             primitive.Line((start - camPositionTransform) * view.zoom + originTransform, (end - camPositionTransform) * view.zoom + originTransform, color);
         }
+        public void DrawDashedLine(Vector2 start, Vector2 end, float thickness, Color color, ViewController view)
+        {
+
+        }
         public void DrawStar(SpriteBatch spriteBatch, System system, Color color, ViewController view)
         {
 
@@ -43,13 +47,30 @@ namespace ChapterMaster
         }
         public void DrawFleet(SpriteBatch spriteBatch, Fleet.Fleet fleet, Color color, ViewController view, Sector sector)
         {
-            spriteBatch.Draw(ChapterMaster.FleetTextures[fleet.fleetFaction][fleet.fleetState],
-                new Rectangle((int)((sector.Systems[fleet.originSystemId].x + 30 - view.camX) * view.zoom + ChapterMaster.GetWidth() / 2),
-                (int)((sector.Systems[fleet.originSystemId].y - 30 - view.camY) * view.zoom + ChapterMaster.GetHeight() / 2),
-                (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom),
-                (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom)),
-                Color.White);
-
+            if (!fleet.isMoving)
+            {
+                spriteBatch.Draw(ChapterMaster.FleetTextures[fleet.fleetFaction][fleet.fleetState],
+                    new Rectangle(
+                        (int)((sector.Systems[fleet.originSystemId].x + 30 - view.camX) * view.zoom + ChapterMaster.GetWidth() / 2),
+                        (int)((sector.Systems[fleet.originSystemId].y - 30 - view.camY) * view.zoom + ChapterMaster.GetHeight() / 2),
+                        (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom),
+                        (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom)),
+                    Color.White);
+            } else
+            {
+                Vector2 oSystem = new Vector2(sector.Systems[fleet.originSystemId].x, sector.Systems[fleet.originSystemId].y);
+                Vector2 dSystem = new Vector2(sector.Systems[fleet.destinationSystemId].x, sector.Systems[fleet.destinationSystemId].y);
+                Vector2 Direction = (dSystem - oSystem) / sector.CalculateTravelTurns(fleet);
+                Vector2 Position = oSystem + Direction * fleet.fleetMoveProgress;
+                spriteBatch.Draw(ChapterMaster.FleetTextures[fleet.fleetFaction][fleet.fleetState],
+                    new Rectangle(
+                        (int)((Position.X - view.camX) * view.zoom + ChapterMaster.GetWidth() / 2),
+                        (int)((Position.Y - view.camY) * view.zoom + ChapterMaster.GetHeight() / 2),
+                        (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom),
+                        (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom)),
+                    Color.White);
+                DrawDashedLine(oSystem, dSystem, 1f,Color.White,view);
+            }
         }
         public void Render(SpriteBatch spriteBatch, Sector sector, ViewController view)
         {
@@ -71,6 +92,27 @@ namespace ChapterMaster
             foreach (Fleet.Fleet fleet in sector.Fleets)
             {
                 DrawFleet(spriteBatch, fleet, Color.White, view, sector);
+                if(fleet.isSelected)
+                {
+
+
+                    primitive.Circle(
+                        new Vector2((sector.Systems[sector.Fleets[view.lastSelectedFleet].originSystemId].x + 40 + 30 - view.camX) 
+                                    * view.zoom + ChapterMaster.GetWidth() / 2,
+                                    (sector.Systems[sector.Fleets[view.lastSelectedFleet].originSystemId].y + 30 - 20 - view.camY) 
+                                    * view.zoom + ChapterMaster.GetHeight() / 2),
+                        10 * view.zoom, Color.Green);
+                    
+                    
+                    //primitive.Rectangle(new Rectangle(
+                    //    (int)((sector.Systems[view.currentSystemId].x + 30 - view.camX)
+                    //    * view.zoom + ChapterMaster.GetWidth() / 2),
+                    //    (int)((sector.Systems[view.currentSystemId].x + 30 - view.camY)
+                    //    * view.zoom + ChapterMaster.GetHeight() / 2),
+                    //    (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom / 2),
+                    //    (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom / 2)),
+                    //    Color.Green);
+                }
 
             }
             if (view.systemSelected)
