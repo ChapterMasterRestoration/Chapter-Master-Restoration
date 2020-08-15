@@ -1,19 +1,26 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ChapterMaster.UI
 {
-    class Screen
+    public class Screen
     {
+        public int screenId;
+        protected string backgroundTexture;
+        public Rectangle Rect;
         public List<Screen> Screens = new List<Screen>();
         public List<Button> Buttons = new List<Button>();
-        public void Render(SpriteBatch spriteBatch, ViewController view)
+        public Screen(int screenId, string backgroundTexture)
         {
-            foreach(Button button in Buttons)
+            this.screenId = screenId;
+            this.backgroundTexture = backgroundTexture;
+        }
+        public virtual void Render(SpriteBatch spriteBatch, ViewController view)
+        {
+            spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture], Rect, Color.White);
+            foreach (Button button in Buttons)
             {
                 button.Render(spriteBatch, view);
             }
@@ -23,7 +30,7 @@ namespace ChapterMaster.UI
             }
         }
 
-        public void Update(ViewController view)
+        public virtual void Update(ViewController view)
         {
             foreach(Button button in Buttons)
             {

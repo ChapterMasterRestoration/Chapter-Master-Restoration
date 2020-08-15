@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.World
 {
-    class Battlefield
+    public class Battlefield
     {
         public int COMBATANT_1;
         public int COMBATANT_2;

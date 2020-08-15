@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.Fleet
 {
-    class Fleet
+    public class Fleet
     {
         public int originSystemId;
         public int destinationSystemId;
@@ -17,6 +17,12 @@ namespace ChapterMaster.Fleet
         public bool isMoving;
         public int fleetState;
         public bool isSelected;
+        public Fleet(int systemId, int fleetFaction, int fleetSate)
+        {
+            this.originSystemId = systemId;
+            this.fleetFaction = fleetFaction;
+            this.fleetState = fleetSate;
+        }
         public void Update(Sector sector)
         {
             if (fleetMoveProgress == sector.CalculateTravelTurns(this))

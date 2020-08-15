@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.World
 {
-    class WarpLane
+    public class WarpLane
     {
         public int systemId1;
         public int systemId2;

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster
 {
-    class ViewController
+    public class ViewController
     {
         public int camX = 0;
         public int camY = 0;
@@ -20,7 +20,8 @@ namespace ChapterMaster
         int _cameraSpeed = 3;
         public int currentSystemId;
         public bool systemSelected;
-        public List<int> selectedFleets;
+        public List<int> selectedFleets = new List<int>();
+        public bool PlanetScreenOpen;
         //public Rectangle VisibleArea;
         //public Matrix Transform;
         public void UpdateKeyboard()
@@ -135,7 +136,7 @@ namespace ChapterMaster
 
         int DeselectionDelay = 400;
         int delayTimer;
-        public int lastSelectedFleet = 0;
+        int openSystem = -1;
         public void MouseSelection(Sector sector)
         {
             int mouseX = Mouse.GetState().X;
@@ -157,10 +158,23 @@ namespace ChapterMaster
                 {
                     currentSystemId = systemId;
                     systemSelected = true;
-                    if(Mouse.GetState().RightButton == ButtonState.Pressed)
+                    if (Mouse.GetState().RightButton == ButtonState.Pressed)
                     {
-                        sector.Fleets[lastSelectedFleet].destinationSystemId = currentSystemId;
-                        sector.Fleets[lastSelectedFleet].isMoving = true;
+                        foreach (int id in selectedFleets)
+                        {
+                            if (!sector.Fleets[id].isMoving)
+                                sector.Fleets[id].destinationSystemId = currentSystemId;
+                            sector.Fleets[id].isMoving = true;
+                            sector.Fleets[id].fleetMoveProgress = 0;
+                        }
+                    } else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        if (!PlanetScreenOpen)
+                        {
+                            sector.Systems[currentSystemId].OpenPlanetScreen(this,currentSystemId);
+                            PlanetScreenOpen = true;
+                            openSystem = currentSystemId;
+                        }
                     }
                 } else
                 {
@@ -168,6 +182,16 @@ namespace ChapterMaster
                     if(delayTimer > DeselectionDelay) {
                         systemSelected = false;
                         delayTimer = 0;
+                    }
+                    //PlanetScreenWasOpen = false;
+                    //sector.Systems[currentSystemId].ClosePlanetScreen(this);
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && systemId == openSystem)
+                    {
+                        Debug.WriteLine("Closing planet screen");
+                        Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.PlanetScreen; };
+                        ChapterMaster.MainScreen.Screens.RemoveAll(predicate);
+                        PlanetScreenOpen = false;
+                        openSystem = -1;
                     }
                 }
             }
@@ -188,16 +212,32 @@ namespace ChapterMaster
                     //systemSelected = true;
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
-                        sector.Fleets[fleetId].isSelected = true;
-                        lastSelectedFleet = fleetId;
-                    }
-                } else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                        Debug.WriteLine("pressed over fleet");
+                        if(!selectedFleets.Contains(fleetId)) {
+                            selectedFleets.Add(fleetId);
+                            sector.Fleets[fleetId].isSelected = true;
+                        } else
+                        {
+                            selectedFleets.Remove(fleetId);
+                            sector.Fleets[fleetId].isSelected = false;
+                        }
+                    } 
+                } else if (Mouse.GetState().LeftButton == ButtonState.Pressed && !Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                 {
-                    sector.Fleets[lastSelectedFleet].isSelected = false;
+                    foreach (int id in selectedFleets)
+                    {
+                        sector.Fleets[id].isSelected = false;
+                    }
+                    selectedFleets.Clear();
                 }
             }
-            #endregion 
-            ChapterMaster.DebugString = "System: " + currentSystemId + "\n" + "Fleet: " + lastSelectedFleet;
+            #endregion
+            string fleets = "";
+            foreach (int id in selectedFleets)
+            {
+                fleets += id + ", ";
+            }
+            ChapterMaster.DebugString = "System: " + currentSystemId + "\n" + "Fleet: " + fleets;
         }
         public MouseState GetMouse()
         {

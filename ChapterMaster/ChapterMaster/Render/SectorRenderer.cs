@@ -34,8 +34,18 @@ namespace ChapterMaster
         }
         public void DrawDashedLine(Vector2 start, Vector2 end, float thickness, Color color, ViewController view)
         {
-
+            Vector2 Direction = end - start;
+            int segments = (int)Math.Round(Direction.Length() / thickness);
+            Vector2 step = Direction / segments;
+            for (int i = 0; i < segments; i++)
+            {
+                if(i % 2 == 0)
+                {
+                    DrawLine(start + step * i, (start + step * i) + (step), color, view);
+                }
+            }
         }
+
         public void DrawStar(SpriteBatch spriteBatch, System system, Color color, ViewController view)
         {
 
@@ -47,6 +57,7 @@ namespace ChapterMaster
         }
         public void DrawFleet(SpriteBatch spriteBatch, Fleet.Fleet fleet, Color color, ViewController view, Sector sector)
         {
+            // TODO: replace hardcoded offsets with constants.
             if (!fleet.isMoving)
             {
                 spriteBatch.Draw(ChapterMaster.FleetTextures[fleet.fleetFaction][fleet.fleetState],
@@ -58,7 +69,7 @@ namespace ChapterMaster
                     Color.White);
             } else
             {
-                Vector2 oSystem = new Vector2(sector.Systems[fleet.originSystemId].x, sector.Systems[fleet.originSystemId].y);
+                Vector2 oSystem = new Vector2(sector.Systems[fleet.originSystemId].x + 30, sector.Systems[fleet.originSystemId].y - 30);
                 Vector2 dSystem = new Vector2(sector.Systems[fleet.destinationSystemId].x, sector.Systems[fleet.destinationSystemId].y);
                 Vector2 Direction = (dSystem - oSystem) / sector.CalculateTravelTurns(fleet);
                 Vector2 Position = oSystem + Direction * fleet.fleetMoveProgress;
@@ -69,7 +80,12 @@ namespace ChapterMaster
                         (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleX * view.zoom),
                         (int)(Constants.SYSTEM_WIDTH_HEIGHT * view.scaleY * view.zoom)),
                     Color.White);
-                DrawDashedLine(oSystem, dSystem, 1f,Color.White,view);
+                // fleet trail in grey?
+                DrawDashedLine(Position + new Vector2(Constants.SYSTEM_WIDTH_HEIGHT / 2,
+                                                      Constants.SYSTEM_WIDTH_HEIGHT / 2), 
+                               dSystem + new Vector2(Constants.SYSTEM_WIDTH_HEIGHT / 2, 
+                                                     Constants.SYSTEM_WIDTH_HEIGHT / 2), 
+                               10f,Color.White,view);
             }
         }
         public void Render(SpriteBatch spriteBatch, Sector sector, ViewController view)
@@ -97,9 +113,9 @@ namespace ChapterMaster
 
 
                     primitive.Circle(
-                        new Vector2((sector.Systems[sector.Fleets[view.lastSelectedFleet].originSystemId].x + 40 + 30 - view.camX) 
+                        new Vector2((sector.Systems[fleet.originSystemId].x + 40 + 30 - view.camX) 
                                     * view.zoom + ChapterMaster.GetWidth() / 2,
-                                    (sector.Systems[sector.Fleets[view.lastSelectedFleet].originSystemId].y + 30 - 20 - view.camY) 
+                                    (sector.Systems[fleet.originSystemId].y + 30 - 20 - view.camY) 
                                     * view.zoom + ChapterMaster.GetHeight() / 2),
                         10 * view.zoom, Color.Green);
                     

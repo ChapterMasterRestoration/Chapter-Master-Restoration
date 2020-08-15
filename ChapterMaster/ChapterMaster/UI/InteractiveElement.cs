@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ChapterMaster.UI
 {
     public delegate void MouseHandler(MouseState mouseState, object sender);
-    class InteractiveElement
+    public class InteractiveElement
     {
         public int x, y;
         public int width, height;

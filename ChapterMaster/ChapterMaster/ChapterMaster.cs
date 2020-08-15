@@ -18,19 +18,18 @@ namespace ChapterMaster
         GraphicsDeviceManager graphics;
         public static GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
-        SpriteBatch fontBatch;
         SectorRenderer renderer;
         ViewController view;
         public static SpriteFont caslon_antique_regular;
         public static SpriteFont ARJULIAN;
         private Texture2D background;
-        private Texture2D mapframe;
+        public static Dictionary<string,Texture2D> UITextures;
         public static Texture2D[] ButtonTextures = new Texture2D[4];
         public static Texture2D[] SystemTextures = new Texture2D[6];
         public static Texture2D[][] FleetTextures = new Texture2D[11][];
         public static string DebugString = "";
-        Sector sector = new Sector();
-        Screen mainScreen = new Screen();
+        public static Sector sector = new Sector(); // refactor properly
+        public static Screen MainScreen = new Screen(0, "mapframe");
 
         public ChapterMaster()
         {
@@ -63,9 +62,11 @@ namespace ChapterMaster
             // 1280 960
             sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, Constants.WorldWidth, Constants.WorldHeight);
             sector.WarpLaneGenerate();
-            sector.Fleets.Add(new Fleet.Fleet());
+            sector.Fleets.Add(new Fleet.Fleet(0,0,0));
+            sector.Fleets.Add(new Fleet.Fleet(1, 1, 0));
+            sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
             // Initialize UI
-            
+
             base.Initialize();
         }
 
@@ -80,7 +81,6 @@ namespace ChapterMaster
             #region Load Batches
             graphicsDevice = graphics.GraphicsDevice;
             spriteBatch = new SpriteBatch(graphicsDevice);
-            fontBatch = new SpriteBatch(graphicsDevice);
             #endregion
             Loader.CONTENT_ROOT = Content.RootDirectory;
             #region Load Fonts
@@ -88,8 +88,10 @@ namespace ChapterMaster
             ARJULIAN = this.Content.Load<SpriteFont>("font/ARJULIAN");
             #endregion
             #region Load UI Textures
+            UITextures = new Dictionary<string, Texture2D>();
             background = Loader.LoadPNG("background/bg_space");
-            mapframe = Loader.LoadPNG("spr_new_ui_0");
+            UITextures.Add("mapframe",Loader.LoadPNG("spr_new_ui_1"));
+            UITextures.Add("planetscreen", Loader.LoadPNG("spr_planet_screen_1")); // modified texture by removing extra space
             for (int i = 0; i < ButtonTextures.Length; i++)
             {
                 ButtonTextures[i] = Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0");
@@ -111,7 +113,7 @@ namespace ChapterMaster
             #endregion
             renderer = new SectorRenderer();
             view = new ViewController();
-            mainScreen.Buttons.Add(new UI.Button(0, "End Turn", new Vector2(GetWidth() - 154, GetHeight() - 65), new Vector2(144, 43), new MouseHandler(EndTurn)));
+            MainScreen.Buttons.Add(new UI.Button(0, "End Turn", new Vector2(GetWidth() - 154, GetHeight() - 65), new Vector2(144, 43), new MouseHandler(EndTurn)));
             renderer.Initialize(graphicsDevice,spriteBatch);
         }
 
@@ -122,6 +124,33 @@ namespace ChapterMaster
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            // idk fonts are bound to be destroyed GC.
+            spriteBatch.Dispose();
+            #region Unload UI Textures
+            background.Dispose();
+            foreach(KeyValuePair<string,Texture2D> texture in UITextures)
+            {
+                texture.Value.Dispose();
+            }
+            for (int i = 0; i < ButtonTextures.Length; i++)
+            {
+                ButtonTextures[i].Dispose();
+            }
+            #endregion
+            #region Unload Game Textures
+            for (int i = 0; i < SystemTextures.Length; i++)
+            {
+                SystemTextures[i].Dispose();
+            }
+            for (int faction = 0; faction < Constants.FLEET_TEXTURE_ID_FILE.Length; faction++)
+            {
+                FleetTextures[faction] = new Texture2D[Constants.FLEET_STATE_LIMIT[faction]];
+                for (int state = 0; state < Constants.FLEET_STATE_LIMIT[faction]; state++)
+                {
+                    if(!(FleetTextures[faction][state] is null)) FleetTextures[faction][state].Dispose();
+                }
+            }
+            #endregion
         }
 
         /// <summary>
@@ -146,7 +175,7 @@ namespace ChapterMaster
             }
             view.MouseSelection(sector);
             view.Update();
-            mainScreen.Update(view);
+            MainScreen.Update(view);
             base.Update(gameTime);
         }
 
@@ -169,8 +198,8 @@ namespace ChapterMaster
             renderer.Render(spriteBatch, sector,view);
             // Draw warp lanes
             // Draw UI
-            mainScreen.Render(spriteBatch, view);
-            spriteBatch.Draw(mapframe, new Rectangle(0, 0, GetWidth(), GetHeight()),Color.White);
+            MainScreen.Rect = new Rectangle(0, 0, GetWidth(), GetHeight()); // TODO: implement scaling properly in Screen class.
+            MainScreen.Render(spriteBatch, view);
             spriteBatch.DrawString(ARJULIAN, DebugString, new Vector2(0, 100), Color.White);
             spriteBatch.End();
             //fontBatch.Begin();

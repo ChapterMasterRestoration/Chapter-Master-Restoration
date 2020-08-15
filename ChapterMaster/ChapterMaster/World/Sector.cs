@@ -4,7 +4,7 @@ using ChapterMaster.Util;
 
 namespace ChapterMaster.World
 {
-    class Sector
+    public class Sector
     {
         public List<System> Systems = new List<System>();
         // static organization of lane graph

@@ -8,24 +8,24 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.UI
 {
-    class Button : InteractiveElement
+    public class Button : InteractiveElement
     {
         public int buttonTextureId;
         public string text = "";
         public Vector2 position;
         public Vector2 size;
         
-        public Button(int _buttonTextureId, string _text, Vector2 _position, Vector2 _size, MouseHandler mouseHandler) : base(mouseHandler)
+        public Button(int buttonTextureId, string text, Vector2 position, Vector2 size, MouseHandler mouseHandler) : base(mouseHandler)
         {
-            buttonTextureId = _buttonTextureId;
+            this.buttonTextureId = buttonTextureId;
             // TODO: Fix this
-            position = _position;
-            size = _size;
+            this.position = position;
+            this.size = size;
             x = (int) position.X;
             y = (int) position.Y;
             width = (int) size.X;
             height = (int) size.Y;
-            text = _text;
+            this.text = text;
         }
         public void Render(SpriteBatch spriteBatch, ViewController view)
         {
