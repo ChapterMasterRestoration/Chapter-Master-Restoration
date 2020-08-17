@@ -20,7 +20,7 @@ namespace ChapterMaster
         public void OpenPlanetScreen(ViewController view, int systemId)
         {
             if (!view.PlanetScreenOpen) {
-                ChapterMaster.MainScreen.Screens.Add(new UI.PlanetScreen(1,"planetscreen",systemId));
+                ChapterMaster.MainScreen.AddChildScreen(new UI.PlanetScreen(1,"planetscreen",systemId,new UI.MapFrameAlign()));
                 Debug.WriteLine("Added screen at x " + x + " y " + y);
             }
         }

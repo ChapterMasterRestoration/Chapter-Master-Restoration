@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +12,7 @@ namespace ChapterMaster.UI
     public delegate void MouseHandler(MouseState mouseState, object sender);
     public class InteractiveElement
     {
-        public int x, y;
+        public Vector2 position;
         public int width, height;
         MouseHandler handler;
         bool wasClicked = false;
@@ -20,14 +21,14 @@ namespace ChapterMaster.UI
             handler = mouseHandler;
         }
 
-        public void Check(ViewController view)
+        public void Check(ViewController view, Align align)
         {
             int mouseX = view.GetMouse().X;
             int mouseY = view.GetMouse().Y;
-            int ulCornerX = x;
-            int ulCornerY = y;
-            int brCornerX = x + width;
-            int brCornerY = y + height;
+            int ulCornerX = (int)position.X;
+            int ulCornerY = (int)position.Y;
+            int brCornerX = ulCornerX + align.width;
+            int brCornerY = ulCornerY + align.height;
             if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY)
             {
                 if (view.GetMouse().LeftButton == ButtonState.Released) wasClicked = false;

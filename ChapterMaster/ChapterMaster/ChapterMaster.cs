@@ -29,7 +29,7 @@ namespace ChapterMaster
         public static Texture2D[][] FleetTextures = new Texture2D[11][];
         public static string DebugString = "";
         public static Sector sector = new Sector(); // refactor properly
-        public static Screen MainScreen = new Screen(0, "mapframe");
+        public static Screen MainScreen;
 
         public ChapterMaster()
         {
@@ -113,7 +113,11 @@ namespace ChapterMaster
             #endregion
             renderer = new SectorRenderer();
             view = new ViewController();
-            MainScreen.Buttons.Add(new UI.Button(0, "End Turn", new Vector2(GetWidth() - 154, GetHeight() - 65), new Vector2(144, 43), new MouseHandler(EndTurn)));
+            MainScreen = new Screen(0, "mapframe", new MapFrameAlign(11,61,11,10));
+            view.viewPortWidth = GetWidth();
+            view.viewPortHeight = GetHeight();
+            // 144 43
+            MainScreen.AddButton(new Button(0, "End Turn",new CornerAlign(Corner.BOTTOMRIGHT,144,43), new MouseHandler(EndTurn)));
             renderer.Initialize(graphicsDevice,spriteBatch);
         }
 
@@ -188,7 +192,7 @@ namespace ChapterMaster
             GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.Deferred,
-                  null, SamplerState.LinearWrap, null, null);
+                  BlendState.NonPremultiplied, SamplerState.LinearWrap, null, null);
             // Draw background // Background is not tiled, merely scaled.
             spriteBatch.Draw(background, 
                 //new Rectangle(0, 0,Constants.WorldWidth,Constants.WorldHeight), 
@@ -198,7 +202,7 @@ namespace ChapterMaster
             renderer.Render(spriteBatch, sector,view);
             // Draw warp lanes
             // Draw UI
-            MainScreen.Rect = new Rectangle(0, 0, GetWidth(), GetHeight()); // TODO: implement scaling properly in Screen class.
+            //MainScreen.Rect = new Rectangle(0, 0, GetWidth(), GetHeight()); // TODO: implement scaling properly in Screen class.
             MainScreen.Render(spriteBatch, view);
             spriteBatch.DrawString(ARJULIAN, DebugString, new Vector2(0, 100), Color.White);
             spriteBatch.End();
@@ -219,6 +223,8 @@ namespace ChapterMaster
         {
             graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
             graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
+            view.viewPortWidth = Window.ClientBounds.Width;
+            view.viewPortHeight = Window.ClientBounds.Height;
             graphics.ApplyChanges();
         }
     }

@@ -14,9 +14,11 @@ namespace ChapterMaster
     {
         public int camX = 0;
         public int camY = 0;
-        public int scaleX = 1;
-        public int scaleY = 1;
+        public float scaleX = 1;
+        public float scaleY = 1;
         public float zoom = 1.0f;
+        public int viewPortWidth;
+        public int viewPortHeight;
         int _cameraSpeed = 3;
         public int currentSystemId;
         public bool systemSelected;
@@ -130,7 +132,68 @@ namespace ChapterMaster
         //            Matrix.CreateTranslation(new Vector3(Bounds.Width * 0.5f, Bounds.Height * 0.5f, 0));
         //    UpdateVisibleArea();
         //}
+        #region Transform Helpers
+        public Vector2 GetViewTransform(int x, int y)
+        {
+            return new Vector2((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2), (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2));
+        }
 
+        /// <summary>
+        /// This is transforms about the origin of the camera and scales and applies zoom to the coordinates given. 
+        /// If enableZoom is true, then the Rectangle will also be scaled for zoom.
+        /// </summary>
+        public Rectangle TransformedOriginRect(int x, int y, int width, int height, bool enableZoom)
+        {
+            if (enableZoom)
+            {
+                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                                     (int)(width * scaleX * zoom),
+                                     (int)(height * scaleY * zoom));
+            }
+            else
+            {
+                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                                     (int)(width * scaleX),
+                                     (int)(height * scaleY));
+            }
+        }
+        public Rectangle TransformedOriginRect(int x, int y, int size, bool enableZoom)
+        {
+            if (enableZoom)
+            {
+                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                                     (int)(size * scaleX * zoom),
+                                     (int)(size * scaleY * zoom));
+            }
+            else
+            {
+                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                                     (int)(size * scaleX),
+                                     (int)(size * scaleY));
+            }
+        }
+        public Rectangle TransformedOriginRect(float x, float y, int size, bool enableZoom)
+        {
+            if (enableZoom)
+            {
+                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                                     (int)(size * scaleX * zoom),
+                                     (int)(size * scaleY * zoom));
+            }
+            else
+            {
+                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                                     (int)(size * scaleX),
+                                     (int)(size * scaleY));
+            }
+        }
+        #endregion
         public void Update() { 
         }
 

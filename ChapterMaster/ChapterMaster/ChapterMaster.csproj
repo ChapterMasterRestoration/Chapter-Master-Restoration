@@ -45,8 +45,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Fleet\Fleet.cs" />
+    <Compile Include="UI\Align\Align.cs" />
+    <Compile Include="UI\Align\PlanetScreenAlign.cs" />
     <Compile Include="UI\Button.cs" />
+    <Compile Include="UI\Align\CornerAlign.cs" />
     <Compile Include="UI\InteractiveElement.cs" />
+    <Compile Include="UI\Align\FullscreenAlign.cs" />
     <Compile Include="UI\PlanetScreen.cs" />
     <Compile Include="UI\Screen.cs" />
     <Compile Include="UI\VisibleElement.cs" />
@@ -104,6 +108,9 @@
       <HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Vector2Extensions.WindowsDX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Vector2Extensions.2.0.0\lib\net451\Vector2Extensions.WindowsDX.dll</HintPath>
