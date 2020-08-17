@@ -200,6 +200,7 @@ namespace ChapterMaster
         int DeselectionDelay = 400;
         int delayTimer;
         int openSystem = -1;
+        // TODO: create list of moused-over systems and use that to disable no-shift clear
         public void MouseSelection(Sector sector)
         {
             int mouseX = Mouse.GetState().X;
@@ -225,10 +226,12 @@ namespace ChapterMaster
                     {
                         foreach (int id in selectedFleets)
                         {
-                            if (!sector.Fleets[id].isMoving)
+                            if (!sector.Fleets[id].isMoving && sector.Fleets[id].originSystemId != currentSystemId)
+                            {
                                 sector.Fleets[id].destinationSystemId = currentSystemId;
-                            sector.Fleets[id].isMoving = true;
-                            sector.Fleets[id].fleetMoveProgress = 0;
+                                sector.Fleets[id].isMoving = true;
+                                sector.Fleets[id].fleetMoveProgress = 0;
+                            }
                         }
                     } else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
@@ -264,41 +267,89 @@ namespace ChapterMaster
             for (int fleetId = 0; fleetId < sector.Fleets.Count; fleetId++)
             {
                 int systemId = sector.Fleets[fleetId].originSystemId;
-                int ulCornerX = (int)((sector.Systems[systemId].x +(Constants.SYSTEM_WIDTH_HEIGHT / 4) + 30 - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                int ulCornerY = (int)((sector.Systems[systemId].y +(Constants.SYSTEM_WIDTH_HEIGHT / 4) - 30 - camY) * zoom + ChapterMaster.GetHeight() / 2);
-                int brCornerX = (int)((sector.Systems[systemId].x +(Constants.SYSTEM_WIDTH_HEIGHT / 4) + 30 + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                int brCornerY = (int)((sector.Systems[systemId].y +(Constants.SYSTEM_WIDTH_HEIGHT / 4) - 30 + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
-                //Debug.WriteLine("checking fleet " + sector.Systems[systemId].x);
-                if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY)
+                sector.Fleets[fleetId].fleetId = fleetId; // ???
+                sector.Fleets[fleetId].checkedByCoFleet = false;
+                sector.Fleets[fleetId].coFleets.Clear();
+                List <Fleet.Fleet> orbitingFleets = new List<Fleet.Fleet>();
+                for(int oFleetId = 0; oFleetId < sector.Fleets.Count; oFleetId++)
                 {
-                    //currentSystemId = systemId;
-                    //systemSelected = true;
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    if (sector.Fleets[oFleetId].originSystemId == systemId)
                     {
-                        Debug.WriteLine("pressed over fleet");
-                        if(!selectedFleets.Contains(fleetId)) {
-                            selectedFleets.Add(fleetId);
-                            sector.Fleets[fleetId].isSelected = true;
-                        } else
+                        if (!sector.Fleets[fleetId].coFleets.Contains(oFleetId))
                         {
-                            selectedFleets.Remove(fleetId);
-                            sector.Fleets[fleetId].isSelected = false;
+                            sector.Fleets[oFleetId].fleetId = oFleetId; // TODO: will this create problems when the list of fleets changes?
+                            orbitingFleets.Add(sector.Fleets[oFleetId]);
+                            if(oFleetId != fleetId)
+                                sector.Fleets[fleetId].coFleets.Add(oFleetId);
                         }
-                    } 
-                } else if (Mouse.GetState().LeftButton == ButtonState.Pressed && !Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-                {
-                    foreach (int id in selectedFleets)
-                    {
-                        sector.Fleets[id].isSelected = false;
                     }
-                    selectedFleets.Clear();
                 }
+                for(int orbitingFleetId = 0; orbitingFleetId < orbitingFleets.Count; orbitingFleetId++)
+                {
+                    if (orbitingFleets[orbitingFleetId].coFleets.Contains(fleetId))
+                    {
+                        orbitingFleets[orbitingFleetId].checkedByCoFleet = true;
+                    }
+                    int ulCornerX = (int)((sector.Systems[systemId].x + (Constants.SYSTEM_WIDTH_HEIGHT / 4) + 30 - camX) * zoom + ChapterMaster.GetWidth() / 2);
+                    int ulCornerY = (int)((sector.Systems[systemId].y + (Constants.SYSTEM_WIDTH_HEIGHT / 4) - 30 - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                    int brCornerX = (int)((sector.Systems[systemId].x + (Constants.SYSTEM_WIDTH_HEIGHT / 4) + 30 + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
+                    int brCornerY = (int)((sector.Systems[systemId].y + (Constants.SYSTEM_WIDTH_HEIGHT / 4) - 30 + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                    int fleetWidth = brCornerX - ulCornerX;
+                    ulCornerX = ulCornerX + fleetWidth * orbitingFleetId;
+                    brCornerX = brCornerX + fleetWidth * orbitingFleetId;
+                    bool isOverSystem = false;
+                    //Debug.WriteLine("checking fleet " + orbitingFleets[orbitingFleetId].fleetId + " with " + orbitingFleets.Count() + " others");
+                    if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY && !orbitingFleets[orbitingFleetId].checkedByCoFleet)
+                    {
+                        isOverSystem = true;
+                        //currentSystemId = systemId;
+                        //systemSelected = true;
+                        if (!orbitingFleets[orbitingFleetId].checkedByCoFleet)
+                        {
+                            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                            {
+                                //Debug.WriteLine("pressed over fleet " + orbitingFleets[orbitingFleetId].fleetId);
+                                if (!selectedFleets.Contains(orbitingFleets[orbitingFleetId].fleetId))
+                                {
+                                    selectedFleets.Add(orbitingFleets[orbitingFleetId].fleetId);
+                                    Debug.WriteLine("selected fleet " + orbitingFleets[orbitingFleetId].fleetId + " doing " + fleetId);
+                                    sector.Fleets[orbitingFleets[orbitingFleetId].fleetId].isSelected = true;
+
+                                }
+                                else
+                                {
+                                    selectedFleets.Remove(orbitingFleets[orbitingFleetId].fleetId);
+                                    sector.Fleets[orbitingFleets[orbitingFleetId].fleetId].isSelected = false;
+                                }
+                            }
+                        }
+                    }
+                    else if (Mouse.GetState().LeftButton == ButtonState.Pressed && 
+                            !Keyboard.GetState().IsKeyDown(Keys.LeftShift) &&
+                            !sector.Fleets[fleetId].coFleets.Contains(fleetId) && !isOverSystem)
+                    {
+                        foreach (int id in selectedFleets)
+                        {
+                            sector.Fleets[id].isSelected = false;
+                        }
+                        selectedFleets.Clear();
+                        isOverSystem = false;
+                    }
+                }
+
             }
             #endregion
             string fleets = "";
             foreach (int id in selectedFleets)
             {
-                fleets += id + ", ";
+                fleets += "F"+id + ", ";
+                fleets += "\n";
+                fleets += "COF: ";
+                foreach(int coId in sector.Fleets[id].coFleets)
+                {
+                    fleets += coId + ", ";
+                }
+
             }
             ChapterMaster.DebugString = "System: " + currentSystemId + "\n" + "Fleet: " + fleets;
         }

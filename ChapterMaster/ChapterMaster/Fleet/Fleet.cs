@@ -9,6 +9,12 @@ namespace ChapterMaster.Fleet
 {
     public class Fleet
     {
+        /// <summary>
+        /// might not be updated, only for mouse selection over multiple fleets!
+        /// </summary>
+        public int fleetId;
+        public bool checkedByCoFleet;
+        public List<int> coFleets = new List<int>();
         public int originSystemId;
         public int destinationSystemId;
         public int fleetSpeed = 50;
@@ -25,7 +31,7 @@ namespace ChapterMaster.Fleet
         }
         public void Update(Sector sector)
         {
-            if (fleetMoveProgress == sector.CalculateTravelTurns(this))
+            if (fleetMoveProgress == sector.CalculateTravelTurns(this)-1)
             {
                 originSystemId = destinationSystemId;
                 isMoving = false;

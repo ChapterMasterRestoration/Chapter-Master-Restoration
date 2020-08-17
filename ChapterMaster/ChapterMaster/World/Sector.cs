@@ -10,29 +10,583 @@ namespace ChapterMaster.World
         // static organization of lane graph
         public List<WarpLane> WarpLanes = new List<WarpLane>(); // like this?
         public List<Fleet.Fleet> Fleets = new List<Fleet.Fleet>();
+
         int Turn;
         #region Generation
         public Random random;
-        //int seed = 31; // 41 is special!!!!
-        //int LocalSystem(int i)
-        //{
-        //    for (int localSystem = 0; localSystem < 4; localSystem++)
-        //    {
-        //        if(random.Next(7) > 5)
-        //        {
-        //            i++;
-        //            i = LocalSystem(i);
-        //            return i;
-        //        }
-        //        Systems.Add(new System(random.Next(7), x, y));
-        //    }
-        //    return 4;
-        //}
-
+        #region SystemNames
+        public List<string> SystemNames = new List<string>(){"Terak",
+   "Roma",
+   "Noctae",
+   "Piscium",
+   "Illan",
+   "Xi-He",
+   "Carinae",
+   "Skuse",
+   "Voltantis",
+   "Vidi",
+   "Hasta",
+   "Dagon",
+   "Pocki",
+   "Resheph",
+   "Hemera",
+   "Iman",
+   "Chorta",
+   "Atlanta",
+   "Lyncis",
+   "Modgud",
+   "Oynyena",
+   "Onian",
+   "Helen",
+   "Canum",
+   "Qetesh",
+   "Skonii",
+   "Lytir",
+   "Corvi",
+   "Yogneek",
+   "Delphini",
+   "Freya",
+   "Gaima",
+   "Vespae",
+   "Endiku",
+   "Menthu",
+   "Elyon",
+   "Gone",
+   "Baxu",
+   "Maghda",
+   "Leporis",
+   "Tiamat",
+   "Ceti",
+   "Atep",
+   "Amon",
+   "Asherah",
+   "Xu Xiu",
+   "Kim Jong",
+   "Gonj Mik",
+   "Zentra",
+   "Azeroth",
+   "Morphua",
+   "Muric",
+   "Sextanis",
+   "Betelgeuse",
+   "Betechton",
+   "Soachton",
+   "Ao-Chin",
+   "Hordi",
+   "Crucis",
+   "Lustania",
+   "Albion",
+   "Bongistan",
+   "Natsigan",
+   "Orwell",
+   "Dagobah",
+   "Haboga",
+   "Outer Heaven",
+   "Sodden Hollow",
+   "Protasia",
+   "Veneria",
+   "Iocanthus",
+   "Quaddis",
+   "Belahaam",
+   "Scarric",
+   "Gelmito",
+   "Josian",
+   "Turanshush",
+   "Balecaster",
+   "Belacane",
+   "Avitohol",
+   "Brassica",
+   "Sinophia",
+   "Skyren",
+   "Antioch",
+   "Balanor",
+   "Cathox",
+   "Mahr'douk",
+   "Mordax",
+   "Phall",
+   "Vilhadran",
+   "Chaeros",
+   "Yaymar",
+   "Orax",
+   "Laurentix",
+   "Belisimar",
+   "Vigilatum",
+   "Korolis",
+   "Stryken",
+   "Tephaine",
+   "Chinchare",
+   "Galathamar",
+   "Lordran",
+   "Thasia",
+   "Lycosidae",
+   "Purgatrex",
+   "Sabbatorus",
+   "Lysades",
+   "Jerulas",
+   "Ornsworld",
+   "Treconandal",
+   "Jubal",
+   "Mordian",
+   "Khardeph",
+   "Anticanis",
+   "Landersund",
+   "Aquasulis",
+   "Uristes",
+   "Euphrate",
+   "Menazoid",
+   "Jaego",
+   "Canemara",
+   "Seadelant",
+   "Ostrola",
+   "Ilbira",
+   "Mard",
+   "Carshim",
+   "Addolorata",
+   "Dolsene",
+   "Bolanion",
+   "Solveig",
+   "Frengold",
+   "Urdesh",
+   "Fornax",
+   "Cociaminus",
+   "Verghast",
+   "Ancreon",
+   "Amedeo",
+   "Armatura",
+   "Nuceria",
+   "Konor",
+   "Isstvan",
+   "Paramar",
+   "Bucephalon",
+   "Ghourra",
+   "Kerondys",
+   "Lyubov",
+   "Parthenope",
+   "Rosangela",
+   "Sapiencia",
+   "Summaminus",
+   "Taliscant",
+   "Stalinvast",
+   "Denova",
+   "Tibrias",
+   "Polonus",
+   "Petrostock",
+   "Tunusk",
+   "Venady",
+   "Voltemand",
+   "Anark Zeta",
+   "Atar-Median",
+   "Cabulis",
+   "Enceladus",
+   "Sarum",
+   "Incaldion",
+   "M'khand",
+   "Sabatine",
+   "Orestes",
+   "Stygies",
+   "Vasalius",
+   "Vordrast",
+   "Boonhaven",
+   "Barbarus",
+   "Mandragoran",
+   "Anphelion",
+   "Solstice",
+   "Inwit",
+   "Magdelene",
+   "Ghorstangrad",
+   "Kastorel",
+   "Borsis",
+   "Volistad",
+   "Mortant",
+   "Ogrolla",
+   "Tallarax",
+   "Viridios",
+   "Somonor",
+   "Urphir",
+   "Loki",
+   "Varsavus",
+   "Vagorn",
+   "Zeist",
+   "Sigilare",
+   "Aeschylrai",
+   "Accatran",
+   "Metalica",
+   "Kolossi",
+   "Espandor",
+   "Voltoris",
+   "Draconis",
+   "Luxor",
+   "Au'taal",
+   "Badab",
+   "Alaric",
+   "Yithic",
+   "Tolkhan",
+   "Crematis",
+   "Pixor",
+   "Bellephon",
+   "Boucherin",
+   "Chemos",
+   "Corinthe",
+   "Corrinos",
+   "Cytheria",
+   "Damnos",
+   "Davin",
+   "Drisinta",
+   "Dynathi",
+   "Eorcshia",
+   "Gardinaal",
+   "Fergax",
+   "Taros",
+   "Garevo",
+   "Blasted Heath",
+   "Haletho",
+   "Hammeront",
+   "Honourum",
+   "Nidus Diptera",
+   "Optera",
+   "Menopetra",
+   "Jjojos",
+   "Kaelas",
+   "Ichar",
+   "Jhanna",
+   "Incaladion",
+   "Iolac",
+   "Krastellan",
+   "Lunaphage",
+   "Memlok",
+   "Arradin",
+   "M'khan",
+   "Miral",
+   "Neverlight",
+   "Moloch",
+   "Tatarstia",
+   "Veracia",
+   "New Veracia",
+   "New Varsavus",
+   "New Petrostock",
+   "New Thasia",
+   "Lohab",
+   "Lalam",
+   "Lowam",
+   "Obsidia",
+   "Nihilas",
+   "Molech",
+   "Olympia",
+   "Pavonis",
+   "Providence",
+   "Radnar",
+   "Sotha",
+   "Sulis",
+   "Niflheim",
+   "Schindelgheist",
+   "Jotunheim",
+   "Tarturga",
+   "Ursidhe-Ka",
+   "Zathatethus",
+   "Hynnes",
+   "Ammonai",
+   "Dirge",
+   "Nexaris",
+   "Circe",
+   "Kallas",
+   "Jursa",
+   "Parmenio",
+   "Quintarn",
+   "Tycor",
+   "Masali",
+   "Mordan",
+   "Frankonia",
+   "Maesa",
+   "Laconia",
+   "Nicaea",
+   "Hellsiris",
+   "Apollonia",
+   "Naogeddon",
+   "Sarcosa ",
+   "Tanhaus",
+   "Athelaq",
+   "K'phra",
+   "Athelaq",
+   "Tyrannis",
+   "Solitude",
+   "Skgorria",
+   "Atopiana",
+   "Hataria",
+   "Boneyard",
+   "Hypnoth",
+   "Hydraphur",
+   "Barvaria",
+   "Doranno",
+   "Drathorian",
+   "Kraeg",
+   "Graia",
+   "Minerva",
+   "Gehenna",
+   "Mortarius",
+   "Zindleschlitz",
+   "Acteron",
+   "Quintox",
+   "Dreadhaven",
+   "Pandorax",
+   "Pythos",
+   "Thandros",
+   "Ymgarl",
+   "Raeden",
+   "Koralkal",
+   "Zorastra",
+   "Hagia",
+   "Knowhere",
+   "Mattiax",
+   "Wardian",
+   "Airephal",
+   "Xagem",
+   "Cegorachi",
+   "Jomungandr",
+   "Nostramo",
+   "Stygia",
+   "Incanda",
+   "Haeraphya",
+   "Lycaeum",
+   "Contqual",
+   "Gorro",
+   "Flint",
+   "Deus",
+   "Persya",
+   "Heloeum",
+   "Devilus",
+   "Agathon",
+   "Anvilus",
+   "Vostroya",
+   "Groznyj Grad",
+   "Artaxerxes",
+   "Solania",
+   "Barathred",
+   "Desperation",
+   "Fargotia",
+   "New Aiur",
+   "New Stalinvast",
+   "Beroghast",
+   "Heilog’s Star",
+   "Azghrax",
+   "Coriolanthe",
+   "Krumpville",
+   "Dimmamak",
+   "Primordial Frost",
+   "Mordax Prime",
+   "Angelus",
+   "Ephrath",
+   "Theboze",
+   "Urmox",
+   "Felcarn",
+   "Mathog",
+   "Forrax",
+   "Ganymethia",
+   "Ghenna",
+   "Bodt",
+   "Haringvleet",
+   "Hollonan",
+   "Hexxo",
+   "Hadriath",
+   "Ironholm",
+   "Hamilcar",
+   "Kartheope",
+   "Canis Canem",
+   "Ksatella",
+   "Magdellan",
+   "Manticore",
+   "Malodrax",
+   "Castellax",
+   "Thanatar",
+   "Sarcosa",
+   "Penumbra",
+   "Siriua",
+   "Impetus",
+   "Bretonia",
+   "Lesser Mantelius",
+   "Botmur",
+   "Signus Prime",
+   "Quintaine",
+   "Oranos",
+   "Hyperion",
+   "Leto",
+   "Pervigilium",
+   "Vergilian",
+   "Zuerlais",
+   "Ullanor",
+   "Shadrac",
+   "Sondheim",
+   "Rostern",
+   "Protheus",
+   "Kronos",
+   "Tartarus",
+   "Portenus",
+   "Borealum",
+   "New Tanith",
+   "Red Reach",
+   "Bella",
+   "Vaxhallia",
+   "Varestus",
+   "Gangrenous Rot",
+   "Yaogeddon",
+   "Ygetheddon",
+   "Yoggoth",
+   "Jagga",
+   "Indra-sul",
+   "Dregeddon",
+   "Scarus",
+   "Vieglehaven",
+   "Callistus",
+   "Majorial",
+   "Cerastus",
+   "Venator",
+   "Macharia",
+   "Loikik",
+   "Erasmus",
+   "Eskarne",
+   "Dymphna",
+   "Moritia Prime",
+   "Borisia",
+   "Carthage",
+   "Suphera",
+   "Ghourra",
+   "Califor",
+   "Tarant",
+   "Chanicia",
+   "Herodor",
+   "Heskeloth",
+   "Mehitabel",
+   "Presarius",
+   "Obermid",
+   "New Tarant",
+   "Pachuco",
+   "Voltemand",
+   "Bojana",
+   "Gorgonia",
+   "Pintax",
+   "Xatill",
+   "Nefalia",
+   "Polmuss",
+   "New Carthage",
+   "Forsarr",
+   "Capilene",
+   "Minisotira",
+   "Deneb",
+   "Thea",
+   "Ando",
+   "Iapetus",
+   "Klimt",
+   "Astrakhan",
+   "Atlas",
+   "Veles",
+   "Pannonia",
+   "Murom",
+   "Khorinis",
+   "Endymion",
+   "Vall Major",
+   "Praste",
+   "Korabaellan",
+   "Korvaran",
+   "Muoskaerl",
+   "Alteraan",
+   "Veritas",
+   "Telenor",
+   "Selene",
+   "Climaxus",
+   "Corkanium",
+   "Peripheris",
+   "Intarme",
+   "Quintus Superior",
+   "Zaporozhye",
+   "Pontus",
+   "Haliphax",
+   "Perun",
+   "Judean",
+   "Felisian",
+   "Nirn",
+   "Biik",
+   "Starrym",
+   "Morrowynd",
+   "Tintangiel",
+   "Kuhrwax",
+   "Avalon",
+   "Vyndyalii",
+   "Zaphonia",
+   "Zinerra",
+   "Ullatarin",
+   "Vaelis",
+   "Chimaera",
+   "Arkhamis",
+   "Shadow Hearth",
+   "Naeraea",
+   "Pandora",
+   "Lorvarian",
+   "Nova Terra",
+   "Roserias",
+   "Rybiern",
+   "Fastoon",
+   "Belden",
+   "Velden",
+   "Grenada",
+   "Raiken",
+   "Koros",
+   "Toledo",
+   "Valyria",
+   "Dead Cell",
+   "Ghis",
+   "Canukistan",
+   "Gyratio",
+   "Fistiox",
+   "Adolphian",
+   "Quarth",
+   "Dornus Noangulus",
+   "Dornari",
+   "Vandiria",
+   "Pearia",
+   "Sheol",
+   "Libertania",
+   "Woden",
+   "Guderian",
+   "Edelweiss",
+   "Gotenland",
+   "Theodorichshaven",
+   "Batoria",
+   "Husania",
+   "Urslavik",
+   "Creedia",
+   "Ulfa",
+   "Amerigo",
+   "Tilfis",
+   "Rovno",
+   "Reno",
+   "Constantinopolis",
+   "Istanpulia",
+   "Inuit",
+   "Grave",
+   "Vardenfeld",
+   "Scorched Citadel",
+   "Hammerfront",
+   "Huldwynia",
+   "Brabastis",
+   "Diherim",
+   "Yhette",
+   "Retsam Retpahc",
+   "Black Creek",
+   "Tungusta",
+   "Pugio",
+   "Yavin",
+   "Kup Teraz",
+   "Serenity",
+   "Kurimizon",
+   "Tuskus",
+   "Whitefall",
+   "Zalia",
+   "Regina"};
+        #endregion
         public void Prepare()
         {
             random = new Random(41); //220
         }
+        #region Unused Generator Code
         /*
         int Clusters = 0;
         int lastClusterX = 0;
@@ -130,6 +684,7 @@ namespace ChapterMaster.World
             //lastX = lastY = 0;
         }
         */
+        #endregion
         public void GridGenerate(int clusterNo, int minDistance, int clusterSize, int width, int height)
         {
             Systems.Clear();
@@ -141,9 +696,9 @@ namespace ChapterMaster.World
                     if (no < clusterNo)
                     {
                         int newX = x * clusterSize + (int)Math.Round(
-                            random.NormallyDistributedSingle(width/2, width/4, -width/2, width/2)); // skew to the east
+                            random.NormallyDistributedSingle(width / 2, width / 4, -width / 2, width / 2)); // skew to the east
                         int newY = y * clusterSize + (int)Math.Round(
-                            random.NormallyDistributedSingle(height/2, height/4, -height/2, height/2)); // skew to the south
+                            random.NormallyDistributedSingle(height / 2, height / 4, -height / 2, height / 2)); // skew to the south
                         if (no > 0)
                         {
                             for (int secondCircle = 0; secondCircle < no; secondCircle++) // hell loop
@@ -153,14 +708,14 @@ namespace ChapterMaster.World
                                     int dis = MathUtil.RoundedDistance(s.x, s.y, newX, newY);
                                     if (dis < minDistance) // skew away from other stars
                                     {
-                                        newX += (int)Math.Round(random.NormallyDistributedSingle(dis, 0, -2 * dis, 2 * dis)); 
-                                        newY += (int)Math.Round(random.NormallyDistributedSingle(dis, 0, -2 * dis, 2 * dis));
+                                        newX += (int)Math.Round(random.NormallyDistributedSingle(dis, 0, -2 * dis, 2 * dis)); // add 100 or something, idk what to do here
+                                        newY += (int)Math.Round(random.NormallyDistributedSingle(dis, 0, -2 * dis, 2 * dis)); // add 100 or something, idk what to do here
                                     }
                                 }
                             }
-                        } 
+                        }
                         if (newX < 0) newX += width; // randomize the new posiiton
-                        if (newY <0) newY += height; // randomize the new position
+                        if (newY < 0) newY += height; // randomize the new position
                         if (random.Next(2) == 1 || newX > width) // sprawl out to the west
                         {
                             newX = width - newX;
@@ -178,7 +733,7 @@ namespace ChapterMaster.World
         public void WarpLaneGenerate()
         {
             WarpLanes.Clear();
-            for(int system = 0; system < Systems.Count; system++)
+            for (int system = 0; system < Systems.Count; system++)
             {
                 for (int other = 0; other < Systems.Count; other++)
                 {
@@ -190,7 +745,7 @@ namespace ChapterMaster.World
                     else
                     {
                         int distance = MathUtil.RoundedDistance(
-                            Systems[system].x, Systems[system].y, 
+                            Systems[system].x, Systems[system].y,
                             Systems[other].x, Systems[other].y);
                         if (Systems[system].numberOfLanes < 3 && Systems[other].numberOfLanes < 3)
                         {
@@ -224,28 +779,44 @@ namespace ChapterMaster.World
                 }
             }
         }
+        public void GenerateSystemNames() {
+            // https://stackoverflow.com/questions/273313/randomize-a-listt Fisher-Yates shuffle
+            int i = SystemNames.Count;
+            while (i > 1)
+            {
+                i--;
+                int k = random.Next(i + 1);
+                string value = SystemNames[k];
+                SystemNames[k] = SystemNames[i];
+                SystemNames[i] = value;
+            }
+            for(int n = 0; n < Systems.Count; n++)
+            {
+                Systems[n].name = SystemNames[n];
+            }
+        }
         #endregion
         public int CalculateTravelTurns(Fleet.Fleet fleet)
         {
-           int distance = MathUtil.RoundedDistance(Systems[fleet.originSystemId].x, Systems[fleet.originSystemId].y, Systems[fleet.destinationSystemId].x, Systems[fleet.destinationSystemId].x);
+            int distance = MathUtil.RoundedDistance(Systems[fleet.originSystemId].x, Systems[fleet.originSystemId].y, Systems[fleet.destinationSystemId].x, Systems[fleet.destinationSystemId].y);
             foreach (WarpLane warpLane in WarpLanes)
             {
 
-                if((warpLane.systemId1 == fleet.originSystemId || warpLane.systemId1 == fleet.destinationSystemId) 
-                 &&(warpLane.systemId2 == fleet.destinationSystemId || warpLane.systemId2 == fleet.originSystemId))
+                if ((warpLane.systemId1 == fleet.originSystemId || warpLane.systemId1 == fleet.destinationSystemId)
+                 && (warpLane.systemId2 == fleet.destinationSystemId || warpLane.systemId2 == fleet.originSystemId))
                 {
-                    return distance / (fleet.fleetSpeed * 3);
+                    return (distance / (fleet.fleetSpeed * 3)) + 1; // haha, this prevented short warp lanes from making fleets disappear when eta reaches 0
                 }
             }
-            return distance / fleet.fleetSpeed;
+            return (distance / fleet.fleetSpeed) + 1;
         }
         public void TurnUpdate()
         {
-            foreach(System system in Systems)
+            foreach (System system in Systems)
             {
 
             }
-            foreach(Fleet.Fleet fleet in Fleets)
+            foreach (Fleet.Fleet fleet in Fleets)
             {
                 fleet.Update(this);
             }

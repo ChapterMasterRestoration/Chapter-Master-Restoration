@@ -45,6 +45,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Fleet\Fleet.cs" />
+    <Compile Include="Render\RenderHelper.cs" />
     <Compile Include="UI\Align\Align.cs" />
     <Compile Include="UI\Align\PlanetScreenAlign.cs" />
     <Compile Include="UI\Button.cs" />

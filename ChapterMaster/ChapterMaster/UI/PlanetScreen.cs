@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ChapterMaster.Render;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,10 @@ namespace ChapterMaster.UI
             Rect = view.TransformedOriginRect(ChapterMaster.sector.Systems[systemId].x, 
                                               ChapterMaster.sector.Systems[systemId].y, 300, 100, false);
             spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture], Rect, Color.White);
+            // TODO: replace with align component
+            Point position = Rect.Location + new Point(0, 20);
+            // TODO: better way to pass the system's color
+            RenderHelper.DrawStar(spriteBatch,new Vector2(position.X,position.Y),ChapterMaster.sector.Systems[systemId].color);
             foreach (Button button in Buttons)
             {
                 button.Render(spriteBatch, view);

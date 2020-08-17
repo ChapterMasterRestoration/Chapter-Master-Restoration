@@ -10,12 +10,20 @@ namespace ChapterMaster
     public class System
     {
         public int color;
+        public string name;
         public int x, y;
         public int numberOfLanes = 0;
-        public System(int color, int x, int y) {
+        public System(int color, int x, int y)
+        {
             this.color = color;
             this.x = x;
             this.y = y;
+        }
+        public System(int color, string name, int x, int y) {
+            this.color = color;
+            this.x = x;
+            this.y = y;
+            this.name = name;
         }
         public void OpenPlanetScreen(ViewController view, int systemId)
         {

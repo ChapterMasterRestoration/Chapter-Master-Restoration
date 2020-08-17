@@ -50,22 +50,48 @@ namespace ChapterMaster
 
         public void DrawStar(SpriteBatch spriteBatch, System system, Color color, ViewController view)
         {
-            spriteBatch.Draw(ChapterMaster.SystemTextures[system.color],
-                view.TransformedOriginRect(system.x, system.y, Constants.SYSTEM_WIDTH_HEIGHT, true),
-                Color.White);
+            Rectangle rect = view.TransformedOriginRect(system.x, system.y, Constants.SYSTEM_WIDTH_HEIGHT, true);
+            spriteBatch.Draw(ChapterMaster.SystemTextures[system.color],rect, Color.White);
+            Rectangle rectLabel = view.TransformedOriginRect(system.x + Constants.SYSTEM_WIDTH_HEIGHT/4, system.y - Constants.SYSTEM_WIDTH_HEIGHT/4, Constants.SYSTEM_WIDTH_HEIGHT, true);
+            Vector2 position = new Vector2(rectLabel.Left, rectLabel.Bottom);
+            // TODO: scale system name better.
+            spriteBatch.DrawString(ChapterMaster.ARJULIAN, system.name, position, Color.White, 0, new Vector2(0,0),view.zoom+0.3f, SpriteEffects.None,0);
         }
         public void DrawFleet(SpriteBatch spriteBatch, Fleet.Fleet fleet, Color color, ViewController view, Sector sector)
         {
             // TODO: replace hardcoded offsets with constants.
             if (!fleet.isMoving)
             {
-                spriteBatch.Draw(ChapterMaster.FleetTextures[fleet.fleetFaction][fleet.fleetState],
-                                 view.TransformedOriginRect(
-                                     sector.Systems[fleet.originSystemId].x + 30,
-                                     sector.Systems[fleet.originSystemId].y - 30,
-                                     Constants.SYSTEM_WIDTH_HEIGHT,
-                                     true),
-                Color.White);
+                List<Fleet.Fleet> orbitingFleets = new List<Fleet.Fleet>(0);
+                foreach(Fleet.Fleet fleet1 in sector.Fleets)
+                {
+                    if(fleet1.originSystemId == fleet.originSystemId)
+                    {
+                        orbitingFleets.Add(fleet1);
+                    }
+                }
+                for (int orbitingFleetId = 0; orbitingFleetId < orbitingFleets.Count; orbitingFleetId++)
+                {
+                    Fleet.Fleet currentFleet = orbitingFleets[orbitingFleetId];
+                    // TODO: the list of fleets should wrap down. and possibly scale down if there are too many.
+                    spriteBatch.Draw(ChapterMaster.FleetTextures[currentFleet.fleetFaction][currentFleet.fleetState],
+                                     view.TransformedOriginRect(
+                                         sector.Systems[currentFleet.originSystemId].x + 30 + (Constants.SYSTEM_WIDTH_HEIGHT / 2) * orbitingFleetId,
+                                         sector.Systems[currentFleet.originSystemId].y - 30,
+                                         Constants.SYSTEM_WIDTH_HEIGHT,
+                                         true),
+
+                    Color.White);
+                    if (orbitingFleets[orbitingFleetId].isSelected)
+                    {
+                        primitive.Circle(
+                            new Vector2((sector.Systems[fleet.originSystemId].x + 40 + 30 + (Constants.SYSTEM_WIDTH_HEIGHT / 2) * orbitingFleetId - view.camX)
+                                        * view.zoom + ChapterMaster.GetWidth() / 2,
+                                        (sector.Systems[fleet.originSystemId].y + 30 - 20 - view.camY)
+                                        * view.zoom + ChapterMaster.GetHeight() / 2),
+                            10 * view.zoom, Color.Green);
+                    }
+                }
             }
             else
             {
@@ -74,21 +100,21 @@ namespace ChapterMaster
                 Vector2 dSystem = new Vector2(sector.Systems[fleet.destinationSystemId].x, sector.Systems[fleet.destinationSystemId].y);
                 Vector2 Direction = (dSystem - oSystem) / travelTurns;
                 Vector2 Position = oSystem + Direction * fleet.fleetMoveProgress;
-                spriteBatch.Draw(ChapterMaster.FleetTextures[fleet.fleetFaction][fleet.fleetState],
-                                 view.TransformedOriginRect(Position.X,
+                Rectangle rect = view.TransformedOriginRect(Position.X,
                                                             Position.Y,
                                                             Constants.SYSTEM_WIDTH_HEIGHT,
-                                                            true),
-                                 Color.White);
-                // replace this bs with trailing dashed line
+                                                            true);
+                spriteBatch.Draw(ChapterMaster.FleetTextures[fleet.fleetFaction][fleet.fleetState], rect, Color.White);
+                // TODO: replace this bs with trailing dashed line
                 Color trailColor = Color.MediumPurple;
                 int alpha = (byte)(255 * (1 - ((float)fleet.fleetMoveProgress / (float)travelTurns)));
                 trailColor.A = (byte) alpha;
-                DrawLine(oSystem + new Vector2(Constants.SYSTEM_WIDTH_HEIGHT / 2 ,
-                                               Constants.SYSTEM_WIDTH_HEIGHT / 2 ),
+                DrawLine(oSystem + new Vector2(Constants.SYSTEM_WIDTH_HEIGHT / 2,
+                                               Constants.SYSTEM_WIDTH_HEIGHT / 2),
                          Position + new Vector2(Constants.SYSTEM_WIDTH_HEIGHT / 2,
                                                 Constants.SYSTEM_WIDTH_HEIGHT / 2),
                         trailColor, view);
+                spriteBatch.DrawString(ChapterMaster.ARJULIAN, "ETA: " + (travelTurns - fleet.fleetMoveProgress), new Vector2(rect.Location.X+5,rect.Location.Y-5), Color.White);
                 DrawDashedLine(Position + new Vector2(Constants.SYSTEM_WIDTH_HEIGHT / 2,
                                                       Constants.SYSTEM_WIDTH_HEIGHT / 2),
                                dSystem + new Vector2(Constants.SYSTEM_WIDTH_HEIGHT / 2,
@@ -119,13 +145,6 @@ namespace ChapterMaster
                 if (fleet.isSelected)
                 {
 
-
-                    primitive.Circle(
-                        new Vector2((sector.Systems[fleet.originSystemId].x + 40 + 30 - view.camX)
-                                    * view.zoom + ChapterMaster.GetWidth() / 2,
-                                    (sector.Systems[fleet.originSystemId].y + 30 - 20 - view.camY)
-                                    * view.zoom + ChapterMaster.GetHeight() / 2),
-                        10 * view.zoom, Color.Green);
 
 
                     //primitive.Rectangle(new Rectangle(

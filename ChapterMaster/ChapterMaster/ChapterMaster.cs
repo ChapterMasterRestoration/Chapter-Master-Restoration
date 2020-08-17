@@ -59,11 +59,12 @@ namespace ChapterMaster
             this.IsMouseVisible = true;
             Window.Title = "Chapter Master Revived";
             sector.Prepare();
-            // 1280 960
+            // idk what minimum distance we should do
             sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, Constants.WorldWidth, Constants.WorldHeight);
             sector.WarpLaneGenerate();
+            sector.GenerateSystemNames();
             sector.Fleets.Add(new Fleet.Fleet(0,0,0));
-            sector.Fleets.Add(new Fleet.Fleet(1, 1, 0));
+            sector.Fleets.Add(new Fleet.Fleet(0, 1, 0));
             sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
             // Initialize UI
 
@@ -175,6 +176,7 @@ namespace ChapterMaster
             {
                 sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, Constants.WorldWidth, Constants.WorldHeight);
                 sector.WarpLaneGenerate();
+                sector.GenerateSystemNames();
                 buttonDown = true;
             }
             view.MouseSelection(sector);
