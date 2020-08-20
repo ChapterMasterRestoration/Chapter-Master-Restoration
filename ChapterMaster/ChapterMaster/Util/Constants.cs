@@ -8,8 +8,8 @@ namespace ChapterMaster
 {
     class Constants
     {
-        public const string IMAGE_DIRECTORY = "textures";
-        public const int SYSTEM_WIDTH_HEIGHT = 80;
+        public const string ImageDirectory = "textures";
+        public const int SystemSize = 80;
         public const int WorldWidth = 1024;
         public const int WorldHeight = 1024;
         /*
@@ -25,7 +25,7 @@ namespace ChapterMaster
         Mechanicus = 9
         Inquisition = 10
         */
-        public static readonly string[] FLEET_TEXTURE_ID_FILE = { "chaos", "civilian", "eldar", "imperial", "necron", "tau", "tiny", "tyranid", "ork", "mechanicus", "inquisition" };
-        public static readonly int[] FLEET_STATE_LIMIT = { 10, 4, 6, 10, 9, 11, 10, 12, 10, 1, 3 };
+        public static readonly string[] FleetTexture = { "chaos", "civilian", "eldar", "imperial", "necron", "tau", "tiny", "tyranid", "ork", "mechanicus", "inquisition" };
+        public static readonly int[] FleetStateLimit = { 10, 4, 6, 10, 9, 11, 10, 12, 10, 1, 3 };
     }
 }

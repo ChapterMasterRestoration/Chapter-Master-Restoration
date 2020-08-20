@@ -15,7 +15,7 @@ namespace ChapterMaster
         public static Texture2D LoadPNG(string name)
         {
             Texture2D texture;
-            FileStream file = new FileStream(CONTENT_ROOT + "/" + Constants.IMAGE_DIRECTORY + "/" + name + ".png", FileMode.Open);
+            FileStream file = new FileStream(CONTENT_ROOT + "/" + Constants.ImageDirectory + "/" + name + ".png", FileMode.Open);
             texture = Texture2D.FromStream(ChapterMaster.graphicsDevice, file);
             file.Close();
             return texture;

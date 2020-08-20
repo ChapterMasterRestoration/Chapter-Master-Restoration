@@ -795,6 +795,12 @@ namespace ChapterMaster.World
                 Systems[n].name = SystemNames[n];
             }
         }
+        public void GeneratePlanets()
+        {
+            for (int n = 0; n < Systems.Count; n++) {
+                Systems[n].Planets.Add(new Planet());
+            }
+        }
         #endregion
         public int CalculateTravelTurns(Fleet.Fleet fleet)
         {

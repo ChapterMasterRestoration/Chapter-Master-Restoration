@@ -25,5 +25,16 @@ namespace ChapterMaster.Render
                 spriteBatch.Draw(ChapterMaster.SystemTextures[color], align.GetRect(view), Color.White);
             }
         }
+        public static void DrawPlanet(SpriteBatch spriteBatch, Vector2 position, int texture, Align align = null, ViewController view = null)
+        {
+            if (align == null)
+            {
+                spriteBatch.Draw(ChapterMaster.PlanetTextures[texture], position, Color.White);
+            }
+            else if (align != null && view != null)
+            {
+                spriteBatch.Draw(ChapterMaster.PlanetTextures[texture], align.GetRect(view), Color.White);
+            }
+        }
     }
 }

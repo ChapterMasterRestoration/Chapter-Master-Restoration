@@ -216,8 +216,8 @@ namespace ChapterMaster
                 // TODO: replace with Rectangle.Contains
                 int ulCornerX = (int)((sector.Systems[systemId].x - camX) * zoom + ChapterMaster.GetWidth() / 2);
                 int ulCornerY = (int)((sector.Systems[systemId].y - camY) * zoom + ChapterMaster.GetHeight() / 2);
-                int brCornerX = (int)((sector.Systems[systemId].x + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                int brCornerY = (int)((sector.Systems[systemId].y + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                int brCornerX = (int)((sector.Systems[systemId].x + Constants.SystemSize / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
+                int brCornerY = (int)((sector.Systems[systemId].y + Constants.SystemSize / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
                 if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY)
                 {
                     currentSystemId = systemId;
@@ -237,7 +237,7 @@ namespace ChapterMaster
                     {
                         if (!PlanetScreenOpen)
                         {
-                            sector.Systems[currentSystemId].OpenPlanetScreen(this,currentSystemId);
+                            sector.Systems[currentSystemId].OpenPlanetsScreen(this,currentSystemId);
                             PlanetScreenOpen = true;
                             openSystem = currentSystemId;
                         }
@@ -254,7 +254,7 @@ namespace ChapterMaster
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed && systemId == openSystem)
                     {
                         Debug.WriteLine("Closing planet screen");
-                        Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.PlanetScreen; };
+                        Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.PlanetsScreen; };
                         ChapterMaster.MainScreen.Screens.RemoveAll(predicate);
                         PlanetScreenOpen = false;
                         openSystem = -1;
@@ -290,10 +290,10 @@ namespace ChapterMaster
                     {
                         orbitingFleets[orbitingFleetId].checkedByCoFleet = true;
                     }
-                    int ulCornerX = (int)((sector.Systems[systemId].x + (Constants.SYSTEM_WIDTH_HEIGHT / 4) + 30 - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                    int ulCornerY = (int)((sector.Systems[systemId].y + (Constants.SYSTEM_WIDTH_HEIGHT / 4) - 30 - camY) * zoom + ChapterMaster.GetHeight() / 2);
-                    int brCornerX = (int)((sector.Systems[systemId].x + (Constants.SYSTEM_WIDTH_HEIGHT / 4) + 30 + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                    int brCornerY = (int)((sector.Systems[systemId].y + (Constants.SYSTEM_WIDTH_HEIGHT / 4) - 30 + Constants.SYSTEM_WIDTH_HEIGHT / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                    int ulCornerX = (int)((sector.Systems[systemId].x + (Constants.SystemSize / 4) + 30 - camX) * zoom + ChapterMaster.GetWidth() / 2);
+                    int ulCornerY = (int)((sector.Systems[systemId].y + (Constants.SystemSize / 4) - 30 - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                    int brCornerX = (int)((sector.Systems[systemId].x + (Constants.SystemSize / 4) + 30 + Constants.SystemSize / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
+                    int brCornerY = (int)((sector.Systems[systemId].y + (Constants.SystemSize / 4) - 30 + Constants.SystemSize / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
                     int fleetWidth = brCornerX - ulCornerX;
                     ulCornerX = ulCornerX + fleetWidth * orbitingFleetId;
                     brCornerX = brCornerX + fleetWidth * orbitingFleetId;

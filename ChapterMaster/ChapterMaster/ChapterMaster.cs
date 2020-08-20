@@ -27,6 +27,7 @@ namespace ChapterMaster
         public static Texture2D[] ButtonTextures = new Texture2D[4];
         public static Texture2D[] SystemTextures = new Texture2D[6];
         public static Texture2D[][] FleetTextures = new Texture2D[11][];
+        public static Texture2D[] PlanetTextures = new Texture2D[16];
         public static string DebugString = "";
         public static Sector sector = new Sector(); // refactor properly
         public static Screen MainScreen;
@@ -60,7 +61,7 @@ namespace ChapterMaster
             Window.Title = "Chapter Master Revived";
             sector.Prepare();
             // idk what minimum distance we should do
-            sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, Constants.WorldWidth, Constants.WorldHeight);
+            sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
             sector.WarpLaneGenerate();
             sector.GenerateSystemNames();
             sector.Fleets.Add(new Fleet.Fleet(0,0,0));
@@ -92,7 +93,7 @@ namespace ChapterMaster
             UITextures = new Dictionary<string, Texture2D>();
             background = Loader.LoadPNG("background/bg_space");
             UITextures.Add("mapframe",Loader.LoadPNG("spr_new_ui_1"));
-            UITextures.Add("planetscreen", Loader.LoadPNG("spr_planet_screen_1")); // modified texture by removing extra space
+            UITextures.Add("planetsscreen", Loader.LoadPNG("spr_planet_screen_1")); // modified texture by removing extra space
             for (int i = 0; i < ButtonTextures.Length; i++)
             {
                 ButtonTextures[i] = Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0");
@@ -103,13 +104,17 @@ namespace ChapterMaster
             {
                 SystemTextures[i] = Loader.LoadPNG("spr_star_" + i);
             }
-            for (int faction = 0; faction < Constants.FLEET_TEXTURE_ID_FILE.Length; faction++)
+            for (int faction = 0; faction < Constants.FleetTexture.Length; faction++)
             {
-                FleetTextures[faction] = new Texture2D[Constants.FLEET_STATE_LIMIT[faction]];
-                for (int state = 0; state < Constants.FLEET_STATE_LIMIT[faction]; state++) 
+                FleetTextures[faction] = new Texture2D[Constants.FleetStateLimit[faction]];
+                for (int state = 0; state < Constants.FleetStateLimit[faction]; state++) 
                 {
-                    FleetTextures[faction][state] = Loader.LoadPNG("spr_fleet_" + Constants.FLEET_TEXTURE_ID_FILE[faction] + "_" + state);
+                    FleetTextures[faction][state] = Loader.LoadPNG("spr_fleet_" + Constants.FleetTexture[faction] + "_" + state);
                 }
+            }
+            for (int i = 0; i < PlanetTextures.Length; i++)
+            {
+                PlanetTextures[i] = Loader.LoadPNG("spr_planets_" + i);
             }
             #endregion
             renderer = new SectorRenderer();
@@ -147,10 +152,10 @@ namespace ChapterMaster
             {
                 SystemTextures[i].Dispose();
             }
-            for (int faction = 0; faction < Constants.FLEET_TEXTURE_ID_FILE.Length; faction++)
+            for (int faction = 0; faction < Constants.FleetTexture.Length; faction++)
             {
-                FleetTextures[faction] = new Texture2D[Constants.FLEET_STATE_LIMIT[faction]];
-                for (int state = 0; state < Constants.FLEET_STATE_LIMIT[faction]; state++)
+                FleetTextures[faction] = new Texture2D[Constants.FleetStateLimit[faction]];
+                for (int state = 0; state < Constants.FleetStateLimit[faction]; state++)
                 {
                     if(!(FleetTextures[faction][state] is null)) FleetTextures[faction][state].Dispose();
                 }
@@ -169,12 +174,12 @@ namespace ChapterMaster
 
             view.UpdateMouse();
             view.UpdateKeyboard();
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
                 Exit();
             if (Keyboard.GetState().IsKeyUp(Keys.E)) buttonDown = false;
             if (Keyboard.GetState().IsKeyDown(Keys.E) && !buttonDown)
             {
-                sector.GridGenerate(50, 100, Constants.SYSTEM_WIDTH_HEIGHT, Constants.WorldWidth, Constants.WorldHeight);
+                sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
                 sector.WarpLaneGenerate();
                 sector.GenerateSystemNames();
                 buttonDown = true;

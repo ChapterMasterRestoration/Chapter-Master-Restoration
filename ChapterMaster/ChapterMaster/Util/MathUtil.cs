@@ -46,7 +46,7 @@ namespace ChapterMaster.Util
         }
         public static int ClampInt(int x, int min, int max)
         {
-            return Math.Max(Math.Min(x,max),min);
+            return Math.Max(Math.Min(x, max), min);
         }
         public static Rectangle VectorToRectangle(Vector2 start, Vector2 end)
         {
@@ -59,6 +59,14 @@ namespace ChapterMaster.Util
         public static int RoundedDistance(Vector2 a, Vector2 b)
         {
             return (int)Math.Round((b - a).Length());
+        }
+        public static Vector2 Add(Point a, Vector2 b)
+        {
+            return new Vector2(a.X + b.X, a.Y + b.Y);
+        }
+        public static Vector2 Add(Vector2 a, Point b)
+        {
+            return new Vector2(b.X + a.X, b.Y + a.Y);
         }
     }
 }
