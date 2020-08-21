@@ -1,4 +1,5 @@
-﻿using ChapterMaster.World;
+﻿using ChapterMaster.UI;
+using ChapterMaster.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -24,6 +25,7 @@ namespace ChapterMaster
         public bool systemSelected;
         public List<int> selectedFleets = new List<int>();
         public bool PlanetScreenOpen;
+        PlanetScreenAlign currentPlanetScreenAlign;
         //public Rectangle VisibleArea;
         //public Matrix Transform;
         public void UpdateKeyboard()
@@ -237,7 +239,7 @@ namespace ChapterMaster
                     {
                         if (!PlanetScreenOpen)
                         {
-                            sector.Systems[currentSystemId].OpenPlanetsScreen(this,currentSystemId);
+                            currentPlanetScreenAlign = (PlanetScreenAlign) sector.Systems[currentSystemId].OpenPlanetsScreen(this,currentSystemId).align;
                             PlanetScreenOpen = true;
                             openSystem = currentSystemId;
                         }
@@ -250,8 +252,8 @@ namespace ChapterMaster
                         delayTimer = 0;
                     }
                     //PlanetScreenWasOpen = false;
-                    //sector.Systems[currentSystemId].ClosePlanetScreen(this);
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && systemId == openSystem)
+                    //sector.Systems[currentSystemId].ClosePlanetsScreen(this);
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && systemId == openSystem && !currentPlanetScreenAlign.GetRect(this).Contains(new Point(mouseX,mouseY)))
                     {
                         Debug.WriteLine("Closing planet screen");
                         Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.PlanetsScreen; };
@@ -263,7 +265,7 @@ namespace ChapterMaster
             }
             #endregion
             #region Fleet Selection
-
+            // TODO: rewrite all this crap using Fleet.Intersect
             for (int fleetId = 0; fleetId < sector.Fleets.Count; fleetId++)
             {
                 int systemId = sector.Fleets[fleetId].originSystemId;
@@ -330,7 +332,8 @@ namespace ChapterMaster
                     {
                         foreach (int id in selectedFleets)
                         {
-                            sector.Fleets[id].isSelected = false;
+                            if(!sector.Fleets[id].Intersects(this))
+                                sector.Fleets[id].isSelected = false;
                         }
                         selectedFleets.Clear();
                         isOverSystem = false;
@@ -349,7 +352,6 @@ namespace ChapterMaster
                 {
                     fleets += coId + ", ";
                 }
-
             }
             ChapterMaster.DebugString = "System: " + currentSystemId + "\n" + "Fleet: " + fleets;
         }

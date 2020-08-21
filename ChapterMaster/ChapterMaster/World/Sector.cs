@@ -798,7 +798,8 @@ namespace ChapterMaster.World
         public void GeneratePlanets()
         {
             for (int n = 0; n < Systems.Count; n++) {
-                Systems[n].Planets.Add(new Planet());
+                Systems[n].Planets.Add(new Planet(Type.AGRI, n,0));
+                Systems[n].Planets.Add(new Planet(Type.DEAD, n,1));
             }
         }
         #endregion

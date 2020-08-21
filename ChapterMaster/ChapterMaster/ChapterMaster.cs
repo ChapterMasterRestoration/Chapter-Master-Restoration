@@ -64,6 +64,7 @@ namespace ChapterMaster
             sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
             sector.WarpLaneGenerate();
             sector.GenerateSystemNames();
+            sector.GeneratePlanets();
             sector.Fleets.Add(new Fleet.Fleet(0,0,0));
             sector.Fleets.Add(new Fleet.Fleet(0, 1, 0));
             sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
@@ -93,7 +94,7 @@ namespace ChapterMaster
             UITextures = new Dictionary<string, Texture2D>();
             background = Loader.LoadPNG("background/bg_space");
             UITextures.Add("mapframe",Loader.LoadPNG("spr_new_ui_1"));
-            UITextures.Add("planetsscreen", Loader.LoadPNG("spr_planet_screen_1")); // modified texture by removing extra space
+            UITextures.Add("planetsscreen", Loader.LoadPNG("spr_star_screen_2")); // modified texture by removing extra space
             for (int i = 0; i < ButtonTextures.Length; i++)
             {
                 ButtonTextures[i] = Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0");
@@ -170,8 +171,6 @@ namespace ChapterMaster
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         bool buttonDown = false;
         protected override void Update(GameTime gameTime) {
-
-
             view.UpdateMouse();
             view.UpdateKeyboard();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
@@ -182,6 +181,7 @@ namespace ChapterMaster
                 sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
                 sector.WarpLaneGenerate();
                 sector.GenerateSystemNames();
+                sector.GeneratePlanets();
                 buttonDown = true;
             }
             view.MouseSelection(sector);
@@ -213,9 +213,6 @@ namespace ChapterMaster
             MainScreen.Render(spriteBatch, view);
             spriteBatch.DrawString(ARJULIAN, DebugString, new Vector2(0, 100), Color.White);
             spriteBatch.End();
-            //fontBatch.Begin();
-            
-            //fontBatch.End();
             base.Draw(gameTime);
         }
         public static int GetWidth()

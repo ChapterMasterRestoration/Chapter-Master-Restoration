@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChapterMaster.UI;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -24,15 +25,17 @@ namespace ChapterMaster.World
             this.y = y;
             this.name = name;
         }
-        public void OpenPlanetsScreen(ViewController view, int systemId)
+        public PlanetsScreen OpenPlanetsScreen(ViewController view, int systemId)
         {
             if (!view.PlanetScreenOpen)
             {
-                ChapterMaster.MainScreen.AddChildScreen(new UI.PlanetsScreen(1, "planetsscreen", systemId, new UI.MapFrameAlign()));
-                Debug.WriteLine("Added screen at x " + x + " y " + y);
+                PlanetsScreen planetsScreen = new PlanetsScreen(1, "planetsscreen", systemId, new PlanetScreenAlign(systemId));
+                ChapterMaster.MainScreen.AddChildScreen(planetsScreen);
+                return planetsScreen;
             }
+            return null;
         }
-        public void ClosePlanetScreen(ViewController view)
+        public void ClosePlanetsScreen(ViewController view)
         {
 
         }

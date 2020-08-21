@@ -47,11 +47,13 @@
     <Compile Include="Fleet\Fleet.cs" />
     <Compile Include="Render\RenderHelper.cs" />
     <Compile Include="UI\Align\Align.cs" />
-    <Compile Include="UI\Align\PlanetScreenAlign.cs" />
+    <Compile Include="UI\Align\PlanetAlign.cs" />
+    <Compile Include="UI\Align\PlanetsScreenAlign.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Align\CornerAlign.cs" />
     <Compile Include="UI\InteractiveElement.cs" />
     <Compile Include="UI\Align\FullscreenAlign.cs" />
+    <Compile Include="UI\PlanetScreen.cs" />
     <Compile Include="UI\PlanetsScreen.cs" />
     <Compile Include="UI\Screen.cs" />
     <Compile Include="UI\VisibleElement.cs" />
