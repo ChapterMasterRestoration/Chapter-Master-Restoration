@@ -44,18 +44,10 @@ namespace ChapterMaster.World
             if (type == Type.TEMPERATE) return (int) Type.FEUDAL; // Same bloody texture.
             return (int)type;
         }
-        public void OpenPlanetScreen(ViewController view)
+        public void OpenPlanetScreen(ViewController view, SystemScreen parentScreen)
         {
             Debug.WriteLine("planet in system " + systemId);
-            foreach(Screen parentScreen in ChapterMaster.MainScreen.Screens)
-            {
-                if (parentScreen is PlanetsScreen) {
-                    if (((PlanetsScreen)parentScreen).systemId != systemId)
-                    {
-                        ((PlanetsScreen)parentScreen).AddChildScreen(new PlanetScreen(2, "",new PlanetScreenAlign(systemId), systemId, planetId));
-                    }
-                }
-            }
+            parentScreen.AddChildScreen(new PlanetScreen(2, "planetscreen", new PlanetScreenAlign(parentScreen, planetId), systemId, planetId));
         }
         public void ClosePlanetScreen(ViewController view)
         {

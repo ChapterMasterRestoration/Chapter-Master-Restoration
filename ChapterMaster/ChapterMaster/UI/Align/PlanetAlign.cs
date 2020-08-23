@@ -11,6 +11,7 @@ namespace ChapterMaster.UI
     {
         public int planetNo;
         public Vector2 starPos;
+        public Vector2 planetPos;
         /// <summary>
         /// Not sure how to implement this for now.
         /// </summary>
@@ -28,7 +29,8 @@ namespace ChapterMaster.UI
 
         public override Rectangle GetRect(ViewController view)
         {
-            return new Rectangle((int) (leftMargin + starPos.X + planetNo * rightMargin), (int) starPos.Y + topMargin, width, height);
+            planetPos = new Vector2(leftMargin + width + starPos.X + planetNo * rightMargin, starPos.Y - (height / 2) + topMargin);
+            return new Rectangle((int)planetPos.X, (int)planetPos.Y, width, height);
         }
     }
 }

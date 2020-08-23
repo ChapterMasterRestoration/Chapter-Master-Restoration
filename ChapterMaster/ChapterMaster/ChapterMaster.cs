@@ -19,7 +19,7 @@ namespace ChapterMaster
         public static GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
         SectorRenderer renderer;
-        ViewController view;
+        public static ViewController view; // i hate this
         public static SpriteFont caslon_antique_regular;
         public static SpriteFont ARJULIAN;
         private Texture2D background;
@@ -94,7 +94,8 @@ namespace ChapterMaster
             UITextures = new Dictionary<string, Texture2D>();
             background = Loader.LoadPNG("background/bg_space");
             UITextures.Add("mapframe",Loader.LoadPNG("spr_new_ui_1"));
-            UITextures.Add("planetsscreen", Loader.LoadPNG("spr_star_screen_2")); // modified texture by removing extra space
+            UITextures.Add("systemscreen", Loader.LoadPNG("spr_star_screen_2"));
+            UITextures.Add("planetscreen", Loader.LoadPNG("spr_planet_screen_1")); // modified texture by removing extra space
             for (int i = 0; i < ButtonTextures.Length; i++)
             {
                 ButtonTextures[i] = Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0");

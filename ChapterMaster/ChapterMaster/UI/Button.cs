@@ -23,9 +23,12 @@ namespace ChapterMaster.UI
         }
         public void Render(SpriteBatch spriteBatch, ViewController view)
         {
-            position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TODO: fix: don't even expose position
-            spriteBatch.Draw(ChapterMaster.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
-            spriteBatch.DrawString(ChapterMaster.caslon_antique_regular, text, position, Color.White);
+            if (buttonTextureId >= 0)
+            {
+                position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TODO: fix: don't even expose position
+                spriteBatch.Draw(ChapterMaster.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
+                spriteBatch.DrawString(ChapterMaster.caslon_antique_regular, text, position, Color.White);
+            }
         }
     }
 }

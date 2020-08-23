@@ -7,6 +7,7 @@ namespace ChapterMaster.World
 {
     public class System
     {
+        public int id; // TODO: assign in constructor
         public int color;
         public string name;
         public int x, y;
@@ -25,19 +26,32 @@ namespace ChapterMaster.World
             this.y = y;
             this.name = name;
         }
-        public PlanetsScreen OpenPlanetsScreen(ViewController view, int systemId)
+        public SystemScreen OpenSystemScreen(ViewController view, int systemId)
         {
             if (!view.PlanetScreenOpen)
             {
-                PlanetsScreen planetsScreen = new PlanetsScreen(1, "planetsscreen", systemId, new PlanetScreenAlign(systemId));
+                SystemScreen planetsScreen = new SystemScreen(1, "systemscreen", systemId, new SystemScreenAlign(ChapterMaster.MainScreen.align,systemId));
                 ChapterMaster.MainScreen.AddChildScreen(planetsScreen);
                 return planetsScreen;
             }
             return null;
         }
-        public void ClosePlanetsScreen(ViewController view)
+        public void CloseSystemScreen(ViewController view)
         {
-
+            Predicate<UI.Screen> predicate = delegate (UI.Screen screen) {
+                if (screen is UI.SystemScreen) {
+                    Debug.WriteLine($"found system screen in {id}");
+                    if (((SystemScreen)screen).systemId == id)
+                    {
+                        Debug.WriteLine($"closing system screen for {id}");
+                        return true;
+                    }
+                    else return false;
+                } else { return false; }
+            };
+            ChapterMaster.MainScreen.Screens.RemoveAll(predicate);
+            view.PlanetScreenOpen = false;
+            view.openSystem = -1;
         }
     }
 }

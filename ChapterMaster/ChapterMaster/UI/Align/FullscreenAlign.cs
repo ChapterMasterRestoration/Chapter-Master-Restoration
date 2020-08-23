@@ -15,6 +15,8 @@ namespace ChapterMaster.UI
 
         public override Rectangle GetRect(ViewController view)
         {
+            width = view.viewPortWidth;
+            height = view.viewPortHeight;
             return new Rectangle(0, 0, view.viewPortWidth, view.viewPortHeight);
         }
     }

@@ -724,6 +724,7 @@ namespace ChapterMaster.World
                         {
                             newY = height - newY;
                         }
+                        System system = new System(random.Next(6), newX, newY);
                         Systems.Add(new System(random.Next(6), newX, newY));
                     }
                 }
@@ -798,6 +799,7 @@ namespace ChapterMaster.World
         public void GeneratePlanets()
         {
             for (int n = 0; n < Systems.Count; n++) {
+                Systems[n].id = n; // please don't judge me for this
                 Systems[n].Planets.Add(new Planet(Type.AGRI, n,0));
                 Systems[n].Planets.Add(new Planet(Type.DEAD, n,1));
             }

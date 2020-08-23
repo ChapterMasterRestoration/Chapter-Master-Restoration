@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 
@@ -14,6 +15,7 @@ namespace ChapterMaster.UI
         public List<Screen> Screens = new List<Screen>();
         public List<Button> Buttons = new List<Button>();
         public Align align;
+        public bool wasModified;
 
         public Screen(int screenId, string backgroundTexture, Align align)
         {
@@ -24,14 +26,20 @@ namespace ChapterMaster.UI
         }
         public virtual void Render(SpriteBatch spriteBatch, ViewController view)
         {
-            spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture], align.GetRect(view), Color.White);
+            Rect = align.GetRect(view);
+            spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture], Rect, Color.White);
             foreach (Button button in Buttons)
             {
                 button.Render(spriteBatch, view);
             }
-            foreach (Screen screen in Screens)
+            for (int n = 0; n < Screens.Count; n++)
             {
-                screen.Render(spriteBatch, view);
+                if(wasModified)
+                {
+                    //wasModified = false; // idk
+                    //break;
+                }
+                Screens[n].Render(spriteBatch, view);
             }
         }
 
@@ -41,15 +49,26 @@ namespace ChapterMaster.UI
             {
                 button.Check(view,button.align);
             }
-            foreach (Screen screen in Screens)
+            for (int n = 0; n < Screens.Count; n++)
             {
-                screen.Update(view);
+                if (wasModified)
+                {
+                    wasModified = false;
+                    break;
+                }
+                Screens[n].Update(view);
             }
+        }
+        public virtual void ExitScreen(MouseState mouseState, object sender)
+        {
+
         }
         public void AddChildScreen(Screen screen)
         {
             Screen screen1 = screen;
             screen1.Parent = this;
+            if(Parent != null) Parent.wasModified = true;
+            wasModified = true;
             Screens.Add(screen1);
         }
         public void AddButton(Button button)

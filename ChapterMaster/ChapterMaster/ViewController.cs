@@ -25,7 +25,7 @@ namespace ChapterMaster
         public bool systemSelected;
         public List<int> selectedFleets = new List<int>();
         public bool PlanetScreenOpen;
-        PlanetScreenAlign currentPlanetScreenAlign;
+        SystemScreenAlign currentSystemScreenAlign;
         //public Rectangle VisibleArea;
         //public Matrix Transform;
         public void UpdateKeyboard()
@@ -201,12 +201,16 @@ namespace ChapterMaster
 
         int DeselectionDelay = 400;
         int delayTimer;
-        int openSystem = -1;
+        public int openSystem = -1; // screw it, i'll leave it here for now
         // TODO: create list of moused-over systems and use that to disable no-shift clear
         public void MouseSelection(Sector sector)
         {
             int mouseX = Mouse.GetState().X;
             int mouseY = Mouse.GetState().Y;
+            if(Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                //Debug.WriteLine($"x: {mouseX} y: {mouseY}");
+            }
             #region System Selection
             for (int systemId = 0; systemId < sector.Systems.Count; systemId++)
             {
@@ -239,7 +243,7 @@ namespace ChapterMaster
                     {
                         if (!PlanetScreenOpen)
                         {
-                            currentPlanetScreenAlign = (PlanetScreenAlign) sector.Systems[currentSystemId].OpenPlanetsScreen(this,currentSystemId).align;
+                            currentSystemScreenAlign = (SystemScreenAlign)sector.Systems[currentSystemId].OpenSystemScreen(this, currentSystemId).align;
                             PlanetScreenOpen = true;
                             openSystem = currentSystemId;
                         }
@@ -247,20 +251,38 @@ namespace ChapterMaster
                 } else
                 {
                     delayTimer++;
-                    if(delayTimer > DeselectionDelay) {
+                    if (delayTimer > DeselectionDelay) {
                         systemSelected = false;
                         delayTimer = 0;
                     }
+                    #region Moved To SystemScreen
+                    /*
                     //PlanetScreenWasOpen = false;
-                    //sector.Systems[currentSystemId].ClosePlanetsScreen(this);
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && systemId == openSystem && !currentPlanetScreenAlign.GetRect(this).Contains(new Point(mouseX,mouseY)))
-                    {
-                        Debug.WriteLine("Closing planet screen");
-                        Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.PlanetsScreen; };
-                        ChapterMaster.MainScreen.Screens.RemoveAll(predicate);
-                        PlanetScreenOpen = false;
-                        openSystem = -1;
-                    }
+                    //sector.Systems[currentSystemId].CloseSystemScreen(this);
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && systemId == openSystem)
+                        if (currentSystemScreenAlign.GetRect(this).Contains(new Point(mouseX, mouseY)))
+                        {
+                            //Debug.WriteLine("Closing planet screen"); 
+                            for(int i = 0; i < ChapterMaster.MainScreen.Screens.Count; i++)
+                            {
+                                if (ChapterMaster.MainScreen.Screens[i] is SystemScreen)
+                                {
+                                   // Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.PlanetScreen; };
+                                    //ChapterMaster.MainScreen.Screens[i].Screens.RemoveAll(predicate);
+                                }
+                            }
+
+                        }
+                        else 
+                        {
+                           // Debug.WriteLine("Closing system screen");
+                           // Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.SystemScreen; };
+                            //ChapterMaster.MainScreen.Screens.RemoveAll(predicate);
+                           // PlanetScreenOpen = false;
+                            //openSystem = -1;
+                        }
+                        */
+                    #endregion
                 }
             }
             #endregion

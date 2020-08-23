@@ -4,26 +4,34 @@ using ChapterMaster.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace ChapterMaster.UI
 {
-    public class PlanetsScreen : Screen
+    public class SystemScreen : Screen
     {
         public int systemId;
+        public bool notInWorld; // TODO: implement System Screen rendering indpendently
         List<PlanetAlign> planetAligns = new List<PlanetAlign>();
-        public PlanetsScreen(int screenId, string backgroundTexture, int systemId, Align align) : base(screenId, backgroundTexture, align)
+        InvisibleButton exitButton;
+        public SystemScreen(int screenId, string backgroundTexture, int systemId, Align align) : base(screenId, backgroundTexture, align)
         {
             this.screenId = screenId;
             this.backgroundTexture = backgroundTexture;
             this.systemId = systemId;
+            exitButton = new InvisibleButton(new CornerAlign(Corner.BOTTOMRIGHT,64,25),ExitScreen);
+            AddButton(exitButton);
         }
+        string[] planetNames = new string[]{ "I", "II", "III", "IV", "V"};
         // Implement planets as buttons?
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
             World.System system = ChapterMaster.sector.Systems[systemId];
             Rect = align.GetRect(view);
+            // lol
+            exitButton.position = MathUtil.Add(Rect.Location,new Vector2(247, 261));
             // TODO: replace with align
             spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture], Rect, Color.White);
             Vector2 stringSize = ChapterMaster.caslon_antique_regular.MeasureString(system.name + " System");
@@ -45,6 +53,7 @@ namespace ChapterMaster.UI
                 PlanetAlign planetAlign = new PlanetAlign(noPlanet, pos, 80, 42, 120 - Constants.SystemSize);
                 RenderHelper.DrawPlanet(spriteBatch, new Vector2(),
                     Planet.TypeToTexture(system.Planets[noPlanet].Type), planetAlign, view);
+                spriteBatch.DrawString(ChapterMaster.caslon_antique_regular, planetNames[system.Planets[noPlanet].planetId], planetAlign.planetPos + new Vector2(16,32), Color.White);
                 planetAligns.Add(planetAlign);
 
             }
@@ -60,16 +69,45 @@ namespace ChapterMaster.UI
         public override void Update(ViewController view)
         {
             base.Update(view);
+            int mouseX = Mouse.GetState().X;
+            int mouseY = Mouse.GetState().Y;
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                if (Rect.Contains(new Point(mouseX, mouseY)))
+                {
+                    Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.PlanetScreen; };
+                    Screens.RemoveAll(predicate);
+                } else
+                {
+                    bool overPlanetScreen = false;
+                    for(int i = 0; i < Screens.Count; i ++)
+                    {
+                        if(Screens[i] is PlanetScreen)
+                        {
+                            if(Screens[i].Rect.Contains(new Point(mouseX, mouseY)))
+                                overPlanetScreen = true;
+                        }
+                    }
+                    if(!overPlanetScreen)
+                        ChapterMaster.sector.Systems[systemId].CloseSystemScreen(view);
+                }
+            }
             foreach (PlanetAlign planetAlign in planetAligns)
             {
                 if (planetAlign.GetRect(view).Contains(new Point(view.GetMouse().X, view.GetMouse().Y)))
                 {
                     if (view.GetMouse().LeftButton == ButtonState.Pressed)
                     {
-                        ChapterMaster.sector.Systems[systemId].Planets[planetAlign.planetNo].OpenPlanetScreen(view);
+                        wasModified = Parent.wasModified = true;
+                        ChapterMaster.sector.Systems[systemId].Planets[planetAlign.planetNo].OpenPlanetScreen(view, this);
                     }
                 }
             }
+        }
+        public override void ExitScreen(MouseState mouseState, object sender)
+        {
+            base.ExitScreen(mouseState, sender);
+            ChapterMaster.sector.Systems[systemId].CloseSystemScreen(ChapterMaster.view);
         }
     }
 }
