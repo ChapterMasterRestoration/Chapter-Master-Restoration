@@ -1,4 +1,5 @@
-﻿using ChapterMaster.UI;
+﻿using ChapterMaster.Render;
+using ChapterMaster.UI;
 using ChapterMaster.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,14 +21,17 @@ namespace ChapterMaster
         SpriteBatch spriteBatch;
         SectorRenderer renderer;
         public static ViewController view; // i hate this
-        public static SpriteFont caslon_antique_regular;
+        public static SpriteFont Caslon_Antique_Regular;
+        public static SpriteFont Caslon_Antique_Bold;
         public static SpriteFont ARJULIAN;
+        public static SpriteFont Courier_New;
         private Texture2D background;
         public static Dictionary<string,Texture2D> UITextures;
-        public static Texture2D[] ButtonTextures = new Texture2D[4];
+        public static Texture2D[] ButtonTextures = new Texture2D[5];
         public static Texture2D[] SystemTextures = new Texture2D[6];
         public static Texture2D[][] FleetTextures = new Texture2D[11][];
         public static Texture2D[] PlanetTextures = new Texture2D[16];
+        public static Texture2D[] PlanetTypeTextures = new Texture2D[18];
         public static string DebugString = "";
         public static Sector sector = new Sector(); // refactor properly
         public static Screen MainScreen;
@@ -87,18 +91,29 @@ namespace ChapterMaster
             #endregion
             Loader.CONTENT_ROOT = Content.RootDirectory;
             #region Load Fonts
-            caslon_antique_regular = this.Content.Load<SpriteFont>("font/caslon-antique.regular"); 
+            Caslon_Antique_Regular = this.Content.Load<SpriteFont>("font/caslon-antique.regular");
+            Caslon_Antique_Bold = this.Content.Load<SpriteFont>("font/caslon-antique.bold");
             ARJULIAN = this.Content.Load<SpriteFont>("font/ARJULIAN");
+            Courier_New = this.Content.Load<SpriteFont>("font/cour");
             #endregion
             #region Load UI Textures
             UITextures = new Dictionary<string, Texture2D>();
             background = Loader.LoadPNG("background/bg_space");
             UITextures.Add("mapframe",Loader.LoadPNG("spr_new_ui_1"));
-            UITextures.Add("systemscreen", Loader.LoadPNG("spr_star_screen_2"));
+            UITextures.Add("systemscreen1", Loader.LoadPNG("spr_star_screen_1"));
+            UITextures.Add("systemscreen2", Loader.LoadPNG("spr_star_screen_2"));
+            UITextures.Add("systemscreen3", Loader.LoadPNG("spr_star_screen_3"));
+            UITextures.Add("systemscreen4", Loader.LoadPNG("spr_star_screen_4"));
             UITextures.Add("planetscreen", Loader.LoadPNG("spr_planet_screen_1")); // modified texture by removing extra space
-            for (int i = 0; i < ButtonTextures.Length; i++)
+
+            for (int i = 0; i < ButtonTextures.Length - 1; i++)
             {
                 ButtonTextures[i] = Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0");
+            }
+            ButtonTextures[4] = Loader.LoadPNG("spr_pin_button");
+            for (int i = 1; i < PlanetTypeTextures.Length; i++)
+            {
+                PlanetTypeTextures[i] = Loader.LoadPNG("ui/planet" + i);
             }
             #endregion
             #region Load Game Textures
@@ -126,7 +141,8 @@ namespace ChapterMaster
             view.viewPortHeight = GetHeight();
             // 144 43
             MainScreen.AddButton(new Button(0, "End Turn",new CornerAlign(Corner.BOTTOMRIGHT,144,43), new MouseHandler(EndTurn)));
-            renderer.Initialize(graphicsDevice,spriteBatch);
+            renderer.Initialize(GraphicsDevice, spriteBatch);
+            RenderHelper.Initialize(GraphicsDevice, spriteBatch);
         }
 
         /// <summary>
@@ -144,9 +160,13 @@ namespace ChapterMaster
             {
                 texture.Value.Dispose();
             }
-            for (int i = 0; i < ButtonTextures.Length; i++)
+            for (int i = 0; i < ButtonTextures.Length - 1; i++)
             {
                 ButtonTextures[i].Dispose();
+            }
+            for (int i = 1; i < PlanetTypeTextures.Length; i++)
+            {
+                PlanetTypeTextures[i].Dispose();
             }
             #endregion
             #region Unload Game Textures

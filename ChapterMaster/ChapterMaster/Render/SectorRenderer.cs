@@ -49,7 +49,7 @@ namespace ChapterMaster
             Rectangle rectLabel = view.TransformedOriginRect(system.x + Constants.SystemSize/4, system.y - Constants.SystemSize/4, Constants.SystemSize, true);
             Vector2 position = new Vector2(rectLabel.Left, rectLabel.Bottom);
             // TODO: scale system name better.
-            spriteBatch.DrawString(ChapterMaster.ARJULIAN, system.name, position, Color.White, 0, new Vector2(0,0),view.zoom+0.3f, SpriteEffects.None,0);
+            spriteBatch.DrawString(ChapterMaster.Courier_New, system.name, position, Color.White, 0, new Vector2(0,0),view.zoom+0.3f, SpriteEffects.None,0);
         }
         public void DrawFleet(SpriteBatch spriteBatch, Fleet.Fleet fleet, Color color, ViewController view, Sector sector)
         {

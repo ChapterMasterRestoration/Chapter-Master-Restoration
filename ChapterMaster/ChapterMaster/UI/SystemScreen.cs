@@ -16,27 +16,31 @@ namespace ChapterMaster.UI
         public bool notInWorld; // TODO: implement System Screen rendering indpendently
         List<PlanetAlign> planetAligns = new List<PlanetAlign>();
         InvisibleButton exitButton;
+        Button pinButton;
         public SystemScreen(int screenId, string backgroundTexture, int systemId, Align align) : base(screenId, backgroundTexture, align)
         {
             this.screenId = screenId;
             this.backgroundTexture = backgroundTexture;
             this.systemId = systemId;
             exitButton = new InvisibleButton(new CornerAlign(Corner.BOTTOMRIGHT,64,25),ExitScreen);
+            pinButton = new Button(4, "Pin", new CornerAlign(Corner.TOPRIGHT, 32, 32), PinScreen); // TODO: fix position with CornerAlign
             AddButton(exitButton);
+            AddButton(pinButton);
         }
-        string[] planetNames = new string[]{ "I", "II", "III", "IV", "V"};
         // Implement planets as buttons?
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
             World.System system = ChapterMaster.sector.Systems[systemId];
+            ((SystemScreenAlign)align).pinned = notInWorld;
             Rect = align.GetRect(view);
             // lol
             exitButton.position = MathUtil.Add(Rect.Location,new Vector2(247, 261));
+            pinButton.position = MathUtil.Add(Rect.Location, new Vector2(247, 20));
             // TODO: replace with align
-            spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture], Rect, Color.White);
-            Vector2 stringSize = ChapterMaster.caslon_antique_regular.MeasureString(system.name + " System");
+            spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture + system.Planets.Count], Rect, Color.White);
+            Vector2 stringSize = ChapterMaster.Caslon_Antique_Bold.MeasureString(system.name + " System");
             //Debug.WriteLine(stringSize.X);
-            spriteBatch.DrawString(ChapterMaster.caslon_antique_regular, system.name + " System", MathUtil.Add(Rect.Location, new Vector2(Rect.Width / 2 - stringSize.X - 5, 2)), Color.White);
+            spriteBatch.DrawString(ChapterMaster.Caslon_Antique_Bold, system.name + " System", MathUtil.Add(Rect.Location, new Vector2(80, 12)), Color.Gray);
             // TODO: replace with align component
             Point position = Rect.Location + new Point(50 - Constants.SystemSize / 2, 120 - Constants.SystemSize/2);
             Vector2 pos = new Vector2(position.X, position.Y);
@@ -53,7 +57,7 @@ namespace ChapterMaster.UI
                 PlanetAlign planetAlign = new PlanetAlign(noPlanet, pos, 80, 42, 120 - Constants.SystemSize);
                 RenderHelper.DrawPlanet(spriteBatch, new Vector2(),
                     Planet.TypeToTexture(system.Planets[noPlanet].Type), planetAlign, view);
-                spriteBatch.DrawString(ChapterMaster.caslon_antique_regular, planetNames[system.Planets[noPlanet].planetId], planetAlign.planetPos + new Vector2(16,32), Color.White);
+                spriteBatch.DrawString(ChapterMaster.Caslon_Antique_Bold, Constants.PlanetNames[system.Planets[noPlanet].planetId], planetAlign.planetPos + new Vector2(16,32), Color.Gray);
                 planetAligns.Add(planetAlign);
 
             }
@@ -108,6 +112,10 @@ namespace ChapterMaster.UI
         {
             base.ExitScreen(mouseState, sender);
             ChapterMaster.sector.Systems[systemId].CloseSystemScreen(ChapterMaster.view);
+        }
+        public void PinScreen(MouseState mouseState, object sender )
+        {
+            notInWorld = ! notInWorld;
         }
     }
 }

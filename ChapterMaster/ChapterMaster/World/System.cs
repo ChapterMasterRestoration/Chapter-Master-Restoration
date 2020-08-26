@@ -13,6 +13,7 @@ namespace ChapterMaster.World
         public int x, y;
         public int numberOfLanes = 0;
         public List<Planet> Planets = new List<Planet>();
+        public bool forgeProne;
         public System(int color, int x, int y)
         {
             this.color = color;

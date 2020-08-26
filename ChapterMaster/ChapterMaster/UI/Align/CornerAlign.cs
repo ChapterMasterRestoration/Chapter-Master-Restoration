@@ -40,7 +40,7 @@ namespace ChapterMaster.UI
                 default:
                     throw new NotImplementedException("Not a real corner.");
             }
-            return new Rectangle(0, 0, 100, 100);
+            return new Rectangle(0, 0, width, height);
         }
     }
 }

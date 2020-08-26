@@ -716,15 +716,19 @@ namespace ChapterMaster.World
                         }
                         if (newX < 0) newX += width; // randomize the new posiiton
                         if (newY < 0) newY += height; // randomize the new position
+                        bool forgeProne = false;
                         if (random.Next(2) == 1 || newX > width) // sprawl out to the west
                         {
                             newX = width - newX;
+                            forgeProne = true;
                         }
                         if (random.Next(2) == 1 || newY > height) // sprawl out to the north
                         {
                             newY = height - newY;
+                            forgeProne = true;
                         }
                         System system = new System(random.Next(6), newX, newY);
+                        system.forgeProne = forgeProne;
                         Systems.Add(new System(random.Next(6), newX, newY));
                     }
                 }
@@ -796,12 +800,33 @@ namespace ChapterMaster.World
                 Systems[n].name = SystemNames[n];
             }
         }
+        int forgeMinimum = 4;
+        int noForge = 0;
+        public List<Type> Types;
         public void GeneratePlanets()
         {
+
             for (int n = 0; n < Systems.Count; n++) {
                 Systems[n].id = n; // please don't judge me for this
-                Systems[n].Planets.Add(new Planet(Type.AGRI, n,0));
-                Systems[n].Planets.Add(new Planet(Type.DEAD, n,1));
+                int numberOfPlanets = (int) Math.Ceiling(MathUtil.NormallyDistributedSingle(random,2,2,0.1f,4));
+                int numberOfForge = 0;
+                if (noForge < forgeMinimum)
+                {
+                    if (Systems[n].forgeProne)
+                    {
+                        Systems[n].Planets.Add(new Planet(Type.FORGE, n, numberOfForge));
+                        numberOfForge++;
+                        noForge++;
+                    }
+                }
+                for (int nPlanet = numberOfForge; nPlanet < numberOfPlanets; nPlanet ++)
+                {
+                    int type = random.Next(16);
+                    if (type == 7) break;
+                    if (type == (int) Type.FORGE) noForge++;
+                    Systems[n].Planets.Add(new Planet((Type) type, n, nPlanet));
+                }
+
             }
         }
         #endregion

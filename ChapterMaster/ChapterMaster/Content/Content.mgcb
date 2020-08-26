@@ -20,10 +20,24 @@
 /processorParam:TextureFormat=Compressed
 /build:font/ARJULIAN.spritefont
 
+#begin font/caslon-antique.bold.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font/caslon-antique.bold.spritefont
+
 #begin font/caslon-antique.regular.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:font/caslon-antique.regular.spritefont
+
+#begin font/cour.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font/cour.spritefont
 

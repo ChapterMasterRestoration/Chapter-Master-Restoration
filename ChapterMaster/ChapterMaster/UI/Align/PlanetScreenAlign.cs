@@ -11,7 +11,8 @@ namespace ChapterMaster.UI
     {
         SystemScreen parentScreen;
         int planetId;
-        public PlanetScreenAlign(SystemScreen parentScreen, int planetId, int width = 389, int height = 293, int leftMargin = 2, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0) : base(width, height, leftMargin, topMargin, rightMargin, bottomMargin)
+        // width = 389
+        public PlanetScreenAlign(SystemScreen parentScreen, int planetId, int width = 550, int height = 293, int leftMargin = 2, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0) : base(width, height, leftMargin, topMargin, rightMargin, bottomMargin)
         {
             this.parentScreen = parentScreen;
         }

@@ -12,6 +12,7 @@ namespace ChapterMaster.UI
     {
         int systemId;
         Align parentAlign;
+        public bool pinned;
         public SystemScreenAlign(Align parentAlign, int systemId, int width = 320, int height = 294, int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0) : base(width, height, leftMargin, topMargin, rightMargin, bottomMargin)
         {
             this.systemId = systemId;
@@ -20,8 +21,15 @@ namespace ChapterMaster.UI
 
         public override Rectangle GetRect(ViewController view)
         {
-            Rectangle rect = view.TransformedOriginRect(ChapterMaster.sector.Systems[systemId].x,
-                                       ChapterMaster.sector.Systems[systemId].y, width, height, false);
+            Rectangle rect;
+            if (!pinned)
+            {
+                rect = view.TransformedOriginRect(ChapterMaster.sector.Systems[systemId].x,
+                                           ChapterMaster.sector.Systems[systemId].y, width, height, false);
+            } else
+            {
+                rect = new Rectangle(ChapterMaster.sector.Systems[systemId].x, ChapterMaster.sector.Systems[systemId].y, width, height);
+            }
             if (rect.Top < parentAlign.topMargin)
             {
                 rect.Y = parentAlign.topMargin;

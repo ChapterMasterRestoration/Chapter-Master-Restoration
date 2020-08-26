@@ -11,6 +11,11 @@ namespace ChapterMaster.Render
 {
     class RenderHelper
     {
+        public static PrimitiveBuddy.Primitive PrimitiveBuddy;
+        public static void Initialize(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+            PrimitiveBuddy = new PrimitiveBuddy.Primitive(graphicsDevice, spriteBatch);
+        }
         public static void DrawStar(SpriteBatch spriteBatch, Rectangle rect, int color, Align align = null, ViewController view = null)
         {
             spriteBatch.Draw(ChapterMaster.SystemTextures[color], rect, Color.White);

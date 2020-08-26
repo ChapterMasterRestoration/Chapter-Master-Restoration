@@ -27,5 +27,9 @@ namespace ChapterMaster
         */
         public static readonly string[] FleetTexture = { "chaos", "civilian", "eldar", "imperial", "necron", "tau", "tiny", "tyranid", "ork", "mechanicus", "inquisition" };
         public static readonly int[] FleetStateLimit = { 10, 4, 6, 10, 9, 11, 10, 12, 10, 1, 3 };
+        public static readonly string[] PlanetNames = new string[] { "I", "II", "III", "IV", "V" };
+        public static readonly string[] PlanetTypeNames = new string[] { "Lava", "Temperate", "Desert", "Forge", "Hive", "Death", "Agri", "Necron", "Feudal", "Desert2", "Ice", "Water", "Dead", "Desert3", "Daemon", "Shrine", "Spacehulk" };
+        public static int[] PlanetTypeTextures = { 1, 9, 3, 4, 5, 6, 7, 15, 8, 3, 10, 10, 11, 3, 12, 17, 15 };
+
     }
 }

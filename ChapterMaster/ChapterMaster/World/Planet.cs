@@ -10,22 +10,26 @@ namespace ChapterMaster.World
 {
     public enum Type
     {
-        LAVA = 0,
-        TEMPERATE = 1,
-        DESERT = 2,
-        FORGE = 3,
-        HIVE = 4,
-        DEATH = 5,
-        AGRI = 6,
-        FEUDAL = 8,
-        ICE = 10,
-        WATER = 11,
-        DEAD = 12,
-        DAEMON = 14,
-        SHRINE = 15,
-        SPACEHULK = 16
+        LAVA = 0, // 1,2
+        TEMPERATE = 1, // 9
+        DESERT = 2, // 3
+        FORGE = 3, // 4
+        HIVE = 4, // 5
+        DEATH = 5, // 6
+        AGRI = 6, // 7
+        NECRON = 7, // 14 // special!
+        FEUDAL = 8, // 8
+        DESERT2 = 9, // 3 like desert for now
+        ICE = 10, // 10
+        WATER = 11, // 10 same as ice?
+        DEAD = 12, // 11
+        DESERT3 = 13, // 3 like desert for now
+        DAEMON = 14, // 12
+        SHRINE = 15, // 17
+        SPACEHULK = 16 // 15 placeholder
     }
-
+    /* -1 = undefined 13 = eldar craftworld, */
+    
     public class Planet
     {
         public int systemId;
@@ -44,14 +48,22 @@ namespace ChapterMaster.World
             if (type == Type.TEMPERATE) return (int) Type.FEUDAL; // Same bloody texture.
             return (int)type;
         }
+        public string GetTypeName()
+        {
+            return Constants.PlanetTypeNames[(int)Type];
+        }
+        public int GetTypeTexture()
+        {
+            return Constants.PlanetTypeTextures[(int)Type];
+        }
         public void OpenPlanetScreen(ViewController view, SystemScreen parentScreen)
         {
-            Debug.WriteLine("planet in system " + systemId);
+            //Debug.WriteLine("planet in system " + systemId);
             parentScreen.AddChildScreen(new PlanetScreen(2, "planetscreen", new PlanetScreenAlign(parentScreen, planetId), systemId, planetId));
         }
         public void ClosePlanetScreen(ViewController view)
         {
-            Debug.WriteLine("closing planet in system " + systemId);
+            //Debug.WriteLine("closing planet in system " + systemId);
         }
     }
 }

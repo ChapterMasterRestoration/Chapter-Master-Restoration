@@ -68,5 +68,9 @@ namespace ChapterMaster.Util
         {
             return new Vector2(b.X + a.X, b.Y + a.Y);
         }
+        public static Vector2 Offset(Vector2 v, int x, int y)
+        {
+            return new Vector2(v.X + x, v.Y + y);
+        }
     }
 }
