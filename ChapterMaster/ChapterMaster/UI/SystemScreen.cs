@@ -23,7 +23,7 @@ namespace ChapterMaster.UI
             this.backgroundTexture = backgroundTexture;
             this.systemId = systemId;
             exitButton = new InvisibleButton(new CornerAlign(Corner.BOTTOMRIGHT,64,25),ExitScreen);
-            pinButton = new Button(4, "Pin", new CornerAlign(Corner.TOPRIGHT, 32, 32), PinScreen); // TODO: fix position with CornerAlign
+            pinButton = new PinButton(PinScreen);
             AddButton(exitButton);
             AddButton(pinButton);
         }
@@ -35,7 +35,7 @@ namespace ChapterMaster.UI
             Rect = align.GetRect(view);
             // lol
             exitButton.position = MathUtil.Add(Rect.Location,new Vector2(247, 261));
-            pinButton.position = MathUtil.Add(Rect.Location, new Vector2(247, 20));
+            pinButton.position = new Vector2(247, 20);
             // TODO: replace with align
             spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture + system.Planets.Count], Rect, Color.White);
             Vector2 stringSize = ChapterMaster.Caslon_Antique_Bold.MeasureString(system.name + " System");
@@ -116,6 +116,7 @@ namespace ChapterMaster.UI
         public void PinScreen(MouseState mouseState, object sender )
         {
             notInWorld = ! notInWorld;
+            ((PinButton)Buttons[1]).Pinned = notInWorld;
         }
     }
 }

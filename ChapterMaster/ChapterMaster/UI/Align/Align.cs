@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace ChapterMaster.UI
+namespace ChapterMaster.UI.Align
 {
     public abstract class Align
     {

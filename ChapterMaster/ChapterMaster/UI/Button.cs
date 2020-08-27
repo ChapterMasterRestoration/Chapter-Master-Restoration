@@ -14,12 +14,15 @@ namespace ChapterMaster.UI
         public string text = "";
 
         public Align align;
-        public Button(int buttonTextureId, string text, Align align, MouseHandler mouseHandler) : base(mouseHandler)
+        protected Button(int buttonTextureId, string text, MouseHandler mouseHandler) : base(mouseHandler)
         {
             this.buttonTextureId = buttonTextureId;
+            this.text = text;
+        }
+        public Button(int buttonTextureId, string text, Align align, MouseHandler mouseHandler) : this(buttonTextureId, text, mouseHandler)
+        {
             // TODO: Fix this
             this.align = align;
-            this.text = text;
         }
         public void Render(SpriteBatch spriteBatch, ViewController view)
         {
