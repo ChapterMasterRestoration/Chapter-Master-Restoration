@@ -21,7 +21,7 @@ namespace ChapterMaster.UI
             handler = mouseHandler;
         }
 
-        public void Check(ViewController view, Align align)
+        public void Check(ViewController view, Align.Align align)
         {
             int mouseX = view.GetMouse().X;
             int mouseY = view.GetMouse().Y;

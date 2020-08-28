@@ -1,4 +1,5 @@
 ﻿using ChapterMaster.UI;
+using ChapterMaster.UI.Align;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

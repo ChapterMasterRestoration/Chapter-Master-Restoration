@@ -14,10 +14,10 @@ namespace ChapterMaster.UI
         public Screen Parent;
         public List<Screen> Screens = new List<Screen>();
         public List<Button> Buttons = new List<Button>();
-        public Align align;
+        public Align.Align align;
         public bool wasModified;
 
-        public Screen(int screenId, string backgroundTexture, Align align)
+        public Screen(int screenId, string backgroundTexture, Align.Align align)
         {
             this.screenId = screenId;
             this.backgroundTexture = backgroundTexture;

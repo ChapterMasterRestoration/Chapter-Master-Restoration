@@ -1,4 +1,5 @@
 ﻿using ChapterMaster.Render;
+using ChapterMaster.UI.Align;
 using ChapterMaster.Util;
 using ChapterMaster.World;
 using Microsoft.Xna.Framework;
@@ -17,13 +18,13 @@ namespace ChapterMaster.UI
         List<PlanetAlign> planetAligns = new List<PlanetAlign>();
         InvisibleButton exitButton;
         Button pinButton;
-        public SystemScreen(int screenId, string backgroundTexture, int systemId, Align align) : base(screenId, backgroundTexture, align)
+        public SystemScreen(int screenId, string backgroundTexture, int systemId, Align.Align align) : base(screenId, backgroundTexture, align)
         {
             this.screenId = screenId;
             this.backgroundTexture = backgroundTexture;
             this.systemId = systemId;
             exitButton = new InvisibleButton(new CornerAlign(Corner.BOTTOMRIGHT,64,25),ExitScreen);
-            pinButton = new PinButton(PinScreen);
+            pinButton = new PinButton(PinScreen, this);
             AddButton(exitButton);
             AddButton(pinButton);
         }
@@ -115,8 +116,15 @@ namespace ChapterMaster.UI
         }
         public void PinScreen(MouseState mouseState, object sender )
         {
+            Debug.WriteLine("pinned");
             notInWorld = ! notInWorld;
-            ((PinButton)Buttons[1]).Pinned = notInWorld;
+            foreach(Button button in Buttons)
+            {
+                if(button is PinButton)
+                {
+                    ((PinButton)Buttons[1]).align.Pinned = notInWorld;
+                }
+            }
         }
     }
 }

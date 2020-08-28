@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,10 @@ namespace ChapterMaster.UI.Align
 {
     public class RectAlign : Align
     {
-        public bool Pinned;
-        Screen screen;
         public Vector2 position;
         public RectAlign(Screen screen, Vector2 position, int width, int height, int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0) : base(width, height, leftMargin, topMargin, rightMargin, bottomMargin)
         {
-            this.screen = screen;
+            this.Screen = screen;
             this.position = position;
         }
 
@@ -22,11 +21,11 @@ namespace ChapterMaster.UI.Align
             //Pain.
             if (!Pinned)
             {
-                return new Rectangle(screen.position.X + position.X, screen.position.Y + position.Y, width, height);
+                return new Rectangle((int)(Screen.Rect.Location.X + position.X), (int)(Screen.Rect.Location.Y + position.Y), width, height);
             }
             else
             {
-                return new Rectangle(view.camX + screen.position.X + position.X, view.camY + screen.position.Y + position.Y, width, height);
+                return new Rectangle((int)(view.camX + Screen.Rect.Location.X + position.X), (int)(view.camY + Screen.Rect.Location.Y + position.Y), width, height);
             }
         }
     }

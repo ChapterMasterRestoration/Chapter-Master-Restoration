@@ -11,7 +11,7 @@ namespace ChapterMaster.UI.Align
         public int bottomMargin;
         public int width;
         public int height;
-
+        public bool Pinned;
         public Align(int width, int height,int leftMargin, int topMargin, int rightMargin, int bottomMargin)
         {
             this.leftMargin = leftMargin;

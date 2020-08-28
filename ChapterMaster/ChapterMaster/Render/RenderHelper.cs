@@ -1,4 +1,5 @@
 ﻿using ChapterMaster.UI;
+using ChapterMaster.UI.Align;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

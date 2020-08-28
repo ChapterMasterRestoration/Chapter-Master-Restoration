@@ -9,7 +9,7 @@ namespace ChapterMaster.UI
     {
         int systemId;
         int planetId;
-        public PlanetScreen(int screenId, string backgroundTexture, Align align, int systemId, int planetId) : base(screenId, backgroundTexture, align)
+        public PlanetScreen(int screenId, string backgroundTexture, Align.Align align, int systemId, int planetId) : base(screenId, backgroundTexture, align)
         {
             this.systemId = systemId;
             this.planetId = planetId;

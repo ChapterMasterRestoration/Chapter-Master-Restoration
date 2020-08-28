@@ -8,7 +8,7 @@ namespace ChapterMaster.UI
 {
     public class InvisibleButton : Button
     {
-        public InvisibleButton(Align align, MouseHandler mouseHandler) : base(-1, "", align, mouseHandler)
+        public InvisibleButton(Align.Align align, MouseHandler mouseHandler) : base(-1, "", align, mouseHandler)
         {
 
         }

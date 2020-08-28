@@ -1,5 +1,6 @@
 ﻿using ChapterMaster.Render;
 using ChapterMaster.UI;
+using ChapterMaster.UI.Align;
 using ChapterMaster.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ChapterMaster.UI.Align;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,13 +17,12 @@ namespace ChapterMaster.UI
             this.buttonTextureId = buttonTextureId;
             // TODO: Fix this
             this.align = new RectAlign(screen, position, width = 32, height = 32);
-            this.text = text;
         }
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
             if (buttonTextureId >= 0)
             {
-                align.position = position;
+                ((RectAlign)align).position = position;
                 spriteBatch.Draw(ChapterMaster.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
             }
         }

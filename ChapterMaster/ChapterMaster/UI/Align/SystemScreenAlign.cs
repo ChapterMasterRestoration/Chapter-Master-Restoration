@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChapterMaster.UI
+namespace ChapterMaster.UI.Align
 {
     public class SystemScreenAlign : Align
     {
