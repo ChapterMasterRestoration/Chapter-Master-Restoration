@@ -129,6 +129,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\textures\background\bg_space.png" />
+    <Content Include="Content\textures\ui\planet1.png" />
+    <Content Include="Content\textures\ui\planet10.png" />
+    <Content Include="Content\textures\ui\planet11.png" />
+    <Content Include="Content\textures\ui\planet12.png" />
+    <Content Include="Content\textures\ui\planet13.png" />
+    <Content Include="Content\textures\ui\planet14.png" />
+    <Content Include="Content\textures\ui\planet15.png" />
+    <Content Include="Content\textures\ui\planet16.png" />
+    <Content Include="Content\textures\ui\planet17.png" />
+    <Content Include="Content\textures\ui\planet2.png" />
+    <Content Include="Content\textures\ui\planet3.png" />
+    <Content Include="Content\textures\ui\planet4.png" />
+    <Content Include="Content\textures\ui\planet5.png" />
+    <Content Include="Content\textures\ui\planet6.png" />
+    <Content Include="Content\textures\ui\planet7.png" />
+    <Content Include="Content\textures\ui\planet8.png" />
+    <Content Include="Content\textures\ui\planet9.png" />
     <Content Include="Icon.ico" />
     <Content Include="monogame.ico" />
   </ItemGroup>
