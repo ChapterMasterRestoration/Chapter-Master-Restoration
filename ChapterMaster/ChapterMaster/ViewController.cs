@@ -17,7 +17,7 @@ namespace ChapterMaster
         public float zoom = 1.0f;
         public int viewPortWidth;
         public int viewPortHeight;
-        int _cameraSpeed = 3;
+        int _cameraSpeed = 4;
         public int currentSystemId;
         public bool systemSelected;
         public List<int> selectedFleets = new List<int>();
@@ -201,6 +201,7 @@ namespace ChapterMaster
         int DeselectionDelay = 400;
         int delayTimer;
         public int openSystem = -1; // screw it, i'll leave it here for now
+        ButtonState previousLMBState; // Left Mouse Button for you uninitiated, uncultured reactionist neo-liberals.
         // TODO: create list of moused-over systems and use that to disable no-shift clear
         public void MouseSelection(Sector sector)
         {
@@ -384,10 +385,11 @@ namespace ChapterMaster
                 }
             }
             */
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && previousLMBState == ButtonState.Released)
             {
                 for (int fleetId = 0; fleetId < sector.Fleets.Count; fleetId++)
                 {
+                    Debug.WriteLine($"Fleet ID {fleetId}");
                     if (sector.Fleets[fleetId].Intersects(this))
                     {
                         if (!selectedFleets.Contains(fleetId))
@@ -413,6 +415,7 @@ namespace ChapterMaster
                     }
                 }
             }
+            previousLMBState = Mouse.GetState().LeftButton;
             #endregion
             string fleets = "";
             foreach (int id in selectedFleets)

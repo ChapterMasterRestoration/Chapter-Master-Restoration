@@ -50,9 +50,9 @@ namespace ChapterMaster.Fleet
                 //ChapterMaster.sector.Fleets[oFleetId].fleetId = oFleetId; // TODO: will this create problems when the list of fleets changes?
                 if (ChapterMaster.sector.Fleets[oFleetId].originSystemId == originSystemId)
                 {
+                    orbitingFleets.Add(ChapterMaster.sector.Fleets[oFleetId]);
                     if (!ChapterMaster.sector.Fleets[fleetId].coFleets.Contains(oFleetId))
-                    {
-                        orbitingFleets.Add(ChapterMaster.sector.Fleets[oFleetId]);
+                    {  
                         if (oFleetId != fleetId)
                             ChapterMaster.sector.Fleets[fleetId].coFleets.Add(oFleetId);
                     }
@@ -62,7 +62,7 @@ namespace ChapterMaster.Fleet
             {
                 if (orbitingFleets[orbitingFleetId].coFleets.Contains(fleetId))
                 {
-                    orbitingFleets[orbitingFleetId].checkedByCoFleet = true;
+                    //orbitingFleets[orbitingFleetId].checkedByCoFleet = true;
                 }
                 int ulCornerX = (int)((ChapterMaster.sector.Systems[originSystemId].x + (Constants.SystemSize / 4) + 30 - view.camX) * view.zoom + ChapterMaster.GetWidth() / 2);
                 int ulCornerY = (int)((ChapterMaster.sector.Systems[originSystemId].y + (Constants.SystemSize / 4) - 30 - view.camY) * view.zoom + ChapterMaster.GetHeight() / 2);
@@ -73,15 +73,16 @@ namespace ChapterMaster.Fleet
                 brCornerX = brCornerX + fleetWidth * orbitingFleetId;
                 if (view.GetMouse().X > ulCornerX && view.GetMouse().Y > ulCornerY && view.GetMouse().X < brCornerX && view.GetMouse().Y < brCornerY)
                 {
-                    if (!orbitingFleets[orbitingFleetId].checkedByCoFleet)
+                    Debug.WriteLine($"  Orbiting Fleet ID {orbitingFleetId} Count: {orbitingFleets.Count}");
+                    //if (!orbitingFleets[orbitingFleetId].checkedByCoFleet)
+                    //{
+                     if (orbitingFleets[orbitingFleetId].fleetId == fleetId)
                     {
-                        if (orbitingFleets[orbitingFleetId].fleetId == fleetId)
-                        {
                             if (fleetId == 3) { Debug.WriteLine($"fleet id {fleetId}"); }
                             Debug.WriteLine($"fleet intersection in {orbitingFleets[orbitingFleetId].fleetId} by {fleetId}");
                             return true;
-                        }
-                    }
+                     }
+                    //}
                 }
             }
             return false;
