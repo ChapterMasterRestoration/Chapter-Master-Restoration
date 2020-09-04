@@ -49,7 +49,7 @@ namespace ChapterMaster
             Rectangle rectLabel = view.TransformedOriginRect(system.x + Constants.SystemSize/4, system.y - Constants.SystemSize/4, Constants.SystemSize, true);
             Vector2 position = new Vector2(rectLabel.Left, rectLabel.Bottom);
             // TODO: scale system name better.
-            spriteBatch.DrawString(ChapterMaster.Courier_New, system.name, position, Color.White, 0, new Vector2(0,0),view.zoom+0.3f, SpriteEffects.None,0);
+            spriteBatch.DrawString(ChapterMaster.Courier_New, system.name.Replace("’", "'"), position, Color.White, 0, new Vector2(0,0),view.zoom+0.3f, SpriteEffects.None,0);
         }
         public void DrawFleet(SpriteBatch spriteBatch, Fleet.Fleet fleet, Color color, ViewController view, Sector sector)
         {
@@ -89,6 +89,8 @@ namespace ChapterMaster
             }
             else
             {
+                // TODO: Improve this for cofleets moving together.
+                // fleet.GetCofleetsMovingAlong()
                 int travelTurns = sector.CalculateTravelTurns(fleet);
                 Vector2 oSystem = new Vector2(sector.Systems[fleet.originSystemId].x + 30, sector.Systems[fleet.originSystemId].y - 30);
                 Vector2 dSystem = new Vector2(sector.Systems[fleet.destinationSystemId].x, sector.Systems[fleet.destinationSystemId].y);

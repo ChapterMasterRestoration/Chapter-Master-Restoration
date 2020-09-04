@@ -73,6 +73,7 @@ namespace ChapterMaster
             sector.Fleets.Add(new Fleet.Fleet(0,0,0));
             sector.Fleets.Add(new Fleet.Fleet(0, 1, 0));
             sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
+            sector.Fleets.Add(new Fleet.Fleet(0, 1, 1));
             // Initialize UI
 
             base.Initialize();

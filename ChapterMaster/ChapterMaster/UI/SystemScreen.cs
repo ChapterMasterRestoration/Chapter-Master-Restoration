@@ -108,6 +108,8 @@ namespace ChapterMaster.UI
                     }
                 }
             }
+            pinButton = new PinButton(PinScreen, this);
+            pinButton.Check(view, new RectAlign(this, MathUtil.Add(Rect.Location,new Vector2(247, 20)), 32, 32));
         }
         public override void ExitScreen(MouseState mouseState, object sender)
         {

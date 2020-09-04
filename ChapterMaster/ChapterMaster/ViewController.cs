@@ -1,14 +1,10 @@
-﻿using ChapterMaster.UI;
-using ChapterMaster.UI.Align;
+﻿using ChapterMaster.UI.Align;
 using ChapterMaster.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChapterMaster
 {
@@ -31,7 +27,7 @@ namespace ChapterMaster
         //public Matrix Transform;
         public void UpdateKeyboard()
         {
-            int cameraSpeed =(int) (_cameraSpeed / zoom);
+            int cameraSpeed = (int)(_cameraSpeed / zoom);
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 camX += cameraSpeed;
@@ -40,7 +36,8 @@ namespace ChapterMaster
             {
                 camX -= cameraSpeed;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up)) {
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
                 camY -= cameraSpeed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
@@ -72,7 +69,7 @@ namespace ChapterMaster
             }
             prevMouseWheelValue = currentMouseWheelValue;
             currentMouseWheelValue = Mouse.GetState().ScrollWheelValue;
-            if(currentMouseWheelValue > prevMouseWheelValue)
+            if (currentMouseWheelValue > prevMouseWheelValue)
             {
                 AdjustZoom(0.1f);
             }
@@ -85,16 +82,16 @@ namespace ChapterMaster
         public void AdjustZoom(float factor)
         {
             zoom += factor;
-            zoom = (float) Math.Round(Math.Abs(zoom), 1);
+            zoom = (float)Math.Round(Math.Abs(zoom), 1);
             //Debug.WriteLine("z " + zoom);
         }
         public void CheckBoundaries()
-        { 
-            if(camX * zoom < 0)
+        {
+            if (camX * zoom < 0)
             {
                 camX = 0;
-            } 
-            if(camY * zoom < 0)
+            }
+            if (camY * zoom < 0)
             {
                 camY = 0;
             }
@@ -197,7 +194,8 @@ namespace ChapterMaster
             }
         }
         #endregion
-        public void Update() { 
+        public void Update()
+        {
         }
 
         int DeselectionDelay = 400;
@@ -208,7 +206,7 @@ namespace ChapterMaster
         {
             int mouseX = Mouse.GetState().X;
             int mouseY = Mouse.GetState().Y;
-            if(Mouse.GetState().LeftButton == ButtonState.Pressed)
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 //Debug.WriteLine($"x: {mouseX} y: {mouseY}");
             }
@@ -240,7 +238,8 @@ namespace ChapterMaster
                                 sector.Fleets[id].fleetMoveProgress = 0;
                             }
                         }
-                    } else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    }
+                    else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
                         if (!PlanetScreenOpen)
                         {
@@ -249,10 +248,12 @@ namespace ChapterMaster
                             openSystem = currentSystemId;
                         }
                     }
-                } else
+                }
+                else
                 {
                     delayTimer++;
-                    if (delayTimer > DeselectionDelay) {
+                    if (delayTimer > DeselectionDelay)
+                    {
                         systemSelected = false;
                         delayTimer = 0;
                     }
@@ -289,14 +290,15 @@ namespace ChapterMaster
             #endregion
             #region Fleet Selection
             // TODO: rewrite all this crap using Fleet.Intersect
+            /*
             for (int fleetId = 0; fleetId < sector.Fleets.Count; fleetId++)
             {
                 int systemId = sector.Fleets[fleetId].originSystemId;
                 sector.Fleets[fleetId].fleetId = fleetId; // ???
                 sector.Fleets[fleetId].checkedByCoFleet = false;
                 sector.Fleets[fleetId].coFleets.Clear();
-                List <Fleet.Fleet> orbitingFleets = new List<Fleet.Fleet>();
-                for(int oFleetId = 0; oFleetId < sector.Fleets.Count; oFleetId++)
+                List<Fleet.Fleet> orbitingFleets = new List<Fleet.Fleet>();
+                for (int oFleetId = 0; oFleetId < sector.Fleets.Count; oFleetId++)
                 {
                     if (sector.Fleets[oFleetId].originSystemId == systemId)
                     {
@@ -304,12 +306,12 @@ namespace ChapterMaster
                         {
                             sector.Fleets[oFleetId].fleetId = oFleetId; // TODO: will this create problems when the list of fleets changes?
                             orbitingFleets.Add(sector.Fleets[oFleetId]);
-                            if(oFleetId != fleetId)
+                            if (oFleetId != fleetId)
                                 sector.Fleets[fleetId].coFleets.Add(oFleetId);
                         }
                     }
                 }
-                for(int orbitingFleetId = 0; orbitingFleetId < orbitingFleets.Count; orbitingFleetId++)
+                for (int orbitingFleetId = 0; orbitingFleetId < orbitingFleets.Count; orbitingFleetId++)
                 {
                     if (orbitingFleets[orbitingFleetId].coFleets.Contains(fleetId))
                     {
@@ -326,7 +328,7 @@ namespace ChapterMaster
                     //Debug.WriteLine("checking fleet " + orbitingFleets[orbitingFleetId].fleetId + " with " + orbitingFleets.Count() + " others");
                     if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY && !orbitingFleets[orbitingFleetId].checkedByCoFleet)
                     {
-                        isOverSystem = true;
+                        //isOverSystem = true;
                         //currentSystemId = systemId;
                         //systemSelected = true;
                         if (!orbitingFleets[orbitingFleetId].checkedByCoFleet)
@@ -343,35 +345,82 @@ namespace ChapterMaster
                                 }
                                 else
                                 {
+                                    Debug.WriteLine("deselecting fleet id" + orbitingFleetId);
                                     selectedFleets.Remove(orbitingFleets[orbitingFleetId].fleetId);
                                     sector.Fleets[orbitingFleets[orbitingFleetId].fleetId].isSelected = false;
                                 }
                             }
                         }
                     }
-                    else if (Mouse.GetState().LeftButton == ButtonState.Pressed && 
+                    else if (Mouse.GetState().LeftButton == ButtonState.Pressed &&
                             !Keyboard.GetState().IsKeyDown(Keys.LeftShift) &&
-                            !sector.Fleets[fleetId].coFleets.Contains(fleetId) && !isOverSystem)
+                            !sector.Fleets[fleetId].coFleets.Contains(fleetId) && !isOverSystem &&
+                            !sector.Fleets[fleetId].checkedByCoFleet)
                     {
-                        foreach (int id in selectedFleets)
+                        bool overFleet = false;
+                        for (int i = 0; i < sector.Fleets.Count; i++)
                         {
-                            if(!sector.Fleets[id].Intersects(this))
-                                sector.Fleets[id].isSelected = false;
+                            if (sector.Fleets[i].Intersects(this))
+                            {
+                                overFleet = true;
+                            }
+                            else
+                            {
+
+                            }
                         }
-                        selectedFleets.Clear();
-                        isOverSystem = false;
+                        if (!overFleet)
+                        {
+                            Debug.WriteLine("trying to deselect ");
+                            for (int i = 0; i < sector.Fleets.Count; i++)
+                            {
+                                sector.Fleets[i].isSelected = false;
+                                Debug.WriteLine("deselecting " + i);
+                            }
+                            selectedFleets.Clear();
+                        }
+                    }
+                    isOverSystem = false;
+                }
+            }
+            */
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                for (int fleetId = 0; fleetId < sector.Fleets.Count; fleetId++)
+                {
+                    if (sector.Fleets[fleetId].Intersects(this))
+                    {
+                        if (!selectedFleets.Contains(fleetId))
+                        {
+                            selectedFleets.Add(fleetId);
+                            sector.Fleets[fleetId].isSelected = true;
+                        }
+                        else
+                        {
+                            selectedFleets.Remove(fleetId);
+                            sector.Fleets[fleetId].isSelected = false;
+                        }
+                    }
+                    else
+                    {
+                        for (int otherFleetId = 0; otherFleetId < sector.Fleets.Count; otherFleetId++)
+                        {
+                            if (otherFleetId != fleetId)
+                            {
+
+                            }
+                        }
                     }
                 }
-
             }
             #endregion
             string fleets = "";
             foreach (int id in selectedFleets)
             {
-                fleets += "F"+id + ", ";
+                fleets += "F" + id + ", ";
                 fleets += "\n";
                 fleets += "COF: ";
-                foreach(int coId in sector.Fleets[id].coFleets)
+                foreach (int coId in sector.Fleets[id].coFleets)
                 {
                     fleets += coId + ", ";
                 }
