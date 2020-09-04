@@ -1,6 +1,7 @@
 ﻿using ChapterMaster.UI.Align;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,12 @@ namespace ChapterMaster.UI
 {
     public class PinButton : Button
     {
+
+        /// <summary>
+        /// A part of the bourgeoisie is desirous of redressing social
+        /// grievances, in order to secure the continued existence of
+        /// bourgeois society.
+        /// </summary>
         Screen screen;
         public PinButton(MouseHandler mouseHandler,Screen screen, int buttonTextureId = 4) : base(buttonTextureId,"", mouseHandler)
         {
@@ -24,6 +31,17 @@ namespace ChapterMaster.UI
             {
                 ((RectAlign)align).position = position;
                 spriteBatch.Draw(ChapterMaster.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
+            }
+        }
+        public override void Check(ViewController view, Align.Align align)
+        {
+            if (align.GetRect(view).Contains(view.GetMouse().Position)) {
+                if (view.GetMouse().LeftButton == ButtonState.Released) wasClicked = false;
+                if (view.GetMouse().LeftButton == ButtonState.Pressed && !wasClicked)
+                {
+                    handler(view.GetMouse(), this);
+                    wasClicked = true;
+                }
             }
         }
     }

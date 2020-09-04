@@ -14,14 +14,14 @@ namespace ChapterMaster.UI
     {
         public Vector2 position;
         public int width, height;
-        MouseHandler handler;
-        bool wasClicked = false;
+        protected MouseHandler handler;
+        protected bool wasClicked = false;
         public InteractiveElement(MouseHandler mouseHandler)
         {
             handler = mouseHandler;
         }
 
-        public void Check(ViewController view, Align.Align align)
+        public virtual void Check(ViewController view, Align.Align align)
         {
             int mouseX = view.GetMouse().X;
             int mouseY = view.GetMouse().Y;

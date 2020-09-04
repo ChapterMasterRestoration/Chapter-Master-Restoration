@@ -17,16 +17,13 @@ namespace ChapterMaster.UI
         public bool notInWorld; // TODO: implement System Screen rendering indpendently
         List<PlanetAlign> planetAligns = new List<PlanetAlign>();
         InvisibleButton exitButton;
-        Button pinButton;
         public SystemScreen(int screenId, string backgroundTexture, int systemId, Align.Align align) : base(screenId, backgroundTexture, align)
         {
             this.screenId = screenId;
             this.backgroundTexture = backgroundTexture;
             this.systemId = systemId;
             exitButton = new InvisibleButton(new CornerAlign(Corner.BOTTOMRIGHT,64,25),ExitScreen);
-            pinButton = new PinButton(PinScreen, this);
             AddButton(exitButton);
-            AddButton(pinButton);
         }
         // Implement planets as buttons?
         public override void Render(SpriteBatch spriteBatch, ViewController view)
@@ -34,9 +31,8 @@ namespace ChapterMaster.UI
             World.System system = ChapterMaster.sector.Systems[systemId];
             ((SystemScreenAlign)align).pinned = notInWorld;
             Rect = align.GetRect(view);
-            // lol
-            exitButton.position = MathUtil.Add(Rect.Location,new Vector2(247, 261));
-            pinButton.position = new Vector2(247, 20);
+            exitButton.position = MathUtil.Add(Rect.Location, new Vector2(247, 261));
+            //pinButton.position = new Vector2(247, 20);
             // TODO: replace with align
             spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture + system.Planets.Count], Rect, Color.White);
             Vector2 stringSize = ChapterMaster.Caslon_Antique_Bold.MeasureString(system.name + " System");
@@ -71,6 +67,7 @@ namespace ChapterMaster.UI
                 screen.Render(spriteBatch, view);
             }
         }
+        bool pinKeyPressed = false;
         public override void Update(ViewController view)
         {
             base.Update(view);
@@ -108,25 +105,17 @@ namespace ChapterMaster.UI
                     }
                 }
             }
-            pinButton = new PinButton(PinScreen, this);
-            pinButton.Check(view, new RectAlign(this, MathUtil.Add(Rect.Location,new Vector2(247, 20)), 32, 32));
+            if (Keyboard.GetState().IsKeyUp(Keys.P)) pinKeyPressed = false;
+            if(Keyboard.GetState().IsKeyDown(Keys.P) && !pinKeyPressed)
+            {
+                notInWorld = !notInWorld;
+                pinKeyPressed = true;
+            }
         }
         public override void ExitScreen(MouseState mouseState, object sender)
         {
             base.ExitScreen(mouseState, sender);
             ChapterMaster.sector.Systems[systemId].CloseSystemScreen(ChapterMaster.view);
-        }
-        public void PinScreen(MouseState mouseState, object sender )
-        {
-            Debug.WriteLine("pinned");
-            notInWorld = ! notInWorld;
-            foreach(Button button in Buttons)
-            {
-                if(button is PinButton)
-                {
-                    ((PinButton)Buttons[1]).align.Pinned = notInWorld;
-                }
-            }
         }
     }
 }

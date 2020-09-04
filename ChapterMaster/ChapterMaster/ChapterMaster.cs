@@ -50,7 +50,6 @@ namespace ChapterMaster
 
         private void EndTurn(MouseState mouseState, object sender)
         {
-            Debug.WriteLine("Your Opinion is Objectively Wrong.");
             sector.TurnUpdate();
         }
         /// <summary>
