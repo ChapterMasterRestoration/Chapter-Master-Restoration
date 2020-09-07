@@ -95,13 +95,13 @@ namespace ChapterMaster
             {
                 camY = 0;
             }
-            if (camX > Constants.WorldWidth / (2 * zoom))
+            if (camX > Constants.WorldWidth)
             {
-                camX = (int)(Constants.WorldWidth / (2 * zoom));
+                camX = (int)(Constants.WorldWidth);
             }
-            if (camY > Constants.WorldHeight / (2 * zoom))
+            if (camY > Constants.WorldHeight)
             {
-                camY = (int)(Constants.WorldHeight / (2 * zoom));
+                camY = (int)(Constants.WorldHeight);
             }
         }
 

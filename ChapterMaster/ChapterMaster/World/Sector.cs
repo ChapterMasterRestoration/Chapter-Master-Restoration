@@ -856,5 +856,26 @@ namespace ChapterMaster.World
             }
             Turn++;
         }
+
+        public string GetImperialDate()
+        {
+            int millenium = 42;
+            int year = 000;
+            int yearfraction = (50 * Turn) + 1;
+            if (yearfraction >= 1000)
+            {
+                year = (yearfraction) / 1000;
+                if (yearfraction - 1000 * year == 000)
+                {
+                    yearfraction = 1;
+                }
+                else
+                {
+                    yearfraction = yearfraction % 1000;
+                }
+            }
+            return $"5 {yearfraction.ToString("D3")} {year.ToString("D3")} M{millenium}";
+        }
+
     }
 }

@@ -207,6 +207,7 @@ namespace ChapterMaster
                 buttonDown = true;
             }
             view.MouseSelection(sector);
+            DebugString += "\n" + sector.GetImperialDate();
             view.Update();
             MainScreen.Update(view);
             base.Update(gameTime);
