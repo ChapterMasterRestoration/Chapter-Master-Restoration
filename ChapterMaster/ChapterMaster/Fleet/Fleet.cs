@@ -58,6 +58,7 @@ namespace ChapterMaster.Fleet
                     }
                 }
             }
+            int currentFleet = -1;
             for (int orbitingFleetId = 0; orbitingFleetId < orbitingFleets.Count; orbitingFleetId++)
             {
                 if (orbitingFleets[orbitingFleetId].coFleets.Contains(fleetId))
@@ -71,18 +72,27 @@ namespace ChapterMaster.Fleet
                 int fleetWidth = brCornerX - ulCornerX;
                 ulCornerX = ulCornerX + fleetWidth * orbitingFleetId;
                 brCornerX = brCornerX + fleetWidth * orbitingFleetId;
-                if (view.GetMouse().X > ulCornerX && view.GetMouse().Y > ulCornerY && view.GetMouse().X < brCornerX && view.GetMouse().Y < brCornerY)
+                if (view.GetMouse().X > ulCornerX && view.GetMouse().Y > ulCornerY && view.GetMouse().X < brCornerX && view.GetMouse().Y < brCornerY
+                    && currentFleet == -1)
                 {
-                    Debug.WriteLine($"  Orbiting Fleet ID {orbitingFleetId} Count: {orbitingFleets.Count}");
+                    Debug.WriteLine($"  Orbiting Fleet ID {orbitingFleetId} Blackcurrant: {currentFleet}");
                     //if (!orbitingFleets[orbitingFleetId].checkedByCoFleet)
                     //{
-                     if (orbitingFleets[orbitingFleetId].fleetId == fleetId)
-                    {
-                            if (fleetId == 3) { Debug.WriteLine($"fleet id {fleetId}"); }
-                            Debug.WriteLine($"fleet intersection in {orbitingFleets[orbitingFleetId].fleetId} by {fleetId}");
-                            return true;
-                     }
+                    currentFleet = orbitingFleetId;
                     //}
+                }
+                else
+                {
+                    currentFleet = -1;
+                }
+            }
+            if (currentFleet != -1)
+            {
+                if (orbitingFleets[currentFleet].fleetId == fleetId)
+                {
+                    if (fleetId == 3) { Debug.WriteLine($"fleet id {fleetId}"); }
+                    Debug.WriteLine($"fleet intersection in {orbitingFleets[currentFleet].fleetId} by {fleetId}");
+                    return true;
                 }
             }
             return false;
