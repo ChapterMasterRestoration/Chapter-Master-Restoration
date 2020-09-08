@@ -387,6 +387,7 @@ namespace ChapterMaster
             */
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && previousLMBState == ButtonState.Released)
             {
+                bool notWasOverFleet = true;
                 for (int fleetId = 0; fleetId < sector.Fleets.Count; fleetId++)
                 {
                     Debug.WriteLine($"Fleet ID {fleetId}");
@@ -396,22 +397,41 @@ namespace ChapterMaster
                         {
                             selectedFleets.Add(fleetId);
                             sector.Fleets[fleetId].isSelected = true;
+                            notWasOverFleet = false;
                         }
                         else
                         {
                             selectedFleets.Remove(fleetId);
                             sector.Fleets[fleetId].isSelected = false;
                         }
+                        
                     }
                     else
                     {
                         for (int otherFleetId = 0; otherFleetId < sector.Fleets.Count; otherFleetId++)
                         {
-                            if (otherFleetId != fleetId)
+                            if (sector.Fleets[fleetId].Intersects(this))
                             {
-
+                                if (otherFleetId != fleetId)
+                                {
+                                    selectedFleets.Remove(otherFleetId);
+                                    sector.Fleets[otherFleetId].isSelected = false;
+                                }
+                                //notWasOverFleet = false;
+                            }
+                            else
+                            {
+                                
                             }
                         }
+                    }
+                }
+                if (notWasOverFleet)
+                {
+                    for (int fleetToDeselect = 0; fleetToDeselect < selectedFleets.Count; fleetToDeselect++)
+                    {
+                        selectedFleets.Remove(fleetToDeselect);
+                        sector.Fleets[fleetToDeselect].isSelected = false;
                     }
                 }
             }

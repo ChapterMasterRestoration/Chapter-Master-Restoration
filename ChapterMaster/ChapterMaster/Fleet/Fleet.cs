@@ -24,6 +24,7 @@ namespace ChapterMaster.Fleet
         public bool isMoving;
         public int fleetState;
         public bool isSelected;
+        //public bool wasJustSelected;
         public Fleet(int systemId, int fleetFaction, int fleetSate)
         {
             this.originSystemId = systemId;
@@ -47,7 +48,7 @@ namespace ChapterMaster.Fleet
             List<Fleet> orbitingFleets = new List<Fleet>();
             for (int oFleetId = 0; oFleetId < ChapterMaster.sector.Fleets.Count; oFleetId++)
             {
-                //ChapterMaster.sector.Fleets[oFleetId].fleetId = oFleetId; // TODO: will this create problems when the list of fleets changes?
+                ChapterMaster.sector.Fleets[oFleetId].fleetId = oFleetId; // TODO: will this create problems when the list of fleets changes?
                 if (ChapterMaster.sector.Fleets[oFleetId].originSystemId == originSystemId)
                 {
                     orbitingFleets.Add(ChapterMaster.sector.Fleets[oFleetId]);
@@ -58,12 +59,11 @@ namespace ChapterMaster.Fleet
                     }
                 }
             }
-            int currentFleet = -1;
             for (int orbitingFleetId = 0; orbitingFleetId < orbitingFleets.Count; orbitingFleetId++)
             {
                 if (orbitingFleets[orbitingFleetId].coFleets.Contains(fleetId))
                 {
-                    //orbitingFleets[orbitingFleetId].checkedByCoFleet = true;
+                    
                 }
                 int ulCornerX = (int)((ChapterMaster.sector.Systems[originSystemId].x + (Constants.SystemSize / 4) + 30 - view.camX) * view.zoom + ChapterMaster.GetWidth() / 2);
                 int ulCornerY = (int)((ChapterMaster.sector.Systems[originSystemId].y + (Constants.SystemSize / 4) - 30 - view.camY) * view.zoom + ChapterMaster.GetHeight() / 2);
@@ -72,27 +72,26 @@ namespace ChapterMaster.Fleet
                 int fleetWidth = brCornerX - ulCornerX;
                 ulCornerX = ulCornerX + fleetWidth * orbitingFleetId;
                 brCornerX = brCornerX + fleetWidth * orbitingFleetId;
-                if (view.GetMouse().X > ulCornerX && view.GetMouse().Y > ulCornerY && view.GetMouse().X < brCornerX && view.GetMouse().Y < brCornerY
-                    && currentFleet == -1)
+                if (view.GetMouse().X > ulCornerX && view.GetMouse().Y > ulCornerY && view.GetMouse().X < brCornerX && view.GetMouse().Y < brCornerY)
                 {
-                    Debug.WriteLine($"  Orbiting Fleet ID {orbitingFleetId} Blackcurrant: {currentFleet}");
+                    Debug.WriteLine($"  Orbiting Fleet ID {orbitingFleetId} Filet ID: {fleetId}");
                     //if (!orbitingFleets[orbitingFleetId].checkedByCoFleet)
                     //{
-                    currentFleet = orbitingFleetId;
+                    if (orbitingFleets[orbitingFleetId].fleetId == fleetId && !checkedByCoFleet)
+                    {
+                        //if (fleetId == 3) { Debug.WriteLine($"fleet id {fleetId}"); }
+                        Debug.WriteLine($"fleet intersection in {orbitingFleets[orbitingFleetId].fleetId} by {fleetId} Check: {checkedByCoFleet} oCheck {orbitingFleets[orbitingFleetId].checkedByCoFleet}");
+                        return true;
+                    }
+                    else
+                    {
+                        checkedByCoFleet = true;
+                    }
                     //}
                 }
                 else
                 {
-                    currentFleet = -1;
-                }
-            }
-            if (currentFleet != -1)
-            {
-                if (orbitingFleets[currentFleet].fleetId == fleetId)
-                {
-                    if (fleetId == 3) { Debug.WriteLine($"fleet id {fleetId}"); }
-                    Debug.WriteLine($"fleet intersection in {orbitingFleets[currentFleet].fleetId} by {fleetId}");
-                    return true;
+                    checkedByCoFleet = false;
                 }
             }
             return false;
