@@ -404,7 +404,7 @@ namespace ChapterMaster
                             selectedFleets.Remove(fleetId);
                             sector.Fleets[fleetId].isSelected = false;
                         }
-                        
+
                     }
                     else
                     {
@@ -414,24 +414,42 @@ namespace ChapterMaster
                             {
                                 if (otherFleetId != fleetId)
                                 {
-                                    selectedFleets.Remove(otherFleetId);
-                                    sector.Fleets[otherFleetId].isSelected = false;
+                                    //selectedFleets.Remove(otherFleetId);
+                                    //sector.Fleets[otherFleetId].isSelected = false;
                                 }
                                 //notWasOverFleet = false;
                             }
                             else
                             {
-                                
+
                             }
                         }
                     }
                 }
-                if (notWasOverFleet)
+                if (!Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                 {
-                    for (int fleetToDeselect = 0; fleetToDeselect < selectedFleets.Count; fleetToDeselect++)
+                    //for (int fleetToDeselect = 0; fleetToDeselect < selectedFleets.Count; fleetToDeselect++)
+                    //{
+                    //    if (!sector.Fleets[selectedFleets[fleetToDeselect]].Intersects(this))
+                    //    {
+                    //        Debug.WriteLine($"noshift deselecting fleet {fleetToDeselect}");
+                    //        sector.Fleets[selectedFleets[fleetToDeselect]].isSelected = false;
+                    //        selectedFleets.Remove(selectedFleets[fleetToDeselect]);
+                    //    }
+                    //}
+                    // finally after weeks the fleet selection bug has been solved!! 
+                    // this is proof that the socialist revolution can happen!
+                    // marx is a god! praise Bozhe and marx and the Tsar and the Omnissiah.
+                    // kill stalin and hitler!
+                    // btw lenin sucks.
+                    for (int fleetToDeselect = 0; fleetToDeselect < sector.Fleets.Count; fleetToDeselect++)
                     {
-                        selectedFleets.Remove(fleetToDeselect);
-                        sector.Fleets[fleetToDeselect].isSelected = false;
+                        if (!sector.Fleets[fleetToDeselect].Intersects(this))
+                        {
+                            Debug.WriteLine($"noshift deselecting fleet {fleetToDeselect}");
+                            sector.Fleets[fleetToDeselect].isSelected = false;
+                            selectedFleets.Remove(fleetToDeselect);
+                        }
                     }
                 }
             }
