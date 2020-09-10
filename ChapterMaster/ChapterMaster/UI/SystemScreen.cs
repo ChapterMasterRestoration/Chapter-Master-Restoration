@@ -100,7 +100,7 @@ namespace ChapterMaster.UI
                 {
                     if (view.GetMouse().LeftButton == ButtonState.Pressed)
                     {
-                        wasModified = Parent.wasModified = true;
+                        WasModified = Parent.WasModified = true;
                         ChapterMaster.sector.Systems[systemId].Planets[planetAlign.planetNo].OpenPlanetScreen(view, this);
                     }
                 }

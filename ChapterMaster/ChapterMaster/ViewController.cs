@@ -22,6 +22,7 @@ namespace ChapterMaster
         public bool systemSelected;
         public List<int> selectedFleets = new List<int>();
         public bool PlanetScreenOpen;
+        public bool IsOccluded;
         SystemScreenAlign currentSystemScreenAlign;
         //public Rectangle VisibleArea;
         //public Matrix Transform;
@@ -212,84 +213,88 @@ namespace ChapterMaster
                 //Debug.WriteLine($"x: {mouseX} y: {mouseY}");
             }
             #region System Selection
-            for (int systemId = 0; systemId < sector.Systems.Count; systemId++)
+            if (!IsOccluded)
             {
-                /*  Vector2 camPositionTransform = new Vector2(camX, camY);
-                  Vector2 originTransform = new Vector2(ChapterMaster.GetWidth() / 2, ChapterMaster.GetHeight() / 2);
-                  Vector2 upperLeft = (new Vector2(system.x,system.y) - camPositionTransform) * zoom + originTransform;
-                  upperLeft, upperLeft + (new Vector2(Constants.SYSTEM_WIDTH_HEIGHT, Constants.SYSTEM_WIDTH_HEIGHT) * zoom + originTransform) */
 
-                // TODO: replace with Rectangle.Contains
-                int ulCornerX = (int)((sector.Systems[systemId].x - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                int ulCornerY = (int)((sector.Systems[systemId].y - camY) * zoom + ChapterMaster.GetHeight() / 2);
-                int brCornerX = (int)((sector.Systems[systemId].x + Constants.SystemSize / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                int brCornerY = (int)((sector.Systems[systemId].y + Constants.SystemSize / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
-                if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY)
+                for (int systemId = 0; systemId < sector.Systems.Count; systemId++)
                 {
-                    currentSystemId = systemId;
-                    systemSelected = true;
-                    if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                    /*  Vector2 camPositionTransform = new Vector2(camX, camY);
+                      Vector2 originTransform = new Vector2(ChapterMaster.GetWidth() / 2, ChapterMaster.GetHeight() / 2);
+                      Vector2 upperLeft = (new Vector2(system.x,system.y) - camPositionTransform) * zoom + originTransform;
+                      upperLeft, upperLeft + (new Vector2(Constants.SYSTEM_WIDTH_HEIGHT, Constants.SYSTEM_WIDTH_HEIGHT) * zoom + originTransform) */
+
+                    // TODO: replace with Rectangle.Contains
+                    int ulCornerX = (int)((sector.Systems[systemId].x - camX) * zoom + ChapterMaster.GetWidth() / 2);
+                    int ulCornerY = (int)((sector.Systems[systemId].y - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                    int brCornerX = (int)((sector.Systems[systemId].x + Constants.SystemSize / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
+                    int brCornerY = (int)((sector.Systems[systemId].y + Constants.SystemSize / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                    if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY)
                     {
-                        foreach (int id in selectedFleets)
+                        currentSystemId = systemId;
+                        systemSelected = true;
+                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
                         {
-                            if (!sector.Fleets[id].isMoving && sector.Fleets[id].originSystemId != currentSystemId)
+                            foreach (int id in selectedFleets)
                             {
-                                sector.Fleets[id].destinationSystemId = currentSystemId;
-                                sector.Fleets[id].isMoving = true;
-                                sector.Fleets[id].fleetMoveProgress = 0;
-                            }
-                        }
-                    }
-                    else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
-                        if (!PlanetScreenOpen)
-                        {
-                            currentSystemScreenAlign = (SystemScreenAlign)sector.Systems[currentSystemId].OpenSystemScreen(this, currentSystemId).align;
-                            PlanetScreenOpen = true;
-                            openSystem = currentSystemId;
-                        }
-                    }
-                }
-                else
-                {
-                    delayTimer++;
-                    if (delayTimer > DeselectionDelay)
-                    {
-                        systemSelected = false;
-                        delayTimer = 0;
-                    }
-                    #region Moved To SystemScreen
-                    /*
-                    //PlanetScreenWasOpen = false;
-                    //sector.Systems[currentSystemId].CloseSystemScreen(this);
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed && systemId == openSystem)
-                        if (currentSystemScreenAlign.GetRect(this).Contains(new Point(mouseX, mouseY)))
-                        {
-                            //Debug.WriteLine("Closing planet screen"); 
-                            for(int i = 0; i < ChapterMaster.MainScreen.Screens.Count; i++)
-                            {
-                                if (ChapterMaster.MainScreen.Screens[i] is SystemScreen)
+                                if (!sector.Fleets[id].isMoving && sector.Fleets[id].originSystemId != currentSystemId)
                                 {
-                                   // Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.PlanetScreen; };
-                                    //ChapterMaster.MainScreen.Screens[i].Screens.RemoveAll(predicate);
+                                    sector.Fleets[id].destinationSystemId = currentSystemId;
+                                    sector.Fleets[id].isMoving = true;
+                                    sector.Fleets[id].fleetMoveProgress = 0;
                                 }
                             }
-
                         }
-                        else 
+                        else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                         {
-                           // Debug.WriteLine("Closing system screen");
-                           // Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.SystemScreen; };
-                            //ChapterMaster.MainScreen.Screens.RemoveAll(predicate);
-                           // PlanetScreenOpen = false;
-                            //openSystem = -1;
+                            if (!PlanetScreenOpen)
+                            {
+                                currentSystemScreenAlign = (SystemScreenAlign)sector.Systems[currentSystemId].OpenSystemScreen(this, currentSystemId).align;
+                                PlanetScreenOpen = true;
+                                openSystem = currentSystemId;
+                            }
                         }
-                        */
-                    #endregion
+                    }
+                    else
+                    {
+                        delayTimer++;
+                        if (delayTimer > DeselectionDelay)
+                        {
+                            systemSelected = false;
+                            delayTimer = 0;
+                        }
+                        #region Moved To SystemScreen
+                        /*
+                        //PlanetScreenWasOpen = false;
+                        //sector.Systems[currentSystemId].CloseSystemScreen(this);
+                        if (Mouse.GetState().LeftButton == ButtonState.Pressed && systemId == openSystem)
+                            if (currentSystemScreenAlign.GetRect(this).Contains(new Point(mouseX, mouseY)))
+                            {
+                                //Debug.WriteLine("Closing planet screen"); 
+                                for(int i = 0; i < ChapterMaster.MainScreen.Screens.Count; i++)
+                                {
+                                    if (ChapterMaster.MainScreen.Screens[i] is SystemScreen)
+                                    {
+                                       // Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.PlanetScreen; };
+                                        //ChapterMaster.MainScreen.Screens[i].Screens.RemoveAll(predicate);
+                                    }
+                                }
+
+                            }
+                            else 
+                            {
+                               // Debug.WriteLine("Closing system screen");
+                               // Predicate<UI.Screen> predicate = delegate (UI.Screen screen) { return screen is UI.SystemScreen; };
+                                //ChapterMaster.MainScreen.Screens.RemoveAll(predicate);
+                               // PlanetScreenOpen = false;
+                                //openSystem = -1;
+                            }
+                            */
+                        #endregion
+                    }
                 }
             }
             #endregion
-            #region Fleet Selection
+            #region Old Fleet Selection
             // TODO: rewrite all this crap using Fleet.Intersect
             /*
             for (int fleetId = 0; fleetId < sector.Fleets.Count; fleetId++)
@@ -385,7 +390,9 @@ namespace ChapterMaster
                 }
             }
             */
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed && previousLMBState == ButtonState.Released)
+            #endregion
+            #region Fleet Selection
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && previousLMBState == ButtonState.Released && !IsOccluded)
             {
                 bool notWasOverFleet = true;
                 for (int fleetId = 0; fleetId < sector.Fleets.Count; fleetId++)
@@ -467,6 +474,7 @@ namespace ChapterMaster
                 }
             }
             ChapterMaster.DebugString = "System: " + currentSystemId + "\n" + "Fleet: " + fleets;
+            IsOccluded = false;
         }
         public MouseState GetMouse()
         {
