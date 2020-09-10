@@ -44,6 +44,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="World\Faction\Faction.cs" />
     <Compile Include="World\Fleet\Fleet.cs" />
     <Compile Include="Render\RenderHelper.cs" />
     <Compile Include="UI\Align\Align.cs" />
