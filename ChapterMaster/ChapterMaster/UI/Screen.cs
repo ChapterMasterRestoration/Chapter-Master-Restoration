@@ -15,14 +15,16 @@ namespace ChapterMaster.UI
         public List<Screen> Screens = new List<Screen>();
         public List<Button> Buttons = new List<Button>();
         public Align.Align align;
-        public bool wasModified;
+        public bool WasModified;
+        public bool DoesOcclusion;
 
-        public Screen(int screenId, string backgroundTexture, Align.Align align)
+        public Screen(int screenId, string backgroundTexture, Align.Align align, bool DoesOcclusion = true)
         {
             this.screenId = screenId;
             this.backgroundTexture = backgroundTexture;
             this.align = align;
             this.align.Screen = this;
+            this.DoesOcclusion = DoesOcclusion;
         }
         public virtual void Render(SpriteBatch spriteBatch, ViewController view)
         {
@@ -32,9 +34,10 @@ namespace ChapterMaster.UI
             {
                 button.Render(spriteBatch, view);
             }
+            // The proletariat will rise.
             for (int n = 0; n < Screens.Count; n++)
             {
-                if(wasModified)
+                if(WasModified)
                 {
                     //wasModified = false; // idk
                     //break;
@@ -51,12 +54,20 @@ namespace ChapterMaster.UI
             }
             for (int n = 0; n < Screens.Count; n++)
             {
-                if (wasModified)
+                if (WasModified)
                 {
-                    wasModified = false;
+                    WasModified = false;
                     break;
                 }
                 Screens[n].Update(view);
+            }
+            if (DoesOcclusion)
+            {
+                // TO DO: Implement more advanced occlusion.
+                if (Rect.Contains(view.GetMouse().Position))
+                {
+                    view.IsOccluded = true;
+                }
             }
         }
         public virtual void ExitScreen(MouseState mouseState, object sender)
@@ -67,8 +78,8 @@ namespace ChapterMaster.UI
         {
             Screen screen1 = screen;
             screen1.Parent = this;
-            if(Parent != null) Parent.wasModified = true;
-            wasModified = true;
+            if(Parent != null) Parent.WasModified = true;
+            WasModified = true;
             Screens.Add(screen1);
         }
         public void AddButton(Button button)

@@ -134,7 +134,7 @@ namespace ChapterMaster
             #endregion
             renderer = new SectorRenderer();
             view = new ViewController();
-            MainScreen = new Screen(0, "mapframe", new MapFrameAlign(11,61,11,10));
+            MainScreen = new Screen(0, "mapframe", new MapFrameAlign(11,61,11,10), false); // TODO: The proletariat will rise. Enable advanced occlusion for the map frame.
             view.viewPortWidth = GetWidth();
             view.viewPortHeight = GetHeight();
             // 144 43
@@ -203,8 +203,8 @@ namespace ChapterMaster
             }
             view.MouseSelection(sector);
             DebugString += "\n" + sector.GetImperialDate();
-            view.Update();
             MainScreen.Update(view);
+            view.Update();
             base.Update(gameTime);
         }
         /// <summary>

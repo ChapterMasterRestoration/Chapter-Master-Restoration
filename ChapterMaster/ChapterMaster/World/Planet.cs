@@ -37,12 +37,14 @@ namespace ChapterMaster.World
         public int planetId;
         public Type Type;
         public int Population;
+        public string FactionOwner; // Planetary ownership could be extended later on with combat. Dictionary<string Faction, float controlpercentage>
 
-        public Planet(Type Type, int systemId, int planetId)
+        public Planet(Type Type, int systemId, int planetId, string FactionOwner = "Imperium") // Ave Imperator.
         {
             this.Type = Type;
             this.systemId = systemId;
             this.planetId = planetId;
+            this.FactionOwner = FactionOwner;
         }
         public static int TypeToTexture(Type type)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using ChapterMaster.Util;
 
 namespace ChapterMaster.World
@@ -10,6 +11,7 @@ namespace ChapterMaster.World
         // static organization of lane graph
         public List<WarpLane> WarpLanes = new List<WarpLane>(); // like this?
         public List<Fleet.Fleet> Fleets = new List<Fleet.Fleet>();
+        public Dictionary<string, Faction.Faction> Factions = new Dictionary<string, Faction.Faction>();
 
         int Turn;
         #region Generation
@@ -784,7 +786,8 @@ namespace ChapterMaster.World
                 }
             }
         }
-        public void GenerateSystemNames() {
+        public void GenerateSystemNames()
+        {
             // https://stackoverflow.com/questions/273313/randomize-a-listt Fisher-Yates shuffle
             int i = SystemNames.Count;
             while (i > 1)
@@ -795,7 +798,7 @@ namespace ChapterMaster.World
                 SystemNames[k] = SystemNames[i];
                 SystemNames[i] = value;
             }
-            for(int n = 0; n < Systems.Count; n++)
+            for (int n = 0; n < Systems.Count; n++)
             {
                 Systems[n].name = SystemNames[n];
             }
@@ -806,9 +809,10 @@ namespace ChapterMaster.World
         public void GeneratePlanets()
         {
 
-            for (int n = 0; n < Systems.Count; n++) {
+            for (int n = 0; n < Systems.Count; n++)
+            {
                 Systems[n].id = n; // please don't judge me for this
-                int numberOfPlanets = (int) Math.Ceiling(MathUtil.NormallyDistributedSingle(random,2,2,0.1f,4));
+                int numberOfPlanets = (int)Math.Ceiling(MathUtil.NormallyDistributedSingle(random, 2, 2, 0.1f, 4));
                 int numberOfForge = 0;
                 if (noForge < forgeMinimum)
                 {
@@ -819,12 +823,12 @@ namespace ChapterMaster.World
                         noForge++;
                     }
                 }
-                for (int nPlanet = numberOfForge; nPlanet < numberOfPlanets; nPlanet ++)
+                for (int nPlanet = numberOfForge; nPlanet < numberOfPlanets; nPlanet++)
                 {
                     int type = random.Next(16);
                     if (type == 7) break;
-                    if (type == (int) Type.FORGE) noForge++;
-                    Systems[n].Planets.Add(new Planet((Type) type, n, nPlanet));
+                    if (type == (int)Type.FORGE) noForge++;
+                    Systems[n].Planets.Add(new Planet((Type)type, n, nPlanet));
                 }
 
             }
@@ -855,6 +859,11 @@ namespace ChapterMaster.World
                 fleet.Update(this);
             }
             Turn++;
+            Systems[0].Planets[0].FactionOwner = "Orks";
+            foreach (KeyValuePair<string, float> DasKapital in Systems[0].FindOwners())
+            {
+                Debug.WriteLine($"Faction : {DasKapital.Key}, Control : {DasKapital.Value}");
+            }
         }
 
         public string GetImperialDate()
