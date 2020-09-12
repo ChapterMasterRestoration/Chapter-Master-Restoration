@@ -48,8 +48,16 @@ namespace ChapterMaster
             spriteBatch.Draw(ChapterMaster.SystemTextures[system.color],rect, Color.White);
             Rectangle rectLabel = view.TransformedOriginRect(system.x + Constants.SystemSize/4, system.y - Constants.SystemSize/4, Constants.SystemSize, true);
             Vector2 position = new Vector2(rectLabel.Left, rectLabel.Bottom);
+            string name = system.name.Replace("’", "'");
+            Vector2 nameSize = ChapterMaster.Courier_New.MeasureString(name);
             // TODO: scale system name better.
-            spriteBatch.DrawString(ChapterMaster.Courier_New, system.name.Replace("’", "'"), position, Color.White, 0, new Vector2(0,0),view.zoom+0.3f, SpriteEffects.None,0);
+            spriteBatch.DrawString(ChapterMaster.Courier_New, name, position, Color.White, 0, new Vector2(0,0),view.zoom+0.3f, SpriteEffects.None,0);
+            string owners = "";
+            foreach(KeyValuePair<string, float> control in system.FindOwners())
+            {
+                owners += control.Key.Substring(0, 1) + $": {(control.Value * 100).ToString("G3")}%,";
+            }
+            spriteBatch.DrawString(ChapterMaster.Courier_New, owners, new Vector2(rectLabel.Left, rectLabel.Bottom + nameSize.Y * view.zoom + 1), Color.White, 0, new Vector2(0, 0), view.zoom + 0.3f, SpriteEffects.None, 0);
         }
         public void DrawFleet(SpriteBatch spriteBatch, Fleet.Fleet fleet, Color color, ViewController view, Sector sector)
         {

@@ -16,6 +16,37 @@ namespace ChapterMaster
     /// </summary>
     public class ChapterMaster : Game
     {
+        public class Startup
+        {
+            int progress = 0;
+            public void Initialize(Sector sector, Microsoft.Xna.Framework.Content.ContentManager content)
+            {
+                sector.Prepare();
+                // idk what minimum distance we should do
+                sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
+                sector.WarpLaneGenerate();
+                sector.GenerateSystemNames();
+                sector.GeneratePlanets();
+                sector.Fleets.Add(new Fleet.Fleet(0, 0, 0));
+                sector.Fleets.Add(new Fleet.Fleet(0, 1, 0));
+                sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
+                sector.Fleets.Add(new Fleet.Fleet(0, 1, 1));
+                progress += 10;
+                #region Load Fonts
+                ChapterMaster.Caslon_Antique_Regular = content.Load<SpriteFont>("font/caslon-antique.regular");
+                Caslon_Antique_Bold = content.Load<SpriteFont>("font/caslon-antique.bold");
+                ARJULIAN = content.Load<SpriteFont>("font/ARJULIAN");
+                Courier_New = content.Load<SpriteFont>("font/cour");
+                #endregion
+                progress += 5;
+            }
+            public void Draw(SpriteBatch spriteBatch)
+            {
+                spriteBatch.Begin();
+                spriteBatch.End();
+            }
+        }
+        private Startup startup = new Startup();
         public static GameWindow window;
         GraphicsDeviceManager graphics;
         public static GraphicsDevice graphicsDevice;
@@ -62,16 +93,7 @@ namespace ChapterMaster
             // TODO: Add your initialization logic here
             this.IsMouseVisible = true;
             Window.Title = "Chapter Master Revived";
-            sector.Prepare();
-            // idk what minimum distance we should do
-            sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
-            sector.WarpLaneGenerate();
-            sector.GenerateSystemNames();
-            sector.GeneratePlanets();
-            sector.Fleets.Add(new Fleet.Fleet(0,0,0));
-            sector.Fleets.Add(new Fleet.Fleet(0, 1, 0));
-            sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
-            sector.Fleets.Add(new Fleet.Fleet(0, 1, 1));
+            startup.Initialize(sector,this.Content);
             // Initialize UI
 
             base.Initialize();
@@ -88,12 +110,7 @@ namespace ChapterMaster
             spriteBatch = new SpriteBatch(graphicsDevice);
             #endregion
             Loader.CONTENT_ROOT = Content.RootDirectory;
-            #region Load Fonts
-            Caslon_Antique_Regular = this.Content.Load<SpriteFont>("font/caslon-antique.regular");
-            Caslon_Antique_Bold = this.Content.Load<SpriteFont>("font/caslon-antique.bold");
-            ARJULIAN = this.Content.Load<SpriteFont>("font/ARJULIAN");
-            Courier_New = this.Content.Load<SpriteFont>("font/cour");
-            #endregion
+
             #region Load UI Textures
             UITextures = new Dictionary<string, Texture2D>();
             background = Loader.LoadPNG("background/bg_space");
@@ -214,6 +231,7 @@ namespace ChapterMaster
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            startup.Draw(spriteBatch);
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.Deferred,
                   BlendState.NonPremultiplied, SamplerState.LinearWrap, null, null);

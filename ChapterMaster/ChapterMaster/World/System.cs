@@ -66,7 +66,7 @@ namespace ChapterMaster.World
                 {
                     factions.Add(Planets[planetindex].FactionOwner, 0);
                 }
-                factions[Planets[planetindex].FactionOwner] = (float)1 / (float)Planets.Count;
+                factions[Planets[planetindex].FactionOwner] += (float)1 / (float)Planets.Count;
             }
             return factions;
         }

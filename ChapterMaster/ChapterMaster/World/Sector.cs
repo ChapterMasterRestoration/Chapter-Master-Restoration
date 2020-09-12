@@ -804,6 +804,7 @@ namespace ChapterMaster.World
             }
         }
         int forgeMinimum = 4;
+        int forgeMaximum = 10; // TODO: implement
         int noForge = 0;
         public List<Type> Types;
         public void GeneratePlanets()
@@ -826,9 +827,10 @@ namespace ChapterMaster.World
                 for (int nPlanet = numberOfForge; nPlanet < numberOfPlanets; nPlanet++)
                 {
                     int type = random.Next(16);
-                    if (type == 7) break;
+
                     if (type == (int)Type.FORGE) noForge++;
-                    Systems[n].Planets.Add(new Planet((Type)type, n, nPlanet));
+                    if (type != 7)
+                        Systems[n].Planets.Add(new Planet((Type)type, n, nPlanet));
                 }
 
             }
@@ -852,7 +854,7 @@ namespace ChapterMaster.World
         {
             foreach (System system in Systems)
             {
-                system.Update(this);
+                //system.Update(this);
             }
             foreach (Fleet.Fleet fleet in Fleets)
             {
