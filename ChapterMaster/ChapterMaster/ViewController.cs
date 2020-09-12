@@ -442,6 +442,7 @@ namespace ChapterMaster
                     // marx is a god! praise Bozhe and marx and the Tsar and the Omnissiah.
                     // kill stalin and hitler!
                     // btw lenin sucks.
+                    // i'm not even sure how this works.
                     for (int fleetToDeselect = 0; fleetToDeselect < sector.Fleets.Count; fleetToDeselect++)
                     {
                         if (!sector.Fleets[fleetToDeselect].Intersects(this))

@@ -55,5 +55,12 @@ namespace ChapterMaster.World
             view.PlanetScreenOpen = false;
             view.openSystem = -1;
         }
+        public void Update(Sector sector)
+        {
+            foreach(Planet planet in Planets)
+            {
+                
+            }
+        }
     }
 }

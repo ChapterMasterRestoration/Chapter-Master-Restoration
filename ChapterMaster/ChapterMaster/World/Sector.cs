@@ -848,7 +848,7 @@ namespace ChapterMaster.World
         {
             foreach (System system in Systems)
             {
-
+                system.Update(this);
             }
             foreach (Fleet.Fleet fleet in Fleets)
             {
