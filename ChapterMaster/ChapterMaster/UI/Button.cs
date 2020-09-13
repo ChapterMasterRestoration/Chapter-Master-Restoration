@@ -29,8 +29,8 @@ namespace ChapterMaster.UI
             if (buttonTextureId >= 0)
             {
                 position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TODO: fix: don't even expose position
-                spriteBatch.Draw(ChapterMaster.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
-                spriteBatch.DrawString(ChapterMaster.Caslon_Antique_Regular, text, position, Color.White);
+                spriteBatch.Draw(GameState.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
+                spriteBatch.DrawString(GameState.Caslon_Antique_Regular, text, position, Color.White);
             }
         }
     }

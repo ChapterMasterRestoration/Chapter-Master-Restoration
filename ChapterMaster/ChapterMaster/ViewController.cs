@@ -56,7 +56,7 @@ namespace ChapterMaster
             {
                 camX -= cameraSpeed;
             }
-            if (Mouse.GetState().X >= ChapterMaster.GetWidth())
+            if (Mouse.GetState().X >= GameState.GetWidth())
             {
                 camX += cameraSpeed;
             }
@@ -64,7 +64,7 @@ namespace ChapterMaster
             {
                 camY -= cameraSpeed;
             }
-            if (Mouse.GetState().Y >= ChapterMaster.GetHeight())
+            if (Mouse.GetState().Y >= GameState.GetHeight())
             {
                 camY += cameraSpeed;
             }
@@ -136,7 +136,7 @@ namespace ChapterMaster
         #region Transform Helpers
         public Vector2 GetViewTransform(int x, int y)
         {
-            return new Vector2((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2), (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2));
+            return new Vector2((int)((x - camX) * zoom + GameState.GetWidth() / 2), (int)((y - camY) * zoom + GameState.GetHeight() / 2));
         }
 
         /// <summary>
@@ -147,15 +147,15 @@ namespace ChapterMaster
         {
             if (enableZoom)
             {
-                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
-                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                return new Rectangle((int)((x - camX) * zoom + GameState.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + GameState.GetHeight() / 2),
                                      (int)(width * scaleX * zoom),
                                      (int)(height * scaleY * zoom));
             }
             else
             {
-                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
-                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                return new Rectangle((int)((x - camX) * zoom + GameState.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + GameState.GetHeight() / 2),
                                      (int)(width * scaleX),
                                      (int)(height * scaleY));
             }
@@ -164,15 +164,15 @@ namespace ChapterMaster
         {
             if (enableZoom)
             {
-                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
-                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                return new Rectangle((int)((x - camX) * zoom + GameState.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + GameState.GetHeight() / 2),
                                      (int)(size * scaleX * zoom),
                                      (int)(size * scaleY * zoom));
             }
             else
             {
-                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
-                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                return new Rectangle((int)((x - camX) * zoom + GameState.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + GameState.GetHeight() / 2),
                                      (int)(size * scaleX),
                                      (int)(size * scaleY));
             }
@@ -181,15 +181,15 @@ namespace ChapterMaster
         {
             if (enableZoom)
             {
-                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
-                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                return new Rectangle((int)((x - camX) * zoom + GameState.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + GameState.GetHeight() / 2),
                                      (int)(size * scaleX * zoom),
                                      (int)(size * scaleY * zoom));
             }
             else
             {
-                return new Rectangle((int)((x - camX) * zoom + ChapterMaster.GetWidth() / 2),
-                                     (int)((y - camY) * zoom + ChapterMaster.GetHeight() / 2),
+                return new Rectangle((int)((x - camX) * zoom + GameState.GetWidth() / 2),
+                                     (int)((y - camY) * zoom + GameState.GetHeight() / 2),
                                      (int)(size * scaleX),
                                      (int)(size * scaleY));
             }
@@ -224,10 +224,10 @@ namespace ChapterMaster
                       upperLeft, upperLeft + (new Vector2(Constants.SYSTEM_WIDTH_HEIGHT, Constants.SYSTEM_WIDTH_HEIGHT) * zoom + originTransform) */
 
                     // TODO: replace with Rectangle.Contains
-                    int ulCornerX = (int)((sector.Systems[systemId].x - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                    int ulCornerY = (int)((sector.Systems[systemId].y - camY) * zoom + ChapterMaster.GetHeight() / 2);
-                    int brCornerX = (int)((sector.Systems[systemId].x + Constants.SystemSize / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                    int brCornerY = (int)((sector.Systems[systemId].y + Constants.SystemSize / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
+                    int ulCornerX = (int)((sector.Systems[systemId].x - camX) * zoom + GameState.GetWidth() / 2);
+                    int ulCornerY = (int)((sector.Systems[systemId].y - camY) * zoom + GameState.GetHeight() / 2);
+                    int brCornerX = (int)((sector.Systems[systemId].x + Constants.SystemSize / 2 - camX) * zoom + GameState.GetWidth() / 2);
+                    int brCornerY = (int)((sector.Systems[systemId].y + Constants.SystemSize / 2 - camY) * zoom + GameState.GetHeight() / 2);
                     if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY)
                     {
                         currentSystemId = systemId;
@@ -474,7 +474,7 @@ namespace ChapterMaster
                     fleets += coId + ", ";
                 }
             }
-            ChapterMaster.DebugString = "System: " + currentSystemId + "\n" + "Fleet: " + fleets;
+            GameState.DebugString = "System: " + currentSystemId + "\n" + "Fleet: " + fleets;
             IsOccluded = false;
         }
         public MouseState GetMouse()

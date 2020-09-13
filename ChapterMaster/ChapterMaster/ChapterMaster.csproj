@@ -44,7 +44,12 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets.cs" />
+    <Compile Include="GameManager.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="State\LoadingState.cs" />
+    <Compile Include="State\MenuState.cs" />
+    <Compile Include="State\State.cs" />
     <Compile Include="World\Faction\Faction.cs" />
     <Compile Include="World\Fleet\Fleet.cs" />
     <Compile Include="Render\RenderHelper.cs" />
@@ -65,7 +70,7 @@
     <Compile Include="UI\VisibleElement.cs" />
     <Compile Include="Util\MathUtil.cs" />
     <Compile Include="Util\Constants.cs" />
-    <Compile Include="ChapterMaster.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="Util\Loader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

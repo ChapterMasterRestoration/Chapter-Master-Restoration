@@ -28,21 +28,21 @@ namespace ChapterMaster.UI
         // Implement planets as buttons?
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
-            World.System system = ChapterMaster.sector.Systems[systemId];
+            World.System system = GameState.sector.Systems[systemId];
             ((SystemScreenAlign)align).pinned = notInWorld;
             Rect = align.GetRect(view);
             exitButton.position = MathUtil.Add(Rect.Location, new Vector2(247, 261));
             //pinButton.position = new Vector2(247, 20);
             // TODO: replace with align
-            spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture + system.Planets.Count], Rect, Color.White); // TODO: This will go awry if a system has 5 planets. Add a new System Screen. Most likely.
-            Vector2 stringSize = ChapterMaster.Caslon_Antique_Bold.MeasureString(system.name + " System");
+            spriteBatch.Draw(GameState.UITextures[backgroundTexture + system.Planets.Count], Rect, Color.White); // TODO: This will go awry if a system has 5 planets. Add a new System Screen. Most likely.
+            Vector2 stringSize = GameState.Caslon_Antique_Bold.MeasureString(system.name + " System");
             //Debug.WriteLine(stringSize.X);
-            spriteBatch.DrawString(ChapterMaster.Caslon_Antique_Bold, system.name + " System", MathUtil.Add(Rect.Location, new Vector2(80, 12)), Color.Gray);
+            spriteBatch.DrawString(GameState.Caslon_Antique_Bold, system.name + " System", MathUtil.Add(Rect.Location, new Vector2(80, 12)), Color.Gray);
             // TODO: replace with align component
             Point position = Rect.Location + new Point(50 - Constants.SystemSize / 2, 120 - Constants.SystemSize/2);
             Vector2 pos = new Vector2(position.X, position.Y);
             // TODO: better way to pass the system's color
-            RenderHelper.DrawStar(spriteBatch, pos, ChapterMaster.sector.Systems[systemId].color);
+            RenderHelper.DrawStar(spriteBatch, pos, GameState.sector.Systems[systemId].color);
             planetAligns.Clear();
             for (int noPlanet = 0; noPlanet < system.Planets.Count; noPlanet++)
             {
@@ -54,7 +54,7 @@ namespace ChapterMaster.UI
                 PlanetAlign planetAlign = new PlanetAlign(noPlanet, pos, 80, 42, 120 - Constants.SystemSize);
                 RenderHelper.DrawPlanet(spriteBatch, new Vector2(),
                     Planet.TypeToTexture(system.Planets[noPlanet].Type), planetAlign, view);
-                spriteBatch.DrawString(ChapterMaster.Caslon_Antique_Bold, Constants.PlanetNames[system.Planets[noPlanet].planetId], planetAlign.planetPos + new Vector2(16,32), Color.Gray);
+                spriteBatch.DrawString(GameState.Caslon_Antique_Bold, Constants.PlanetNames[system.Planets[noPlanet].planetId], planetAlign.planetPos + new Vector2(16,32), Color.Gray);
                 planetAligns.Add(planetAlign);
 
             }
@@ -91,7 +91,7 @@ namespace ChapterMaster.UI
                         }
                     }
                     if(!overPlanetScreen)
-                        ChapterMaster.sector.Systems[systemId].CloseSystemScreen(view);
+                        GameState.sector.Systems[systemId].CloseSystemScreen(view);
                 }
             }
             foreach (PlanetAlign planetAlign in planetAligns)
@@ -101,7 +101,7 @@ namespace ChapterMaster.UI
                     if (view.GetMouse().LeftButton == ButtonState.Pressed)
                     {
                         WasModified = Parent.WasModified = true;
-                        ChapterMaster.sector.Systems[systemId].Planets[planetAlign.planetNo].OpenPlanetScreen(view, this);
+                        GameState.sector.Systems[systemId].Planets[planetAlign.planetNo].OpenPlanetScreen(view, this);
                     }
                 }
             }
@@ -115,7 +115,7 @@ namespace ChapterMaster.UI
         public override void ExitScreen(MouseState mouseState, object sender)
         {
             base.ExitScreen(mouseState, sender);
-            ChapterMaster.sector.Systems[systemId].CloseSystemScreen(ChapterMaster.view);
+            GameState.sector.Systems[systemId].CloseSystemScreen(GameState.view);
         }
     }
 }

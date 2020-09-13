@@ -14,7 +14,7 @@ namespace Game1
         [STAThread]
         static void Main()
         {
-            using (var game = new ChapterMaster.ChapterMaster())
+            using (var game = new ChapterMaster.GameState())
                 game.Run();
         }
     }

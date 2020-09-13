@@ -34,8 +34,8 @@ namespace ChapterMaster.World
         {
             if (!view.PlanetScreenOpen)
             {
-                SystemScreen planetsScreen = new SystemScreen(1, "systemscreen", systemId, new SystemScreenAlign(ChapterMaster.MainScreen.align,systemId));
-                ChapterMaster.MainScreen.AddChildScreen(planetsScreen);
+                SystemScreen planetsScreen = new SystemScreen(1, "systemscreen", systemId, new SystemScreenAlign(GameState.MainScreen.align,systemId));
+                GameState.MainScreen.AddChildScreen(planetsScreen);
                 return planetsScreen;
             }
             return null;
@@ -53,7 +53,7 @@ namespace ChapterMaster.World
                     else return false;
                 } else { return false; }
             };
-            ChapterMaster.MainScreen.Screens.RemoveAll(predicate);
+            GameState.MainScreen.Screens.RemoveAll(predicate);
             view.PlanetScreenOpen = false;
             view.openSystem = -1;
         }

@@ -29,7 +29,7 @@ namespace ChapterMaster.UI
         public virtual void Render(SpriteBatch spriteBatch, ViewController view)
         {
             Rect = align.GetRect(view);
-            spriteBatch.Draw(ChapterMaster.UITextures[backgroundTexture], Rect, Color.White);
+            spriteBatch.Draw(GameState.UITextures[backgroundTexture], Rect, Color.White);
             foreach (Button button in Buttons)
             {
                 button.Render(spriteBatch, view);
