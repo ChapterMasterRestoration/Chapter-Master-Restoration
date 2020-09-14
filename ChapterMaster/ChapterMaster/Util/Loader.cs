@@ -16,7 +16,7 @@ namespace ChapterMaster
         {
             Texture2D texture;
             FileStream file = new FileStream(CONTENT_ROOT + "/" + Constants.ImageDirectory + "/" + name + ".png", FileMode.Open);
-            texture = Texture2D.FromStream(GameState.graphicsDevice, file);
+            texture = Texture2D.FromStream(GameManager.graphicsDevice, file);
             file.Close();
             return texture;
         }

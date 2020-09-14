@@ -24,11 +24,11 @@ namespace ChapterMaster.UI.Align
             Rectangle rect;
             if (!pinned)
             {
-                rect = view.TransformedOriginRect(GameState.sector.Systems[systemId].x,
-                                           GameState.sector.Systems[systemId].y, width, height, false);
+                rect = view.TransformedOriginRect(ChapterMaster.Sector.Systems[systemId].x,
+                                           ChapterMaster.Sector.Systems[systemId].y, width, height, false);
             } else
             {
-                rect = new Rectangle(GameState.sector.Systems[systemId].x, GameState.sector.Systems[systemId].y, width, height);
+                rect = new Rectangle(ChapterMaster.Sector.Systems[systemId].x, ChapterMaster.Sector.Systems[systemId].y, width, height);
             }
             if (rect.Top < parentAlign.topMargin)
             {

@@ -13,7 +13,7 @@ namespace ChapterMaster
         public static SpriteFont Caslon_Antique_Bold;
         public static SpriteFont ARJULIAN;
         public static SpriteFont Courier_New;
-        private Texture2D background;
+        public static Texture2D Background;
         public static Dictionary<string, Texture2D> UITextures;
         public static Texture2D[] ButtonTextures = new Texture2D[5];
         public static Texture2D[] SystemTextures = new Texture2D[6];

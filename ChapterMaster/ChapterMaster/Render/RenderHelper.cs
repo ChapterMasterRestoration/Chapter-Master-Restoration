@@ -19,27 +19,27 @@ namespace ChapterMaster.Render
         }
         public static void DrawStar(SpriteBatch spriteBatch, Rectangle rect, int color, Align align = null, ViewController view = null)
         {
-            spriteBatch.Draw(GameState.SystemTextures[color], rect, Color.White);
+            spriteBatch.Draw(Assets.SystemTextures[color], rect, Color.White);
         }
         public static void DrawStar(SpriteBatch spriteBatch,Vector2 position, int color,Align align = null, ViewController view = null)
         {
             if (align == null)
             {
-                spriteBatch.Draw(GameState.SystemTextures[color], position, Color.White);
+                spriteBatch.Draw(Assets.SystemTextures[color], position, Color.White);
             } else if(align != null && view != null)
             {
-                spriteBatch.Draw(GameState.SystemTextures[color], align.GetRect(view), Color.White);
+                spriteBatch.Draw(Assets.SystemTextures[color], align.GetRect(view), Color.White);
             }
         }
         public static void DrawPlanet(SpriteBatch spriteBatch, Vector2 position, int texture, Align align = null, ViewController view = null)
         {
             if (align == null)
             {
-                spriteBatch.Draw(GameState.PlanetTextures[texture], position, Color.White);
+                spriteBatch.Draw(Assets.PlanetTextures[texture], position, Color.White);
             }
             else if (align != null && view != null)
             {
-                spriteBatch.Draw(GameState.PlanetTextures[texture], align.GetRect(view), Color.White);
+                spriteBatch.Draw(Assets.PlanetTextures[texture], align.GetRect(view), Color.White);
             }
         }
     }

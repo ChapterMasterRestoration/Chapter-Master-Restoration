@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -12,7 +14,8 @@ namespace ChapterMaster.State
     using Asset = Tuple<string, int>;
     public class LoadingState : State
     {
-        Stack<Asset> assetsToLoad;
+        GameManager gameManager;
+        Stack<Asset> assetsToLoad = new Stack<Asset>();
         GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
         PrimitiveBuddy.Primitive primitive;
@@ -20,6 +23,7 @@ namespace ChapterMaster.State
 
         public LoadingState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(gameManager, graphicsDevice, contentManager)
         {
+            this.gameManager = gameManager;
             this.graphicsDevice = graphicsDevice;
             assetsToLoad.Push(new Asset("Fleet Textures", 17));
             assetsToLoad.Push(new Asset("Background", 15));
@@ -46,8 +50,8 @@ namespace ChapterMaster.State
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(Assets.LoadingScreen, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), Color.White);
-            DrawProgressBar(spriteBatch, graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2, 200, 80, progress, Color.Gray, Color.Yellow);
+            spriteBatch.Draw(Assets.LoadingScreen, new Rectangle(0, 0, GameManager.GetWidth(), GameManager.GetHeight()), Color.White);
+            DrawProgressBar(spriteBatch, GameManager.GetWidth() / 2, GameManager.GetHeight() / 2, 200, 80, progress, Color.Gray, Color.Yellow);
             spriteBatch.End();
         }
 
@@ -65,25 +69,68 @@ namespace ChapterMaster.State
                 switch (asset.Item1)
                 {
                     case "Fleet Textures":
+                        for (int faction = 0; faction < Constants.FleetTexture.Length; faction++)
+                        {
+                            Assets.FleetTextures[faction] = new Texture2D[Constants.FleetStateLimit[faction]];
+                            for (int state = 0; state < Constants.FleetStateLimit[faction]; state++)
+                            {
+                                Assets.FleetTextures[faction][state] = Loader.LoadPNG("spr_fleet_" + Constants.FleetTexture[faction] + "_" + state);
+                            }
+                        }
                         break;
                     case "Background":
+                        Assets.Background = Loader.LoadPNG("background/bg_space");
                         break;
                     case "Planet Climate Textures":
+                        for (int i = 1; i < Assets.PlanetTypeTextures.Length; i++)
+                        {
+                            Assets.PlanetTypeTextures[i] = Loader.LoadPNG("ui/planet" + i);
+                        }
                         break;
                     case "Planet Textures":
+                        for (int i = 0; i < Assets.PlanetTextures.Length; i++)
+                        {
+                            Assets.PlanetTextures[i] = Loader.LoadPNG("spr_planets_" + i);
+                        }
                         break;
                     case "System Textures":
+                        for (int i = 0; i < Assets.SystemTextures.Length; i++)
+                        {
+                            Assets.SystemTextures[i] = Loader.LoadPNG("spr_star_" + i);
+                        }
                         break;
                     case "Button Textures":
+                        for (int i = 0; i < Assets.ButtonTextures.Length - 1; i++)
+                        {
+                            Assets.ButtonTextures[i] = Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0");
+                        }
+                        Assets.ButtonTextures[4] = Loader.LoadPNG("spr_pin_button");
                         break;
                     case "UI Textures":
+                        Assets.UITextures = new Dictionary<string, Texture2D>();
+                        Assets.UITextures.Add("mapframe", Loader.LoadPNG("spr_new_ui_1"));
+                        Assets.UITextures.Add("systemscreen1", Loader.LoadPNG("spr_star_screen_1"));
+                        Assets.UITextures.Add("systemscreen2", Loader.LoadPNG("spr_star_screen_2"));
+                        Assets.UITextures.Add("systemscreen3", Loader.LoadPNG("spr_star_screen_3"));
+                        Assets.UITextures.Add("systemscreen4", Loader.LoadPNG("spr_star_screen_4"));
+                        Assets.UITextures.Add("planetscreen", Loader.LoadPNG("spr_planet_screen_1")); // modified texture by removing extra space
                         break;
                     case "Fonts":
                         break;
                     default:
                         throw new Exception($"Asset type {asset.Item1} is not recognized");
                 }
+                progress += asset.Item2;
+            } else
+            {
+                Debug.WriteLine("Switching to game state");
+                gameManager.ChangeState(new GameState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
             }
+        }
+
+        public override void Resize(GameWindow window)
+        {
+            
         }
     }
 }

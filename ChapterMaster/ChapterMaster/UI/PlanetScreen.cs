@@ -17,31 +17,31 @@ namespace ChapterMaster.UI
 
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
-            World.System system = GameState.sector.Systems[systemId];
-            World.Planet planet = GameState.sector.Systems[systemId].Planets[planetId];
+            World.System system = ChapterMaster.Sector.Systems[systemId];
+            World.Planet planet = ChapterMaster.Sector.Systems[systemId].Planets[planetId];
             Rect = align.GetRect(view);
             // background
-            spriteBatch.Draw(GameState.UITextures[backgroundTexture], Rect, Color.White);
+            spriteBatch.Draw(Assets.UITextures[backgroundTexture], Rect, Color.White);
             // disposition height
             string disposition = "Disposition ???/100";
-            int dH = (int) GameState.Caslon_Antique_Regular.MeasureString(disposition).Y;
+            int dH = (int) Assets.Caslon_Antique_Regular.MeasureString(disposition).Y;
             // planet type texture
             Vector2 pos = MathUtil.Add(Rect.Location, new Vector2(8, 8 + dH + 2));
-            spriteBatch.Draw(GameState.PlanetTypeTextures[planet.GetTypeTexture()], pos, Color.Gray);
+            spriteBatch.Draw(Assets.PlanetTypeTextures[planet.GetTypeTexture()], pos, Color.Gray);
             RenderHelper.PrimitiveBuddy.Rectangle(MathUtil.VectorToRectangle(pos, new Vector2(128, 128)), Color.Gray);
             //disposition
-            spriteBatch.DrawString(GameState.Courier_New, disposition,
+            spriteBatch.DrawString(Assets.Courier_New, disposition,
             MathUtil.Add(Rect.Location, new Vector2(123, 9)), Color.White);
             RenderHelper.PrimitiveBuddy.Rectangle(MathUtil.VectorToRectangle(new Vector2(pos.X, Rect.Location.Y + 8), new Vector2(290, dH)), Color.Gray);
             // title
             Vector2 titlePos = MathUtil.Add(Rect.Location, new Vector2(128 + 8 + 1, 8 + dH + 2 + 2));
             string title = system.name + " " + Constants.PlanetNames[planetId] + "  (" + planet.GetTypeName() + ")";
-            spriteBatch.DrawString(GameState.Caslon_Antique_Bold, title, titlePos, Color.Gray);
-            int tH = (int)GameState.Caslon_Antique_Regular.MeasureString(title).Y; // title height
+            spriteBatch.DrawString(Assets.Caslon_Antique_Bold, title, titlePos, Color.Gray);
+            int tH = (int)Assets.Caslon_Antique_Regular.MeasureString(title).Y; // title height
             // population
-            spriteBatch.DrawString(GameState.Caslon_Antique_Regular, "Population: " + planet.Population, MathUtil.Offset(titlePos,0,tH + 2), Color.Gray);
+            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Population: " + planet.Population, MathUtil.Offset(titlePos,0,tH + 2), Color.Gray);
             // defense force
-            spriteBatch.DrawString(GameState.Caslon_Antique_Regular, "Defense Force: " + planet.Population, MathUtil.Offset(titlePos, 0, tH + tH + 2), Color.Gray);
+            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Defense Force: " + planet.Population, MathUtil.Offset(titlePos, 0, tH + tH + 2), Color.Gray);
         }
         public override void Update(ViewController view)
         {

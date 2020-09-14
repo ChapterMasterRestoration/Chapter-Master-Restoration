@@ -30,7 +30,7 @@ namespace ChapterMaster.UI
             if (buttonTextureId >= 0)
             {
                 ((RectAlign)align).position = position;
-                spriteBatch.Draw(GameState.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
+                spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
             }
         }
         public override void Check(ViewController view, Align.Align align)

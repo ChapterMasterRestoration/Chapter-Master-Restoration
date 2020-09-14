@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ChapterMaster;
+using System;
 
-namespace Game1
+namespace ChapterMaster
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -8,14 +9,17 @@ namespace Game1
     /// </summary>
     public static class Program
     {
+        public static GameManager GameManager;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            using (var game = new ChapterMaster.GameState())
-                game.Run();
+            //using (var game = new GameManager())
+            // game.Run();
+            GameManager = new GameManager();
+            GameManager.Run();
         }
     }
 #endif

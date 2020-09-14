@@ -33,7 +33,7 @@ namespace ChapterMaster.Fleet
         }
         public void Update(Sector sector)
         {
-            if (fleetMoveProgress == sector.CalculateTravelTurns(this)-1)
+            if (fleetMoveProgress == ChapterMaster.Sector.CalculateTravelTurns(this)-1)
             {
                 originSystemId = destinationSystemId;
                 isMoving = false;
@@ -46,16 +46,16 @@ namespace ChapterMaster.Fleet
         public bool Intersects(ViewController view)
         {
             List<Fleet> orbitingFleets = new List<Fleet>();
-            for (int oFleetId = 0; oFleetId < GameState.sector.Fleets.Count; oFleetId++)
+            for (int oFleetId = 0; oFleetId < ChapterMaster.Sector.Fleets.Count; oFleetId++)
             {
-                GameState.sector.Fleets[oFleetId].fleetId = oFleetId; // TODO: will this create problems when the list of fleets changes?
-                if (GameState.sector.Fleets[oFleetId].originSystemId == originSystemId)
+                ChapterMaster.Sector.Fleets[oFleetId].fleetId = oFleetId; // TODO: will this create problems when the list of fleets changes?
+                if (ChapterMaster.Sector.Fleets[oFleetId].originSystemId == originSystemId)
                 {
-                    orbitingFleets.Add(GameState.sector.Fleets[oFleetId]);
-                    if (!GameState.sector.Fleets[fleetId].coFleets.Contains(oFleetId))
+                    orbitingFleets.Add(ChapterMaster.Sector.Fleets[oFleetId]);
+                    if (!ChapterMaster.Sector.Fleets[fleetId].coFleets.Contains(oFleetId))
                     {  
                         if (oFleetId != fleetId)
-                            GameState.sector.Fleets[fleetId].coFleets.Add(oFleetId);
+                            ChapterMaster.Sector.Fleets[fleetId].coFleets.Add(oFleetId);
                     }
                 }
             }
@@ -65,10 +65,10 @@ namespace ChapterMaster.Fleet
                 {
                     
                 }
-                int ulCornerX = (int)((GameState.sector.Systems[originSystemId].x + (Constants.SystemSize / 4) + 30 - view.camX) * view.zoom + GameState.GetWidth() / 2);
-                int ulCornerY = (int)((GameState.sector.Systems[originSystemId].y + (Constants.SystemSize / 4) - 30 - view.camY) * view.zoom + GameState.GetHeight() / 2);
-                int brCornerX = (int)((GameState.sector.Systems[originSystemId].x + (Constants.SystemSize / 4) + 30 + Constants.SystemSize / 2 - view.camX) * view.zoom + GameState.GetWidth() / 2);
-                int brCornerY = (int)((GameState.sector.Systems[originSystemId].y + (Constants.SystemSize / 4) - 30 + Constants.SystemSize / 2 - view.camY) * view.zoom + GameState.GetHeight() / 2);
+                int ulCornerX = (int)((ChapterMaster.Sector.Systems[originSystemId].x + (Constants.SystemSize / 4) + 30 - view.camX) * view.zoom + GameManager.GetWidth() / 2);
+                int ulCornerY = (int)((ChapterMaster.Sector.Systems[originSystemId].y + (Constants.SystemSize / 4) - 30 - view.camY) * view.zoom + GameManager.GetHeight() / 2);
+                int brCornerX = (int)((ChapterMaster.Sector.Systems[originSystemId].x + (Constants.SystemSize / 4) + 30 + Constants.SystemSize / 2 - view.camX) * view.zoom + GameManager.GetWidth() / 2);
+                int brCornerY = (int)((ChapterMaster.Sector.Systems[originSystemId].y + (Constants.SystemSize / 4) - 30 + Constants.SystemSize / 2 - view.camY) * view.zoom + GameManager.GetHeight() / 2);
                 int fleetWidth = brCornerX - ulCornerX;
                 ulCornerX = ulCornerX + fleetWidth * orbitingFleetId;
                 brCornerX = brCornerX + fleetWidth * orbitingFleetId;
@@ -101,7 +101,7 @@ namespace ChapterMaster.Fleet
             List<int> fleets = new List<int>();
             for(int id = 0; id < coFleets.Count; id ++)
             {
-                if(GameState.sector.Fleets[coFleets[id]].destinationSystemId == destinationSystemId && GameState.sector.Fleets[coFleets[id]].isMoving)
+                if(ChapterMaster.Sector.Fleets[coFleets[id]].destinationSystemId == destinationSystemId && ChapterMaster.Sector.Fleets[coFleets[id]].isMoving)
                 {
                     fleets.Add(id);
                 }
