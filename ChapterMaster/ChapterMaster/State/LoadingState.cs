@@ -100,11 +100,16 @@ namespace ChapterMaster.State
                         }
                         break;
                     case "Button Textures":
-                        for (int i = 0; i < Assets.ButtonTextures.Length - 1; i++)
+                        for (int i = 0; i < 4; i++)
                         {
                             Assets.ButtonTextures[i] = Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0");
                         }
                         Assets.ButtonTextures[4] = Loader.LoadPNG("spr_pin_button");
+                        Assets.ButtonTextures[5] = Loader.LoadPNG("spr_mm_butts_0");
+                        Assets.ButtonTextures[6] = Loader.LoadPNG("spr_mm_butts_1");
+                        Assets.ButtonTextures[7] = Loader.LoadPNG("spr_mm_butts_2");
+                        Assets.ButtonTextures[8] = Loader.LoadPNG("spr_mm_butts_3");
+                        Assets.ButtonTextures[9] = Loader.LoadPNG("spr_mm_butts_4");
                         break;
                     case "UI Textures":
                         Assets.UITextures = new Dictionary<string, Texture2D>();
@@ -114,6 +119,7 @@ namespace ChapterMaster.State
                         Assets.UITextures.Add("systemscreen3", Loader.LoadPNG("spr_star_screen_3"));
                         Assets.UITextures.Add("systemscreen4", Loader.LoadPNG("spr_star_screen_4"));
                         Assets.UITextures.Add("planetscreen", Loader.LoadPNG("spr_planet_screen_1")); // modified texture by removing extra space
+                        Assets.UITextures.Add("title_splash", Loader.LoadPNG("ui/title_splash"));
                         break;
                     case "Fonts":
                         break;
@@ -124,13 +130,13 @@ namespace ChapterMaster.State
             } else
             {
                 Debug.WriteLine("Switching to game state");
-                gameManager.ChangeState(new GameState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
+                gameManager.ChangeState(new MenuState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
             }
         }
 
         public override void Resize(GameWindow window)
         {
-            
+
         }
     }
 }

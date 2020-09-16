@@ -70,6 +70,7 @@ namespace ChapterMaster.UI
                 }
             }
         }
+        // Marx will be proud.
         public virtual void ExitScreen(MouseState mouseState, object sender)
         {
 

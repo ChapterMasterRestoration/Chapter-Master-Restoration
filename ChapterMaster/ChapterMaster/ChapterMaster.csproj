@@ -50,6 +50,7 @@
     <Compile Include="Assets.cs" />
     <Compile Include="ChapterMaster.cs" />
     <Compile Include="GameManager.cs" />
+    <Compile Include="MenuViewController.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="State\LoadingState.cs" />
     <Compile Include="State\MenuState.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="UI\VisibleElement.cs" />
     <Compile Include="Util\MathUtil.cs" />
     <Compile Include="Util\Constants.cs" />
-    <Compile Include="GameState.cs" />
+    <Compile Include="State\GameState.cs" />
     <Compile Include="Util\Loader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

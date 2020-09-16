@@ -34,7 +34,7 @@ namespace ChapterMaster.UI
             exitButton.position = MathUtil.Add(Rect.Location, new Vector2(247, 261));
             //pinButton.position = new Vector2(247, 20);
             // TODO: replace with align
-            spriteBatch.Draw(Assets.UITextures[backgroundTexture + system.Planets.Count], Rect, Color.White); // TODO: This will go awry if a system has 5 planets. Add a new System Screen. Most likely.
+            spriteBatch.Draw(Assets.UITextures[backgroundTexture + system.Planets.Count], Rect, Color.White); // TO DO: This will go awry if a system has 5 planets. Add a new System Screen. Most likely. Crashes when you have 0 planets. Need to implement minimum.
             Vector2 stringSize = Assets.Caslon_Antique_Bold.MeasureString(system.name + " System");
             //Debug.WriteLine(stringSize.X);
             spriteBatch.DrawString(Assets.Caslon_Antique_Bold, system.name + " System", MathUtil.Add(Rect.Location, new Vector2(80, 12)), Color.Gray);

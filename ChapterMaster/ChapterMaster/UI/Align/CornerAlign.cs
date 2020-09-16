@@ -32,11 +32,10 @@ namespace ChapterMaster.UI.Align
 
                     break;
                 case Corner.BOTTOMLEFT:
-
-                    break;
+                    return new Rectangle(Screen.align.leftMargin + leftMargin, view.viewPortHeight - Screen.align.bottomMargin - bottomMargin - height, width, height); // DOES NOT WORK LIKE CORNER.BOTTOMRIGHT.
                 case Corner.BOTTOMRIGHT:
                     return new Rectangle(view.viewPortWidth - Screen.align.rightMargin - width, view.viewPortHeight - Screen.align.bottomMargin - height,width,height);
-                    //break; idk if I wanna do it differently
+                //break; idk if I wanna do it differently
                 default:
                     throw new NotImplementedException("Not a real corner.");
             }

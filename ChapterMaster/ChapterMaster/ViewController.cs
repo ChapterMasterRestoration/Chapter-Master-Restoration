@@ -26,7 +26,7 @@ namespace ChapterMaster
         SystemScreenAlign currentSystemScreenAlign;
         //public Rectangle VisibleArea;
         //public Matrix Transform;
-        public void UpdateKeyboard()
+        public virtual void UpdateKeyboard()
         {
             int cameraSpeed = (int)(_cameraSpeed / zoom);
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
@@ -49,7 +49,7 @@ namespace ChapterMaster
         }
         int prevMouseWheelValue;
         int currentMouseWheelValue;
-        public void UpdateMouse()
+        public virtual void UpdateMouse()
         {
             int cameraSpeed = (int)(_cameraSpeed / zoom);
             if (Mouse.GetState().X <= 0)
@@ -80,13 +80,13 @@ namespace ChapterMaster
             }
             CheckBoundaries();
         }
-        public void AdjustZoom(float factor)
+        public virtual void AdjustZoom(float factor)
         {
             zoom += factor;
             zoom = (float)Math.Round(Math.Abs(zoom), 1);
             //Debug.WriteLine("z " + zoom);
         }
-        public void CheckBoundaries()
+        public virtual void CheckBoundaries()
         {
             if (camX * zoom < 0)
             {
@@ -204,7 +204,7 @@ namespace ChapterMaster
         public int openSystem = -1; // screw it, i'll leave it here for now
         ButtonState previousLMBState; // Left Mouse Button for you uninitiated, uncultured reactionist neo-liberals.
         // TODO: create list of moused-over systems and use that to disable no-shift clear
-        public void MouseSelection(Sector sector)
+        public virtual void MouseSelection(Sector sector)
         {
             int mouseX = Mouse.GetState().X;
             int mouseY = Mouse.GetState().Y;
