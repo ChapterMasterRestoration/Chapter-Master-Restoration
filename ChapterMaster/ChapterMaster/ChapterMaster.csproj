@@ -52,9 +52,15 @@
     <Compile Include="GameManager.cs" />
     <Compile Include="MenuViewController.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="State\ForceOrganizerState.cs" />
     <Compile Include="State\LoadingState.cs" />
     <Compile Include="State\MenuState.cs" />
     <Compile Include="State\State.cs" />
+    <Compile Include="Tree\Node.cs" />
+    <Compile Include="Tree\Soldier.cs" />
+    <Compile Include="Tree\SoldierTree.cs" />
+    <Compile Include="Tree\Tree.cs" />
+    <Compile Include="UI\ForceOrganizerScreen.cs" />
     <Compile Include="World\Faction\Faction.cs" />
     <Compile Include="World\Fleet\Fleet.cs" />
     <Compile Include="Render\RenderHelper.cs" />

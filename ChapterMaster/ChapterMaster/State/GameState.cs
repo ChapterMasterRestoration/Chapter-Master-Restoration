@@ -1,4 +1,5 @@
 ﻿using ChapterMaster.Render;
+using ChapterMaster.State;
 using ChapterMaster.UI;
 using ChapterMaster.UI.Align;
 using Microsoft.Xna.Framework;
@@ -13,22 +14,27 @@ namespace ChapterMaster
     /// </summary>
     public class GameState : State.State
     {
+        GameManager gameManager;
         GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
         SectorRenderer renderer;
-        public GameState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(gameManager, graphicsDevice, contentManager)
+        public GameState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager, bool preserveState) : base(gameManager, graphicsDevice, contentManager)
         {
+            this.gameManager = gameManager;
             this.graphicsDevice = graphicsDevice;
-            ChapterMaster.Sector.Prepare();
-            // idk what minimum distance we should do
-            ChapterMaster.Sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
-            ChapterMaster.Sector.WarpLaneGenerate();
-            ChapterMaster.Sector.GenerateSystemNames();
-            ChapterMaster.Sector.GeneratePlanets();
-            ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 0, 0));
-            ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 1, 0));
-            ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
-            ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 1, 1));
+            if (!preserveState)
+            {
+                ChapterMaster.Sector.Prepare();
+                // idk what minimum distance we should do
+                ChapterMaster.Sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
+                ChapterMaster.Sector.WarpLaneGenerate();
+                ChapterMaster.Sector.GenerateSystemNames();
+                ChapterMaster.Sector.GeneratePlanets();
+                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 0, 0));
+                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 1, 0));
+                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
+                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 1, 1));
+            }
             renderer = new SectorRenderer();
             ChapterMaster.ViewController = new ViewController();
             spriteBatch = new SpriteBatch(graphicsDevice);
@@ -59,6 +65,11 @@ namespace ChapterMaster
         bool buttonDown = false;
         public override void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.F))
+            {
+                gameManager.ChangeState(new ForceOrganizerState(gameManager, graphicsDevice, gameManager.Content));
+                return;
+            }
             ChapterMaster.ViewController.UpdateMouse();
             ChapterMaster.ViewController.UpdateKeyboard();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))

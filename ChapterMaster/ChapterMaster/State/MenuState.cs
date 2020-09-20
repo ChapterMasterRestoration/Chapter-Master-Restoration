@@ -35,7 +35,7 @@ namespace ChapterMaster.State
 
         private void NewGame(MouseState mouseState, object sender)
         {
-            gameManager.ChangeState(new GameState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
+            gameManager.ChangeState(new GameState(gameManager, gameManager.GraphicsDevice, gameManager.Content, false));
         }
 
         public override void Update(GameTime gameTime)
