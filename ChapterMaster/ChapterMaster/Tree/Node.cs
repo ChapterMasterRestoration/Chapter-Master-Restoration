@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace ChapterMaster.Tree
 {
     // https://stackoverflow.com/a/2012855
-    //delegate void TreeVisitor(Node node);
+    public delegate void TreeVisitor(Node node);
     public abstract class Node
     {
+        public Node Parent;
         private List<Node> children = new List<Node>();
         public Node()
         {
@@ -18,6 +19,7 @@ namespace ChapterMaster.Tree
 
         public Node AddChild(Node node)
         {
+            node.Parent = this;
             children.Add(node);
             return this;
         }
@@ -26,6 +28,7 @@ namespace ChapterMaster.Tree
         {
             foreach (Node n in node)
             {
+                n.Parent = this;
                 children.Add(n);
             }
             return this;
@@ -40,11 +43,12 @@ namespace ChapterMaster.Tree
         {
             return children.Count;
         }
-        //public void Traverse(Node node, TreeVisitor visitor)
-        //{
-        //    visitor(node);
-        //    foreach (Node kid in node.children)
-        //        Traverse(kid, visitor);
-        //}
+        public void Traverse(Node node, TreeVisitor visitor)
+        {
+            visitor(node);
+            foreach (Node kid in node.GetChildren())
+                Traverse(kid, visitor);
+        }
+
     }
 }
