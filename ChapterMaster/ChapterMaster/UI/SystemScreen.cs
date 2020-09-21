@@ -14,7 +14,7 @@ namespace ChapterMaster.UI
     public class SystemScreen : Screen
     {
         public int systemId;
-        public bool notInWorld; // TODO: implement System Screen rendering indpendently
+        public bool notInWorld; // TO DO: implement System Screen rendering indpendently
         List<PlanetAlign> planetAligns = new List<PlanetAlign>();
         InvisibleButton exitButton;
         public SystemScreen(int screenId, string backgroundTexture, int systemId, Align.Align align) : base(screenId, backgroundTexture, align)
@@ -33,21 +33,21 @@ namespace ChapterMaster.UI
             Rect = align.GetRect(view);
             exitButton.position = MathUtil.Add(Rect.Location, new Vector2(247, 261));
             //pinButton.position = new Vector2(247, 20);
-            // TODO: replace with align
+            // TO DO: replace with align
             spriteBatch.Draw(Assets.UITextures[backgroundTexture + system.Planets.Count], Rect, Color.White); // TO DO: This will go awry if a system has 5 planets. Add a new System Screen. Most likely. Crashes when you have 0 planets. Need to implement minimum.
             Vector2 stringSize = Assets.Caslon_Antique_Bold.MeasureString(system.name + " System");
             //Debug.WriteLine(stringSize.X);
             spriteBatch.DrawString(Assets.Caslon_Antique_Bold, system.name + " System", MathUtil.Add(Rect.Location, new Vector2(80, 12)), Color.Gray);
-            // TODO: replace with align component
+            // TO DO: replace with align component
             Point position = Rect.Location + new Point(50 - Constants.SystemSize / 2, 120 - Constants.SystemSize/2);
             Vector2 pos = new Vector2(position.X, position.Y);
-            // TODO: better way to pass the system's color
+            // TO DO: better way to pass the system's color
             RenderHelper.DrawStar(spriteBatch, pos, ChapterMaster.Sector.Systems[systemId].color);
             planetAligns.Clear();
             for (int noPlanet = 0; noPlanet < system.Planets.Count; noPlanet++)
             {
                 // calculate orbit arc
-                //float r = 40; // TODO: Implement.
+                //float r = 40; // TO DO: Implement.
                 //float x = (float) Math.Sqrt(Math.Pow((double) r, 2) - Math.Pow((double) 20, 2));
                 //float startAngle = (float) Math.Acos(x / r);
                 //float endAngle = 2 * startAngle;
