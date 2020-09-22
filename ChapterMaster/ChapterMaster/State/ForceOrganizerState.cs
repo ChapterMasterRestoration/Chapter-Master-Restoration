@@ -60,6 +60,8 @@ namespace ChapterMaster.State
         {
             ChapterMaster.ViewController.viewPortWidth = window.ClientBounds.Width;
             ChapterMaster.ViewController.viewPortHeight = window.ClientBounds.Height;
+            viewController.viewPortWidth = window.ClientBounds.Width;
+            viewController.viewPortHeight = window.ClientBounds.Height;
         }
     }
 }

@@ -121,7 +121,7 @@ namespace ChapterMaster.State
                         Assets.UITextures.Add("planetscreen", Loader.LoadPNG("spr_planet_screen_1")); // modified texture by removing extra space
                         Assets.UITextures.Add("title_splash", Loader.LoadPNG("ui/title_splash"));
                         Assets.UITextures.Add("spr_rock_bg_0", Loader.LoadPNG("ui/spr_rock_bg_0"));
-                        Assets.UITextures.Add("force_background", Loader.LoadPNG("ui/force_background"));
+                        Assets.UITextures.Add("force_background", Loader.LoadPNG("ui/force_background_r"));
                         break;
                     case "Fonts":
                         break;
