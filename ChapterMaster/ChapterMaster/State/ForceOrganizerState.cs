@@ -33,11 +33,11 @@ namespace ChapterMaster.State
             viewController.viewPortWidth = GameManager.window.ClientBounds.Width;
             viewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works. I, Cato Sicarius, approve of this action, because I, Cato Sicarius, am the most well versed Captain when it comes to the Codex Astartes!
-            screen = new ForceOrganizerScreen(0, "title_splash", new MapFrameAlign(0, 0, 0, 0), false);
+            screen = new ForceOrganizerScreen(0, "spr_rock_bg_0", new MapFrameAlign(0, 0, 0, 0), false);
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
             tree = new Tree.Tree();
-            tree.Parent = new Soldier("Jo", 1);
-            tree.Parent.AddChildren(new Soldier("Darcy", 2).AddChildren(new Soldier("Laury", 1)), new Soldier("Flynn", 500).AddChildren(new Soldier("Reb", 1)));
+            tree.Parent = new Force("HQ", 400, 20);
+            tree.Parent.AddChildren(new Force("Deathwing Inner Circle", 200, 100).AddChildren(new Force("1st Coy. 'Deathwing'", 200, 180)), new Force("Ravenwing Inner Circle", 600, 100).AddChildren(new Force("2nd Coy. 'Ravenwing'", 600, 180)));
         }
 
         public override void Update(GameTime gameTime)

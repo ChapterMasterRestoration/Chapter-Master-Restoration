@@ -57,8 +57,8 @@
     <Compile Include="State\MenuState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="Tree\Node.cs" />
-    <Compile Include="Tree\Soldier.cs" />
-    <Compile Include="Tree\SoldierTree.cs" />
+    <Compile Include="Tree\Force.cs" />
+    <Compile Include="Tree\ForceTree.cs" />
     <Compile Include="Tree\Tree.cs" />
     <Compile Include="UI\ForceOrganizerScreen.cs" />
     <Compile Include="World\Faction\Faction.cs" />

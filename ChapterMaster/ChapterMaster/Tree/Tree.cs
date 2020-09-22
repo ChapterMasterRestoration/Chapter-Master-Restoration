@@ -10,7 +10,7 @@ namespace ChapterMaster.Tree
 {
     public class Tree // TO DO: make generic or something
     {
-        public Soldier Parent;
+        public Force Parent;
 
         public float CalculateWidth(int level, CalculateWidth calculateWidth, float offset)
         {
@@ -18,10 +18,10 @@ namespace ChapterMaster.Tree
             if (level == 0) width = calculateWidth(Parent);
             for (int secondlevelnodes = 0; secondlevelnodes < Parent.GetNumberOfChildren(); secondlevelnodes++)
             {
-                Soldier secondlevelnode = (Soldier) Parent.GetChildren()[secondlevelnodes];
+                Force secondlevelnode = (Force) Parent.GetChildren()[secondlevelnodes];
                 for (int thirdlevelnodes = 0; thirdlevelnodes < secondlevelnode.GetNumberOfChildren();thirdlevelnodes++)
                 {
-                    Soldier thirdlevelnode = (Soldier) secondlevelnode.GetChildren()[thirdlevelnodes];
+                    Force thirdlevelnode = (Force) secondlevelnode.GetChildren()[thirdlevelnodes];
                     for (int fourthlevelnodes = 0; fourthlevelnodes < thirdlevelnode.GetNumberOfChildren(); fourthlevelnodes++)
                     {
 
