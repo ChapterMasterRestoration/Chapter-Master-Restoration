@@ -27,6 +27,8 @@ namespace ChapterMaster.UI
         Vector2 mouseOffset = new Vector2(0, 0);
         Vector2 resizeSize = new Vector2(0, 0);
         bool isResizing = false;
+        bool collided = false;
+        private Tree.Tree tree;
         private void UpdateForce(Node node)
         {
             Force force = (Force)node;
@@ -37,12 +39,23 @@ namespace ChapterMaster.UI
                                                          (int)force.position.X + force.width - 18, 
                                                          (int)force.position.Y + force.height - 17), 
                                                 new Point(18, 17));
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)      
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 if (resizeBox.Contains(Mouse.GetState().Position))
                 {
                     isResizing = true;
+                    currentlySelectedForce = force;
+
                     Debug.WriteLine($"Resize X: {resizeSize.X}, Resize Y: {resizeSize.Y}");
+                }
+
+                if(isResizing && currentlySelectedForce == force)
+                {
+                    Vector2 sizeCurrentText = Assets.ARJULIAN.MeasureString(currentlySelectedForce.name);
+                    resizeSize = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - currentlySelectedForce.position;
+                    currentlySelectedForce.width = Math.Max((int)sizeCurrentText.X, (int)resizeSize.X);
+                    currentlySelectedForce.height = (int)resizeSize.Y;
+                    box = new Rectangle(new Point((int)force.position.X, (int)force.position.Y), new Point(force.width, force.height));
                 }
 
                 if (currentlySelectedForce == null && box.Contains(Mouse.GetState().Position) && !isResizing)
@@ -50,30 +63,54 @@ namespace ChapterMaster.UI
                     mouseOffset = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - force.position;
                     force.grabbed = true;
                     currentlySelectedForce = force;
+
                     Debug.WriteLine($"X: {force.position.X}, Y: {force.position.Y}, Force Name: {force.name}");
-                    
                 }
             }
-            
-            if (force.grabbed && currentlySelectedForce != null && !isResizing)
+
+
+            if (force.grabbed && currentlySelectedForce == force && !isResizing && currentlySelectedForce.MouseOver() && !collided)
             {
                 //new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - box.Location.ToVector2();
-                force.position = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - mouseOffset; // - mouseOffset/2 makes it really smooth; //TO DO: Make selected element not move when selected, this works for now.
+                force.position = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - mouseOffset; // - mouseOffset/2 makes it really smooth;
                 if (Mouse.GetState().LeftButton == ButtonState.Released)
                 {
                     force.grabbed = false;
                     currentlySelectedForce = null; // Try commenting this.
                 }
             }
-            if (isResizing && Mouse.GetState().LeftButton == ButtonState.Released && currentlySelectedForce != null)
+            if (isResizing && Mouse.GetState().LeftButton == ButtonState.Released && currentlySelectedForce != null && !collided)
             {
+                Vector2 sizeCurrentText = Assets.ARJULIAN.MeasureString(currentlySelectedForce.name);
                 isResizing = false;
                 resizeSize = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - currentlySelectedForce.position;
-                currentlySelectedForce.width = (int)resizeSize.X;
+                currentlySelectedForce.width = Math.Max((int)sizeCurrentText.X, (int)resizeSize.X);
                 currentlySelectedForce.height = (int)resizeSize.Y;
+                currentlySelectedForce = null;
                 box = new Rectangle(box.Location, resizeSize.ToPoint());
+
                 Debug.WriteLine("The wealth of those societies in which the capitalist mode of production prevails sucks");
             }
+            
+            Vector2 offset;
+            void DoCollisionTest(Node node1)
+            {
+                Force force1 = (Force)node1;
+                if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Contains(new Rectangle(new Point((int)force1.position.X, (int)force1.position.Y), new Point(force1.width, force1.height))))
+                {
+                    collided = true;
+                    offset = currentlySelectedForce.position - force1.position;
+                    currentlySelectedForce.position -= offset;
+
+                    Debug.WriteLine($"Current: {currentlySelectedForce.name}, {force1.name}");
+                }
+            }
+
+            if (currentlySelectedForce == force)
+            {
+                tree.Parent.Traverse(tree.Parent, DoCollisionTest);
+            }
+
             previousMouseState = Mouse.GetState().LeftButton;
             previousMousePosition = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y);
         }
@@ -81,6 +118,7 @@ namespace ChapterMaster.UI
         public void Update(ViewController view, Tree.Tree tree)
         {
             base.Update(view);
+            this.tree = tree;
             tree.Parent.Traverse(tree.Parent, UpdateForce);
         }
         public int CalculateWidth(Force node)

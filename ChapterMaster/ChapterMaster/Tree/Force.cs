@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,15 @@ namespace ChapterMaster.Tree
         {
             this.name = name;
             this.position = new Vector2(x, y);
+        }
+        public bool MouseOver()
+        {
+            return new Rectangle(position.ToPoint(), new Point(width, height)).Contains(Mouse.GetState().Position);
+        }
+
+        public Rectangle GetRectangle()
+        {
+            return new Rectangle (position.ToPoint(), new Point(this.width, this.height));
         }
     }
 }
