@@ -79,7 +79,23 @@ namespace ChapterMaster.UI
                     currentlySelectedForce = null; // Try commenting this.
                 }
             }
-            if (isResizing && Mouse.GetState().LeftButton == ButtonState.Released && currentlySelectedForce != null && !collided)
+
+            bool justCollided = false;
+            void DidCollide(Node node1)
+            {
+                Force force1 = (Force)node1;
+                if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Intersects(new Rectangle(new Point((int)force1.position.X, (int)force1.position.Y), new Point(force1.width, force1.height))))
+                {
+                    justCollided = true;
+                }
+            }
+
+            if (currentlySelectedForce == force)
+            {
+                tree.Parent.Traverse(tree.Parent, DidCollide);
+            }
+
+            if (isResizing && Mouse.GetState().LeftButton == ButtonState.Released && currentlySelectedForce != null && !justCollided)
             {
                 Vector2 sizeCurrentText = Assets.ARJULIAN.MeasureString(currentlySelectedForce.name);
                 isResizing = false;
@@ -89,20 +105,20 @@ namespace ChapterMaster.UI
                 currentlySelectedForce = null;
                 box = new Rectangle(box.Location, resizeSize.ToPoint());
 
-                Debug.WriteLine("The wealth of those societies in which the capitalist mode of production prevails sucks");
+                Debug.WriteLine("Why did the chicken cross the road?");
             }
             
             Vector2 offset;
             void DoCollisionTest(Node node1)
             {
                 Force force1 = (Force)node1;
-                if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Contains(new Rectangle(new Point((int)force1.position.X, (int)force1.position.Y), new Point(force1.width, force1.height))))
+                if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Intersects(new Rectangle(new Point((int)force1.position.X, (int)force1.position.Y), new Point(force1.width, force1.height))))
                 {
-                    collided = true;
+                    //collided = true;
                     offset = currentlySelectedForce.position - force1.position;
-                    currentlySelectedForce.position -= offset;
+                    currentlySelectedForce.position += offset/4;
 
-                    Debug.WriteLine($"Current: {currentlySelectedForce.name}, {force1.name}");
+                    Debug.WriteLine($"Current: {currentlySelectedForce.name}, {force1.name}, oX: {offset.X}, oY: {offset.Y}");
                 }
             }
 

@@ -37,7 +37,7 @@ namespace ChapterMaster.State
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
             tree = new Tree.Tree();
             tree.Parent = new Force("HQ", 400, 20);
-            tree.Parent.AddChildren(new Force("Deathwing Inner Circle", 200, 100).AddChildren(new Force("1st Coy. 'Deathwing'", 200, 180)), new Force("Ravenwing Inner Circle", 600, 100).AddChildren(new Force("2nd Coy. 'Ravenwing'", 600, 180)));
+            tree.Parent.AddChildren(new Force("Deathwing Inner Circle", 200, 100).AddChildren(new Force("1st Coy. 'Deathwing'", 200, 280)), new Force("Ravenwing Inner Circle", 600, 100).AddChildren(new Force("2nd Coy. 'Ravenwing'", 600, 280)));
         }
 
         public override void Update(GameTime gameTime)
