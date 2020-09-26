@@ -94,6 +94,9 @@
     <Compile Include="World\WarpLane.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Humper, Version=1.0.6093.38709, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humper.0.5.8\lib\portable-net45+win8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humper.dll</HintPath>
+    </Reference>
     <Reference Include="MatrixExtensions.WindowsDX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MatrixExtensions.2.0.0\lib\net451\MatrixExtensions.WindowsDX.dll</HintPath>
     </Reference>

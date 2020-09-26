@@ -1,5 +1,7 @@
 ﻿using ChapterMaster.Tree;
 using ChapterMaster.Util;
+using Humper;
+using Humper.Responses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,6 +17,7 @@ namespace ChapterMaster.UI
     public delegate int CalculateWidth(Force node); 
     public class ForceOrganizerScreen : Screen
     {
+        public ViewController view;
         private SpriteBatch _spriteBatch;
         public PrimitiveBuddy.Primitive primitive;
         public ForceOrganizerScreen(int screenId, string backgroundTexture, Align.Align align, bool DoesOcclusion = true) : base(screenId, backgroundTexture, align, DoesOcclusion)
@@ -29,9 +32,11 @@ namespace ChapterMaster.UI
         bool isResizing = false;
         bool collided = false;
         private Tree.Tree tree;
+        Humper.World world;
         private void UpdateForce(Node node)
         {
             Force force = (Force)node;
+            world = new Humper.World(view.viewPortWidth, view.viewPortHeight);
             string text =  $"{force.name}";
             Vector2 sizeText = Assets.ARJULIAN.MeasureString(text);
             Rectangle box = new Rectangle(new Point((int) force.position.X, (int) force.position.Y), new Point(force.width, force.height));
@@ -68,11 +73,37 @@ namespace ChapterMaster.UI
                 }
             }
 
+            IBox current = world.Create(force.position.X, force.position.Y, force.width, force.height); // ObscuredCode apologizes to those who suffer cataracts from reading this.
+            if (currentlySelectedForce != null)
+            {
+                current = world.Create(currentlySelectedForce.position.X, currentlySelectedForce.position.Y, currentlySelectedForce.width, currentlySelectedForce.height);
+            }
+            Vector2 offset;
+            void DoCollisionTest(Node node1)
+            {
+                Force force1 = (Force)node1;
+                IBox other = world.Create(force1.position.X, force1.position.Y, force1.width, force1.height);
+                //if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Intersects(new Rectangle(new Point((int)force1.position.X, (int)force1.position.Y), new Point(force1.width, force1.height))))
+                //{
+                //    //collided = true;
+                //    offset = currentlySelectedForce.position - force1.position;
+                //    currentlySelectedForce.position += offset;
+
+                //    Debug.WriteLine($"Current: {currentlySelectedForce.name}, {force1.name}, oX: {offset.X}, oY: {offset.Y}");
+                //}
+            }
+
+            if (currentlySelectedForce == force)
+            {
+                tree.Parent.Traverse(tree.Parent, DoCollisionTest);
+            }
 
             if (force.grabbed && currentlySelectedForce == force && !isResizing && currentlySelectedForce.MouseOver() && !collided)
             {
                 //new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - box.Location.ToVector2();
                 force.position = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - mouseOffset; // - mouseOffset/2 makes it really smooth;
+                current.Move(force.position.X, force.position.Y, (collision) => CollisionResponses.Slide);
+                force.position = new Vector2(current.X, current.Y);
                 if (Mouse.GetState().LeftButton == ButtonState.Released)
                 {
                     force.grabbed = false;
@@ -105,26 +136,7 @@ namespace ChapterMaster.UI
                 currentlySelectedForce = null;
                 box = new Rectangle(box.Location, resizeSize.ToPoint());
 
-                Debug.WriteLine("Why did the chicken cross the road?");
-            }
-            
-            Vector2 offset;
-            void DoCollisionTest(Node node1)
-            {
-                Force force1 = (Force)node1;
-                if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Intersects(new Rectangle(new Point((int)force1.position.X, (int)force1.position.Y), new Point(force1.width, force1.height))))
-                {
-                    //collided = true;
-                    offset = currentlySelectedForce.position - force1.position;
-                    currentlySelectedForce.position += offset/4;
-
-                    Debug.WriteLine($"Current: {currentlySelectedForce.name}, {force1.name}, oX: {offset.X}, oY: {offset.Y}");
-                }
-            }
-
-            if (currentlySelectedForce == force)
-            {
-                tree.Parent.Traverse(tree.Parent, DoCollisionTest);
+                Debug.WriteLine("The wealth of those societies in which the capitalist mode of production prevails sucks");
             }
 
             previousMouseState = Mouse.GetState().LeftButton;
@@ -135,6 +147,7 @@ namespace ChapterMaster.UI
         {
             base.Update(view);
             this.tree = tree;
+            this.view = view; // TO DO: Fix this.
             tree.Parent.Traverse(tree.Parent, UpdateForce);
         }
         public int CalculateWidth(Force node)
