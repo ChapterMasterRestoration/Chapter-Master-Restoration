@@ -15,6 +15,7 @@ namespace ChapterMaster.UI
     public delegate int CalculateWidth(Force node); 
     public class ForceOrganizerScreen : Screen
     {
+        private ViewController view;
         private SpriteBatch _spriteBatch;
         public PrimitiveBuddy.Primitive primitive;
         public ForceOrganizerScreen(int screenId, string backgroundTexture, Align.Align align, bool DoesOcclusion = true) : base(screenId, backgroundTexture, align, DoesOcclusion)
@@ -68,11 +69,14 @@ namespace ChapterMaster.UI
                 }
             }
 
-
             if (force.grabbed && currentlySelectedForce == force && !isResizing && currentlySelectedForce.MouseOver() && !collided)
             {
                 //new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - box.Location.ToVector2();
                 force.position = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - mouseOffset; // - mouseOffset/2 makes it really smooth;
+                if (force.position.X < 0) force.position.X = 0;
+                if (force.position.Y < 0) force.position.Y = 0;
+                if (force.GetRectangle().Right > view.viewPortWidth) force.position.X = view.viewPortWidth - force.width;
+                if (force.GetRectangle().Bottom > view.viewPortHeight) force.position.Y = view.viewPortHeight - force.height;
                 if (Mouse.GetState().LeftButton == ButtonState.Released)
                 {
                     force.grabbed = false;
@@ -105,7 +109,7 @@ namespace ChapterMaster.UI
                 currentlySelectedForce = null;
                 box = new Rectangle(box.Location, resizeSize.ToPoint());
 
-                Debug.WriteLine("Why did the chicken cross the road?");
+                //Debug.WriteLine("It is the 41st Millennium. For more than a hundred centuries The Emperor has sat immobile on the Golden Throne of Earth. He is the Master of Mankind by the will of the gods, and master of a million worlds by the might of his inexhaustible armies. He is a rotting carcass writhing invisibly with power from the Dark Age of Technology. He is the Carrion Lord of the Imperium for whom a thousand souls are sacrificed every day, so that he may never truly die.");
             }
             
             Vector2 offset;
@@ -116,7 +120,7 @@ namespace ChapterMaster.UI
                 {
                     //collided = true;
                     offset = currentlySelectedForce.position - force1.position;
-                    currentlySelectedForce.position += offset/4;
+                    currentlySelectedForce.position += offset/((float)2.5);
 
                     Debug.WriteLine($"Current: {currentlySelectedForce.name}, {force1.name}, oX: {offset.X}, oY: {offset.Y}");
                 }
@@ -135,6 +139,7 @@ namespace ChapterMaster.UI
         {
             base.Update(view);
             this.tree = tree;
+            this.view = view;
             tree.Parent.Traverse(tree.Parent, UpdateForce);
         }
         public int CalculateWidth(Force node)
