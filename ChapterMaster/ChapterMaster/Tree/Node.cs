@@ -11,6 +11,7 @@ namespace ChapterMaster.Tree
     public abstract class Node
     {
         public Node Parent;
+        public bool Emancipated = false;
         private List<Node> children = new List<Node>();
         public Node()
         {
@@ -46,8 +47,8 @@ namespace ChapterMaster.Tree
         public void Traverse(Node node, TreeVisitor visitor)
         {
             visitor(node);
-            foreach (Node kid in node.GetChildren())
-                Traverse(kid, visitor);
+            for (int kid = 0; kid < node.GetNumberOfChildren(); kid++)
+                Traverse(node.GetChildren()[kid], visitor);
         }
 
     }

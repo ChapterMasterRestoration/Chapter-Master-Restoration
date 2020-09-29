@@ -120,7 +120,24 @@ namespace ChapterMaster.UI
                 {
                     //collided = true;
                     offset = currentlySelectedForce.position - force1.position;
-                    currentlySelectedForce.position += offset/((float)2.5);
+                    currentlySelectedForce.position += offset/((float)1);
+                    if (force1.GetChildren().Contains(currentlySelectedForce))
+                    {
+                        //force1.GetChildren().Remove(currentlySelectedForce);
+                        //for (int kid = 0; kid < force1.GetNumberOfChildren(); kid++)          
+                        //    force1.GetChildren()[kid].Emancipated = true;
+                        currentlySelectedForce.Emancipated = true;
+                    }
+                    else
+                    {
+                        if(currentlySelectedForce.Parent != null)
+                        {
+                            currentlySelectedForce.Parent.GetChildren().Remove(currentlySelectedForce);
+                        }
+
+                        currentlySelectedForce.Emancipated = false;
+                        force1.AddChild(currentlySelectedForce);
+                    }
 
                     Debug.WriteLine($"Current: {currentlySelectedForce.name}, {force1.name}, oX: {offset.X}, oY: {offset.Y}");
                 }
@@ -153,9 +170,10 @@ namespace ChapterMaster.UI
             Vector2 sizeText = Assets.ARJULIAN.MeasureString(text);
             Vector2 posText = new Vector2(0, 2);
             posText.X = force.width / 2 - sizeText.X / 2;
+
             _spriteBatch.Draw(Assets.UITextures["force_background"], new Rectangle(force.position.ToPoint(),new Point(force.width, force.height)), Color.White);
             _spriteBatch.DrawString(Assets.ARJULIAN, text, force.position + posText, Color.White);
-            if (force.Parent != null)
+            if (force.Parent != null && !force.Emancipated)
             {
                 Force parent = (Force)force.Parent;
                 string textParent = $"{parent.name}";
