@@ -8,7 +8,7 @@ namespace ChapterMaster.World
 {
     public class System
     {
-        public int id; // TO DO: assign in constructor
+        public int id; // TODO: assign in constructor
         public int color;
         public string name;
         public int x, y;

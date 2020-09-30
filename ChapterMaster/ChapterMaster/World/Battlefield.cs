@@ -8,12 +8,6 @@ namespace ChapterMaster.World
 {
     public class Battlefield
     {
-        public int COMBATANT_1;
-        public int COMBATANT_2;
-        private string Battlegrounds;
-
-
-
 
     }
 }

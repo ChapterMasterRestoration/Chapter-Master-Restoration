@@ -88,11 +88,11 @@ namespace ChapterMaster
         }
         public virtual void CheckBoundaries()
         {
-            if (camX * zoom < 0)
+            if (camX < 0)
             {
                 camX = 0;
             }
-            if (camY * zoom < 0)
+            if (camY < 0)
             {
                 camY = 0;
             }
@@ -203,7 +203,7 @@ namespace ChapterMaster
         int delayTimer;
         public int openSystem = -1; // screw it, i'll leave it here for now
         ButtonState previousLMBState; // Left Mouse Button for you uninitiated, uncultured reactionist neo-liberals.
-        // TO DO: create list of moused-over systems and use that to disable no-shift clear
+        // TODO: create list of moused-over systems and use that to disable no-shift clear
         public virtual void MouseSelection(Sector sector)
         {
             int mouseX = Mouse.GetState().X;

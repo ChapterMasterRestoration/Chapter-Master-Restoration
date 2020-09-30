@@ -15,7 +15,7 @@ namespace ChapterMaster
         public static SpriteFont Courier_New;
         public static Texture2D Background;
         public static Dictionary<string, Texture2D> UITextures;
-        public static Texture2D[] ButtonTextures = new Texture2D[10]; // TO DO: Change to dictionary.
+        public static Texture2D[] ButtonTextures = new Texture2D[10]; // TODO: Change to dictionary.
         public static Texture2D[] SystemTextures = new Texture2D[6];
         public static Texture2D[][] FleetTextures = new Texture2D[11][];
         public static Texture2D[] PlanetTextures = new Texture2D[16];

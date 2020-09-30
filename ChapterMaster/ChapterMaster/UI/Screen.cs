@@ -26,6 +26,32 @@ namespace ChapterMaster.UI
             this.align.Screen = this;
             this.DoesOcclusion = DoesOcclusion;
         }
+
+        public virtual void Update(ViewController view)
+        {
+            foreach (Button button in Buttons)
+            {
+                button.Check(view, button.align);
+            }
+            for (int n = 0; n < Screens.Count; n++)
+            {
+                if (WasModified)
+                {
+                    WasModified = false;
+                    break;
+                }
+                Screens[n].Update(view);
+            }
+            if (DoesOcclusion)
+            {
+                // TODO: Implement more advanced occlusion.
+                if (Rect.Contains(view.GetMouse().Position))
+                {
+                    view.IsOccluded = true;
+                }
+            }
+        }
+
         public virtual void Render(SpriteBatch spriteBatch, ViewController view)
         {
             Rect = align.GetRect(view);
@@ -46,30 +72,6 @@ namespace ChapterMaster.UI
             }
         }
 
-        public virtual void Update(ViewController view)
-        {
-            foreach(Button button in Buttons)
-            {
-                button.Check(view,button.align);
-            }
-            for (int n = 0; n < Screens.Count; n++)
-            {
-                if (WasModified)
-                {
-                    WasModified = false;
-                    break;
-                }
-                Screens[n].Update(view);
-            }
-            if (DoesOcclusion)
-            {
-                // TO DO: Implement more advanced occlusion.
-                if (Rect.Contains(view.GetMouse().Position))
-                {
-                    view.IsOccluded = true;
-                }
-            }
-        }
         // Marx will be proud.
         public virtual void ExitScreen(MouseState mouseState, object sender)
         {

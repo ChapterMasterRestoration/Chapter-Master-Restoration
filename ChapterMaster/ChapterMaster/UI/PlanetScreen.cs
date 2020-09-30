@@ -1,7 +1,10 @@
 ﻿using ChapterMaster.Render;
+using ChapterMaster.State;
+using ChapterMaster.UI.Align;
 using ChapterMaster.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace ChapterMaster.UI
 {
@@ -13,6 +16,7 @@ namespace ChapterMaster.UI
         {
             this.systemId = systemId;
             this.planetId = planetId;
+            AddButton(new Button(-1, "Attack", new RectAlign(this,new Vector2(200,270),20, 20), Attack));
         }
 
         public override void Render(SpriteBatch spriteBatch, ViewController view)
@@ -35,17 +39,26 @@ namespace ChapterMaster.UI
             RenderHelper.PrimitiveBuddy.Rectangle(MathUtil.VectorToRectangle(new Vector2(pos.X, Rect.Location.Y + 8), new Vector2(290, dH)), Color.Gray);
             // title
             Vector2 titlePos = MathUtil.Add(Rect.Location, new Vector2(128 + 8 + 1, 8 + dH + 2 + 2));
-            string title = system.name + " " + Constants.PlanetNames[planetId] + "  (" + planet.GetTypeName() + ")";
+            string title = planet.GetName();
             spriteBatch.DrawString(Assets.Caslon_Antique_Bold, title, titlePos, Color.Gray);
             int tH = (int)Assets.Caslon_Antique_Regular.MeasureString(title).Y; // title height
             // population
             spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Population: " + planet.Population, MathUtil.Offset(titlePos,0,tH + 2), Color.Gray);
             // defense force
             spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Defense Force: " + planet.Population, MathUtil.Offset(titlePos, 0, tH + tH + 2), Color.Gray);
+            foreach (Button button in Buttons)
+            {
+                button.Render(spriteBatch, view);
+            }
         }
         public override void Update(ViewController view)
         {
-
+            base.Update(view);
+        }
+        public void Attack(MouseState state, object sender)
+        {
+            GameState gameState = (GameState)Program.GameManager.GetState();
+            Program.GameManager.ChangeState(new GroundCombatState(Program.GameManager, gameState.GraphicsDevice, gameState.ContentManager, ChapterMaster.Sector.Systems[systemId].Planets[planetId]));
         }
     }
 }

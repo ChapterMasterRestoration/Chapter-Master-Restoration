@@ -15,13 +15,15 @@ namespace ChapterMaster
     public class GameState : State.State
     {
         GameManager gameManager;
-        GraphicsDevice graphicsDevice;
+        public GraphicsDevice GraphicsDevice;
+        public ContentManager ContentManager;
         SpriteBatch spriteBatch;
         SectorRenderer renderer;
         public GameState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager, bool preserveState) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
-            this.graphicsDevice = graphicsDevice;
+            this.GraphicsDevice = graphicsDevice;
+            this.ContentManager = contentManager;
             if (!preserveState)
             {
                 ChapterMaster.Sector.Prepare();
@@ -67,7 +69,7 @@ namespace ChapterMaster
         {
             if (Keyboard.GetState().IsKeyDown(Keys.F))
             {
-                gameManager.ChangeState(new ForceOrganizerState(gameManager, graphicsDevice, gameManager.Content));
+                gameManager.ChangeState(new ForceOrganizerState(gameManager, GraphicsDevice, gameManager.Content));
                 return;
             }
             ChapterMaster.ViewController.UpdateMouse();
@@ -94,7 +96,7 @@ namespace ChapterMaster
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
         {
-            graphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.Deferred,
                   BlendState.NonPremultiplied, SamplerState.LinearWrap, null, null);

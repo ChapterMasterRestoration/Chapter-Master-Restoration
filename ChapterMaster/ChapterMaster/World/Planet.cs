@@ -59,6 +59,14 @@ namespace ChapterMaster.World
         {
             return Constants.PlanetTypeTextures[(int)Type];
         }
+        public string GetName()
+        {
+            return ChapterMaster.Sector.Systems[systemId].name + " " + Constants.PlanetNames[planetId] + "  (" + GetTypeName() + ")";
+        }
+        public System GetSystem()
+        {
+            return ChapterMaster.Sector.Systems[systemId];
+        }
         public void OpenPlanetScreen(ViewController view, SystemScreen parentScreen)
         {
             //Debug.WriteLine("planet in system " + systemId);

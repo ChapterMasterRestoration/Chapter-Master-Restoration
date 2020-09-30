@@ -12,7 +12,8 @@ namespace ChapterMaster.World
         public List<WarpLane> WarpLanes = new List<WarpLane>(); // like this?
         public List<Fleet.Fleet> Fleets = new List<Fleet.Fleet>();
         public Dictionary<string, Faction.Faction> Factions = new Dictionary<string, Faction.Faction>();
-
+        public string CurrentFaction = "Space Marine";
+        public Dictionary<string, Character.Character> Characters = new Dictionary<string, Character.Character>();
         int Turn;
         #region Generation
         public Random random;
@@ -835,6 +836,11 @@ namespace ChapterMaster.World
 
             }
         }
+        
+        public void GenerateFactions()
+        {
+            // TODO: Generate the factions that spawn from the start.
+        }
         #endregion
         public int CalculateTravelTurns(Fleet.Fleet fleet)
         {
@@ -887,6 +893,9 @@ namespace ChapterMaster.World
             }
             return $"5 {yearfraction.ToString("D3")} {year.ToString("D3")} M{millenium}";
         }
-
+        public Faction.Faction GetFaction()
+        {
+            return Factions[CurrentFaction];
+        }
     }
 }

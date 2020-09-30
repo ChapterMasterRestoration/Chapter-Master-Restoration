@@ -13,5 +13,6 @@ namespace ChapterMaster.World.Faction
         public Color Color;
         public int FleetType;
         public string LeaderName;
+        public Tree.Tree Force;
     }
 }

@@ -51,8 +51,9 @@
     <Compile Include="ChapterMaster.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="MenuViewController.cs" />
-    <Compile Include="Startup.cs" />
+    <Compile Include="State\CharacterCreatorState.cs" />
     <Compile Include="State\ForceOrganizerState.cs" />
+    <Compile Include="State\GroundCombatState.cs" />
     <Compile Include="State\LoadingState.cs" />
     <Compile Include="State\MenuState.cs" />
     <Compile Include="State\State.cs" />
@@ -60,7 +61,10 @@
     <Compile Include="Tree\Force.cs" />
     <Compile Include="Tree\ForceTree.cs" />
     <Compile Include="Tree\Tree.cs" />
-    <Compile Include="UI\ForceOrganizerScreen.cs" />
+    <Compile Include="UI\State\CharacterCreatorScreen.cs" />
+    <Compile Include="UI\State\ForceOrganizerScreen.cs" />
+    <Compile Include="UI\State\GroundCombatScreen.cs" />
+    <Compile Include="World\Character\Character.cs" />
     <Compile Include="World\Faction\Faction.cs" />
     <Compile Include="World\Fleet\Fleet.cs" />
     <Compile Include="Render\RenderHelper.cs" />
@@ -206,7 +210,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\font\" />
-    <Folder Include="World\Character\" />
     <Folder Include="World\Faction\Chapter\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,18 +1,13 @@
 ﻿using ChapterMaster.Tree;
-using ChapterMaster.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChapterMaster.UI
 {
-    public delegate int CalculateWidth(Force node); 
+    public delegate int CalculateWidth(Force node);
     public class ForceOrganizerScreen : Screen
     {
         private ViewController view;
@@ -33,12 +28,12 @@ namespace ChapterMaster.UI
         private void UpdateForce(Node node)
         {
             Force force = (Force)node;
-            string text =  $"{force.name}";
+            string text = $"{force.name}";
             Vector2 sizeText = Assets.ARJULIAN.MeasureString(text);
-            Rectangle box = new Rectangle(new Point((int) force.position.X, (int) force.position.Y), new Point(force.width, force.height));
+            Rectangle box = new Rectangle(new Point((int)force.position.X, (int)force.position.Y), new Point(force.width, force.height));
             Rectangle resizeBox = new Rectangle(new Point(
-                                                         (int)force.position.X + force.width - 18, 
-                                                         (int)force.position.Y + force.height - 17), 
+                                                         (int)force.position.X + force.width - 18,
+                                                         (int)force.position.Y + force.height - 17),
                                                 new Point(18, 17));
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
@@ -50,7 +45,7 @@ namespace ChapterMaster.UI
                     Debug.WriteLine($"Resize X: {resizeSize.X}, Resize Y: {resizeSize.Y}");
                 }
 
-                if(isResizing && currentlySelectedForce == force)
+                if (isResizing && currentlySelectedForce == force)
                 {
                     Vector2 sizeCurrentText = Assets.ARJULIAN.MeasureString(currentlySelectedForce.name);
                     resizeSize = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - currentlySelectedForce.position;
@@ -111,32 +106,45 @@ namespace ChapterMaster.UI
 
                 //Debug.WriteLine("It is the 41st Millennium. For more than a hundred centuries The Emperor has sat immobile on the Golden Throne of Earth. He is the Master of Mankind by the will of the gods, and master of a million worlds by the might of his inexhaustible armies. He is a rotting carcass writhing invisibly with power from the Dark Age of Technology. He is the Carrion Lord of the Imperium for whom a thousand souls are sacrificed every day, so that he may never truly die.");
             }
-            
+
             Vector2 offset;
             void DoCollisionTest(Node node1)
             {
                 Force force1 = (Force)node1;
-                if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Intersects(new Rectangle(new Point((int)force1.position.X, (int)force1.position.Y), new Point(force1.width, force1.height))))
+                if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Intersects(force1.GetRectangle()))
                 {
                     //collided = true;
                     offset = currentlySelectedForce.position - force1.position;
-                    currentlySelectedForce.position += offset/((float)1);
-                    if (force1.GetChildren().Contains(currentlySelectedForce))
+                    currentlySelectedForce.position += offset / ((float)1);
+                    if (force1.GetChildren().Contains(currentlySelectedForce) && currentlySelectedForce.Parent != null)
                     {
                         //force1.GetChildren().Remove(currentlySelectedForce);
                         //for (int kid = 0; kid < force1.GetNumberOfChildren(); kid++)          
                         //    force1.GetChildren()[kid].Emancipated = true;
                         currentlySelectedForce.Emancipated = true;
+                        currentlySelectedForce.Parent = null;
                     }
                     else
                     {
-                        if(currentlySelectedForce.Parent != null)
-                        {
-                            currentlySelectedForce.Parent.GetChildren().Remove(currentlySelectedForce);
-                        }
+                        if (force1.Parent != currentlySelectedForce) { // TODO: parent somewhere is stil null, fix that.
+                            if (currentlySelectedForce.Parent != null)
+                            {
+                                Force copy = new Force(currentlySelectedForce.name, (int)currentlySelectedForce.position.X, (int)currentlySelectedForce.position.Y);
+                                for (int i = 0; i < currentlySelectedForce.GetNumberOfChildren(); i++)
+                                {
+                                    copy.AddChild(currentlySelectedForce.GetChildren()[i]);
+                                }
+                                copy.width = currentlySelectedForce.width;
+                                copy.height = currentlySelectedForce.height;
+                                copy.name = currentlySelectedForce.name;
+                                copy.Parent = null;
+                                currentlySelectedForce.Parent.GetChildren().Remove(currentlySelectedForce);
+                                currentlySelectedForce = copy;
+                            }
 
-                        currentlySelectedForce.Emancipated = false;
-                        force1.AddChild(currentlySelectedForce);
+                            currentlySelectedForce.Emancipated = false;
+                            force1.AddChild(currentlySelectedForce);
+                        }
                     }
 
                     Debug.WriteLine($"Current: {currentlySelectedForce.name}, {force1.name}, oX: {offset.X}, oY: {offset.Y}");
@@ -171,7 +179,7 @@ namespace ChapterMaster.UI
             Vector2 posText = new Vector2(0, 2);
             posText.X = force.width / 2 - sizeText.X / 2;
 
-            _spriteBatch.Draw(Assets.UITextures["force_background"], new Rectangle(force.position.ToPoint(),new Point(force.width, force.height)), Color.White);
+            _spriteBatch.Draw(Assets.UITextures["force_background"], new Rectangle(force.position.ToPoint(), new Point(force.width, force.height)), Color.White);
             _spriteBatch.DrawString(Assets.ARJULIAN, text, force.position + posText, Color.White);
             if (force.Parent != null && !force.Emancipated)
             {

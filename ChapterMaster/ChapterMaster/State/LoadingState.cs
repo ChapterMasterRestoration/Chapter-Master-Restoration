@@ -122,6 +122,7 @@ namespace ChapterMaster.State
                         Assets.UITextures.Add("title_splash", Loader.LoadPNG("ui/title_splash"));
                         Assets.UITextures.Add("spr_rock_bg_0", Loader.LoadPNG("ui/spr_rock_bg_0"));
                         Assets.UITextures.Add("force_background", Loader.LoadPNG("ui/force_background_r"));
+                        Assets.UITextures.Add("bg_combat_grass", Loader.LoadPNG("combat/Zelda Textures/Zelda Texture - Grass 11x Scale"));
                         break;
                     case "Fonts":
                         break;
