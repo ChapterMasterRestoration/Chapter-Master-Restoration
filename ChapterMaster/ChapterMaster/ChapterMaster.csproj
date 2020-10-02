@@ -52,6 +52,8 @@
     <Compile Include="GameManager.cs" />
     <Compile Include="MenuViewController.cs" />
     <Compile Include="State\CharacterCreatorState.cs" />
+    <Compile Include="State\FactionCreatorState.cs" />
+    <Compile Include="State\ForceManagerState.cs" />
     <Compile Include="State\ForceOrganizerState.cs" />
     <Compile Include="State\GroundCombatState.cs" />
     <Compile Include="State\LoadingState.cs" />
@@ -60,8 +62,11 @@
     <Compile Include="Tree\Node.cs" />
     <Compile Include="Tree\Force.cs" />
     <Compile Include="Tree\ForceTree.cs" />
+    <Compile Include="Tree\Squad.cs" />
     <Compile Include="Tree\Tree.cs" />
+    <Compile Include="Tree\Troop.cs" />
     <Compile Include="UI\State\CharacterCreatorScreen.cs" />
+    <Compile Include="UI\State\ForceManagerScreen.cs" />
     <Compile Include="UI\State\ForceOrganizerScreen.cs" />
     <Compile Include="UI\State\GroundCombatScreen.cs" />
     <Compile Include="World\Character\Character.cs" />

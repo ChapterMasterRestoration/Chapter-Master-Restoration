@@ -63,6 +63,13 @@ namespace ChapterMaster.UI
                     Debug.WriteLine($"X: {force.position.X}, Y: {force.position.Y}, Force Name: {force.name}");
                 }
             }
+            else
+            {
+                if (Mouse.GetState().RightButton == ButtonState.Pressed && force.GetRectangle().Contains(Mouse.GetState().Position))
+                {
+
+                }
+            }
 
             if (force.grabbed && currentlySelectedForce == force && !isResizing && currentlySelectedForce.MouseOver() && !collided)
             {

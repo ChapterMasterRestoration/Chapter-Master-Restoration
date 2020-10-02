@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using ChapterMaster.Tree;
+using ChapterMaster.UI;
+using ChapterMaster.UI.Align;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -6,15 +11,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChapterMaster.UI
+namespace ChapterMaster.UI.State
 {
-    public class CharacterCreatorScreen : Screen
+    public class ForceManagerScreen : Screen
     {
         public PrimitiveBuddy.Primitive primitive;
-        public CharacterCreatorScreen(int screenId, string backgroundTexture, Align.Align align, bool DoesOcclusion = true) : base(screenId, backgroundTexture, align, DoesOcclusion)
+        public ForceManagerScreen(int screenId, string backgroundTexture, Align.Align align, bool DoesOcclusion = true) : base(screenId, backgroundTexture, align, DoesOcclusion)
         {
 
         }
+
+        public Force Force;
 
         public override void Update(ViewController view)
         {

@@ -1,5 +1,7 @@
-﻿using ChapterMaster.UI;
+﻿using ChapterMaster.Tree;
+using ChapterMaster.UI;
 using ChapterMaster.UI.Align;
+using ChapterMaster.UI.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,13 +13,14 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.State
 {
-    public class CharacterCreatorState : State
+    public class ForceManagerState : State
     {
         GameManager gameManager;
         GraphicsDevice graphicsDevice;
         private MenuViewController viewController;
-        CharacterCreatorScreen screen;
-        public CharacterCreatorState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(gameManager, graphicsDevice, contentManager)
+        ForceManagerScreen screen;
+        Force force;
+        public ForceManagerState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager, Force force) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
             this.graphicsDevice = graphicsDevice;
@@ -28,8 +31,10 @@ namespace ChapterMaster.State
             viewController.viewPortWidth = GameManager.window.ClientBounds.Width;
             viewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works. I, Cato Sicarius, approve of this action, because I, Cato Sicarius, am the most well versed Captain when it comes to the Codex Astartes!
-            screen = new CharacterCreatorScreen(0, "", new MapFrameAlign(0, 0, 0, 0), false);
+            screen = new ForceManagerScreen(0, "spr_rock_bg_0", new MapFrameAlign(0, 0, 0, 0), false);
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
+            this.force = force;
+            screen.Force = force;
         }
 
         public override void Update(GameTime gameTime)

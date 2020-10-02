@@ -147,7 +147,7 @@ namespace ChapterMaster
         }
         public static void Quit()
         {
-            this.Exit();
+            Program.GameManager.Exit();
         }
     }
 }

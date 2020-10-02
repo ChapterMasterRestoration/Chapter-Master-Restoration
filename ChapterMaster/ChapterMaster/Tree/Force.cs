@@ -16,6 +16,7 @@ namespace ChapterMaster.Tree
         public Vector2 position = new Vector2(0, 0);
         public int width = 125;
         public int height = 175;
+        public List<Squad> Squads = new List<Squad>();
         public Force(string name, int x, int y) : base()
         {
             this.name = name;
