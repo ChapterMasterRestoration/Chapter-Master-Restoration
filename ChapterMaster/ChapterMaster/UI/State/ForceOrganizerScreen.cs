@@ -1,4 +1,5 @@
-﻿using ChapterMaster.Tree;
+﻿using ChapterMaster.State;
+using ChapterMaster.Tree;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -67,7 +68,8 @@ namespace ChapterMaster.UI
             {
                 if (Mouse.GetState().RightButton == ButtonState.Pressed && force.GetRectangle().Contains(Mouse.GetState().Position))
                 {
-
+                    Program.GameManager.ChangeState(new ForceManagerState(Program.GameManager, Program.GameManager.GraphicsDevice, Program.GameManager.Content, force));
+                    return;
                 }
             }
 
