@@ -123,6 +123,7 @@ namespace ChapterMaster.State
                         Assets.UITextures.Add("spr_rock_bg_0", Loader.LoadPNG("ui/spr_rock_bg_0"));
                         Assets.UITextures.Add("force_background", Loader.LoadPNG("ui/force_background_r"));
                         Assets.UITextures.Add("bg_combat_grass", Loader.LoadPNG("combat/Zelda Textures/Zelda Texture - Grass 11x Scale"));
+                        Assets.UITextures.Add("spr_mar_collision_0", Loader.LoadPNG("combat/troop/spr_mar_collision_0"));
                         break;
                     case "Fonts":
                         break;

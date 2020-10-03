@@ -69,6 +69,7 @@
     <Compile Include="UI\State\ForceManagerScreen.cs" />
     <Compile Include="UI\State\ForceOrganizerScreen.cs" />
     <Compile Include="UI\State\GroundCombatScreen.cs" />
+    <Compile Include="Weapon\Weapon.cs" />
     <Compile Include="World\Character\Character.cs" />
     <Compile Include="World\Faction\Faction.cs" />
     <Compile Include="World\Fleet\Fleet.cs" />
