@@ -15,7 +15,7 @@ namespace ChapterMaster.UI
     {
         public PrimitiveBuddy.Primitive primitive;
         Planet planet;
-        private Squad squad;
+        public Squad squad;
         public GroundCombatScreen(int screenId, string backgroundTexture, Align.Align align, Planet planet, bool DoesOcclusion = true) : base(screenId, backgroundTexture, align, DoesOcclusion)
         {
             this.planet = planet;
