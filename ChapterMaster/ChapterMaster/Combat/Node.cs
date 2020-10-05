@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChapterMaster.Tree
+namespace ChapterMaster.Combat
 {
     // https://stackoverflow.com/a/2012855
     public delegate void TreeVisitor(Node node);

@@ -1,4 +1,4 @@
-﻿using ChapterMaster.Tree;
+﻿using ChapterMaster.Combat;
 using ChapterMaster.UI;
 using ChapterMaster.UI.Align;
 using ChapterMaster.World;
@@ -20,7 +20,7 @@ namespace ChapterMaster.State
         GraphicsDevice graphicsDevice;
         private MenuViewController viewController;
         GroundCombatScreen screen;
-        public List<Squad> currentSquads;
+        List<Squad> playerSquads = new List<Squad>();
 
         public GroundCombatState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager, Planet planet) : base(gameManager, graphicsDevice, contentManager)
         {
@@ -34,14 +34,23 @@ namespace ChapterMaster.State
             viewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works. I, Cato Sicarius, approve of this action, because I, Cato Sicarius, am the most well versed Captain when it comes to the Codex Astartes!
             screen = new GroundCombatScreen(0, "bg_combat_grass", new MapFrameAlign(0, 0, 0, 0), planet, false);
-            screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
-            Squad squad = new Squad(planet, GenerateTroops(4));
-            for (int i = 0; i < squad.Troops.Count; i++)
+            screen.Primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
+            // Squads are going to be selected by the player through the Attack screen.
+            playerSquads.Add(new Squad(planet, GenerateTroops(4)));
+            playerSquads.Add(new Squad(planet, GenerateTroops(12)));
+            playerSquads.Add(new Squad(planet, GenerateTroops(8)));
+            playerSquads.Sort((a, b) => { return a.Troops.Count.CompareTo(b.Troops.Count); });
+            for (int numberOfSquads = 0; numberOfSquads < playerSquads.Count; numberOfSquads++)
             {
-                Troop troop = squad.Troops[i];
-                troop.Position = new Vector2(0, troop.Size.Y * 2) * i;
+                Squad squad = playerSquads[numberOfSquads];
+                int squadX = 5 + (31 * 2 ) * numberOfSquads; // TODO: Find with size of biggest troop.
+                for (int currentTroop = 0; currentTroop < squad.Troops.Count; currentTroop++)
+                {
+                    Troop troop = squad.Troops[currentTroop];
+                    troop.Position = new Vector2(squadX, (10 + troop.Size.Y * 2) * currentTroop);
+                }
             }
-            screen.squad = squad;
+            screen.Squads = playerSquads;
         }
 
         private List<Troop> GenerateTroops(int n)

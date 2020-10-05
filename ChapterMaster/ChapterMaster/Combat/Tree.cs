@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChapterMaster.Tree
+namespace ChapterMaster.Combat
 {
     public class Tree // TO DO: make generic or something
     {

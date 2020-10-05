@@ -1,5 +1,5 @@
 ﻿using ChapterMaster.State;
-using ChapterMaster.Tree;
+using ChapterMaster.Combat;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -25,7 +25,7 @@ namespace ChapterMaster.UI
         Vector2 resizeSize = new Vector2(0, 0);
         bool isResizing = false;
         bool collided = false;
-        private Tree.Tree tree;
+        private Combat.Tree tree;
         private void UpdateForce(Node node)
         {
             Force force = (Force)node;
@@ -169,7 +169,7 @@ namespace ChapterMaster.UI
             previousMousePosition = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y);
         }
 
-        public void Update(ViewController view, Tree.Tree tree)
+        public void Update(ViewController view, Combat.Tree tree)
         {
             base.Update(view);
             this.tree = tree;
@@ -209,7 +209,7 @@ namespace ChapterMaster.UI
             //}
         }
 
-        public void Render(SpriteBatch spriteBatch, ViewController view, Tree.Tree tree)
+        public void Render(SpriteBatch spriteBatch, ViewController view, Combat.Tree tree)
         {
             _spriteBatch = spriteBatch;
             base.Render(spriteBatch, view);

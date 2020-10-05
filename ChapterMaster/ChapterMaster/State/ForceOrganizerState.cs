@@ -1,4 +1,4 @@
-﻿using ChapterMaster.Tree;
+﻿using ChapterMaster.Combat;
 using ChapterMaster.UI;
 using ChapterMaster.UI.Align;
 using Microsoft.Xna.Framework;
@@ -20,7 +20,7 @@ namespace ChapterMaster.State
         private MenuViewController viewController;
         ForceOrganizerScreen screen;
 
-        Tree.Tree tree;
+        Combat.Tree tree;
 
         public ForceOrganizerState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(gameManager, graphicsDevice, contentManager)
         {
@@ -35,7 +35,7 @@ namespace ChapterMaster.State
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works. I, Cato Sicarius, approve of this action, because I, Cato Sicarius, am the most well versed Captain when it comes to the Codex Astartes!
             screen = new ForceOrganizerScreen(0, "spr_rock_bg_0", new MapFrameAlign(0, 0, 0, 0), false);
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
-            tree = new Tree.Tree();
+            tree = new Combat.Tree();
             tree.Parent = new Force("HQ", 400, 20);
             tree.Parent.AddChildren(new Force("Deathwing Inner Circle", 200, 100).AddChildren(new Force("1st Coy. 'Deathwing'", 200, 280)), new Force("Ravenwing Inner Circle", 600, 100).AddChildren(new Force("2nd Coy. 'Ravenwing'", 600, 280)));
         }

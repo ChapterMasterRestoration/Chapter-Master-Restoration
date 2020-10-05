@@ -1,4 +1,4 @@
-﻿using ChapterMaster.Tree;
+﻿using ChapterMaster.Combat;
 using ChapterMaster.UI;
 using ChapterMaster.UI.Align;
 using ChapterMaster.UI.State;
