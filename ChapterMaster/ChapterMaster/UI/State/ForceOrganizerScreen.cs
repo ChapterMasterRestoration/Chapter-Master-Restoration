@@ -29,12 +29,11 @@ namespace ChapterMaster.UI
         private void UpdateForce(Node node)
         {
             Force force = (Force)node;
-            string text = $"{force.name}";
+            string text = $"{force.Name}";
             Vector2 sizeText = Assets.ARJULIAN.MeasureString(text);
-            Rectangle box = new Rectangle(new Point((int)force.position.X, (int)force.position.Y), new Point(force.width, force.height));
             Rectangle resizeBox = new Rectangle(new Point(
-                                                         (int)force.position.X + force.width - 18,
-                                                         (int)force.position.Y + force.height - 17),
+                                                         (int)force.Position.X + force.Width - 18,
+                                                         (int)force.Position.Y + force.Height - 17),
                                                 new Point(18, 17));
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
@@ -48,20 +47,19 @@ namespace ChapterMaster.UI
 
                 if (isResizing && currentlySelectedForce == force)
                 {
-                    Vector2 sizeCurrentText = Assets.ARJULIAN.MeasureString(currentlySelectedForce.name);
-                    resizeSize = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - currentlySelectedForce.position;
-                    currentlySelectedForce.width = Math.Max((int)sizeCurrentText.X, (int)resizeSize.X);
-                    currentlySelectedForce.height = (int)resizeSize.Y;
-                    box = new Rectangle(new Point((int)force.position.X, (int)force.position.Y), new Point(force.width, force.height));
+                    Vector2 sizeCurrentText = Assets.ARJULIAN.MeasureString(currentlySelectedForce.Name);
+                    resizeSize = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - currentlySelectedForce.Position;
+                    currentlySelectedForce.Width = Math.Max((int)sizeCurrentText.X, (int)resizeSize.X);
+                    currentlySelectedForce.Height = (int)resizeSize.Y;
                 }
 
-                if (currentlySelectedForce == null && box.Contains(Mouse.GetState().Position) && !isResizing)
+                if (currentlySelectedForce == null && force.MouseOver() && !isResizing)
                 {
-                    mouseOffset = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - force.position;
-                    force.grabbed = true;
+                    mouseOffset = Mouse.GetState().Position.ToVector2() - force.Position;
+                    force.Grabbed = true;
                     currentlySelectedForce = force;
 
-                    Debug.WriteLine($"X: {force.position.X}, Y: {force.position.Y}, Force Name: {force.name}");
+                    Debug.WriteLine($"X: {force.Position.X}, Y: {force.Position.Y}, Force Name: {force.Name}");
                 }
             }
             else
@@ -73,17 +71,17 @@ namespace ChapterMaster.UI
                 }
             }
 
-            if (force.grabbed && currentlySelectedForce == force && !isResizing && currentlySelectedForce.MouseOver() && !collided)
+            if (force.Grabbed && currentlySelectedForce == force && !isResizing && !collided)
             {
                 //new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - box.Location.ToVector2();
-                force.position = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - mouseOffset; // - mouseOffset/2 makes it really smooth;
-                if (force.position.X < 0) force.position.X = 0;
-                if (force.position.Y < 0) force.position.Y = 0;
-                if (force.GetRectangle().Right > view.viewPortWidth) force.position.X = view.viewPortWidth - force.width;
-                if (force.GetRectangle().Bottom > view.viewPortHeight) force.position.Y = view.viewPortHeight - force.height;
+                force.Position = Mouse.GetState().Position.ToVector2() - mouseOffset; // - mouseOffset/2 makes it really smooth;
+                if (force.Position.X < 0) force.Position.X = 0;
+                if (force.Position.Y < 0) force.Position.Y = 0;
+                if (force.GetRectangle().Right > view.viewPortWidth) force.Position.X = view.viewPortWidth - force.Width;
+                if (force.GetRectangle().Bottom > view.viewPortHeight) force.Position.Y = view.viewPortHeight - force.Height;
                 if (Mouse.GetState().LeftButton == ButtonState.Released)
                 {
-                    force.grabbed = false;
+                    force.Grabbed = false;
                     currentlySelectedForce = null; // Try commenting this.
                 }
             }
@@ -92,7 +90,7 @@ namespace ChapterMaster.UI
             void DidCollide(Node node1)
             {
                 Force force1 = (Force)node1;
-                if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Intersects(new Rectangle(new Point((int)force1.position.X, (int)force1.position.Y), new Point(force1.width, force1.height))))
+                if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Intersects(new Rectangle(new Point((int)force1.Position.X, (int)force1.Position.Y), new Point(force1.Width, force1.Height))))
                 {
                     justCollided = true;
                 }
@@ -105,13 +103,12 @@ namespace ChapterMaster.UI
 
             if (isResizing && Mouse.GetState().LeftButton == ButtonState.Released && currentlySelectedForce != null && !justCollided)
             {
-                Vector2 sizeCurrentText = Assets.ARJULIAN.MeasureString(currentlySelectedForce.name);
+                Vector2 sizeCurrentText = Assets.ARJULIAN.MeasureString(currentlySelectedForce.Name);
                 isResizing = false;
-                resizeSize = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y) - currentlySelectedForce.position;
-                currentlySelectedForce.width = Math.Max((int)sizeCurrentText.X, (int)resizeSize.X);
-                currentlySelectedForce.height = (int)resizeSize.Y;
+                resizeSize = Mouse.GetState().Position.ToVector2() - currentlySelectedForce.Position;
+                currentlySelectedForce.Width = Math.Max((int)sizeCurrentText.X, (int)resizeSize.X);
+                currentlySelectedForce.Height = (int)resizeSize.Y;
                 currentlySelectedForce = null;
-                box = new Rectangle(box.Location, resizeSize.ToPoint());
 
                 //Debug.WriteLine("It is the 41st Millennium. For more than a hundred centuries The Emperor has sat immobile on the Golden Throne of Earth. He is the Master of Mankind by the will of the gods, and master of a million worlds by the might of his inexhaustible armies. He is a rotting carcass writhing invisibly with power from the Dark Age of Technology. He is the Carrion Lord of the Imperium for whom a thousand souls are sacrificed every day, so that he may never truly die.");
             }
@@ -123,8 +120,8 @@ namespace ChapterMaster.UI
                 if (currentlySelectedForce != force1 && currentlySelectedForce.GetRectangle().Intersects(force1.GetRectangle()))
                 {
                     //collided = true;
-                    offset = currentlySelectedForce.position - force1.position;
-                    currentlySelectedForce.position += offset / ((float)1);
+                    offset = currentlySelectedForce.Position - force1.Position;
+                    currentlySelectedForce.Position += offset / ((float)1);
                     if (force1.GetChildren().Contains(currentlySelectedForce) && currentlySelectedForce.Parent != null)
                     {
                         //force1.GetChildren().Remove(currentlySelectedForce);
@@ -138,14 +135,14 @@ namespace ChapterMaster.UI
                         if (force1.Parent != currentlySelectedForce) { // TODO: parent somewhere is stil null, fix that.
                             if (currentlySelectedForce.Parent != null)
                             {
-                                Force copy = new Force(currentlySelectedForce.name, (int)currentlySelectedForce.position.X, (int)currentlySelectedForce.position.Y);
+                                Force copy = new Force(currentlySelectedForce.Name, (int)currentlySelectedForce.Position.X, (int)currentlySelectedForce.Position.Y);
                                 for (int i = 0; i < currentlySelectedForce.GetNumberOfChildren(); i++)
                                 {
                                     copy.AddChild(currentlySelectedForce.GetChildren()[i]);
                                 }
-                                copy.width = currentlySelectedForce.width;
-                                copy.height = currentlySelectedForce.height;
-                                copy.name = currentlySelectedForce.name;
+                                copy.Width = currentlySelectedForce.Width;
+                                copy.Height = currentlySelectedForce.Height;
+                                copy.Name = currentlySelectedForce.Name;
                                 copy.Parent = null;
                                 currentlySelectedForce.Parent.GetChildren().Remove(currentlySelectedForce);
                                 currentlySelectedForce = copy;
@@ -156,7 +153,7 @@ namespace ChapterMaster.UI
                         }
                     }
 
-                    Debug.WriteLine($"Current: {currentlySelectedForce.name}, {force1.name}, oX: {offset.X}, oY: {offset.Y}");
+                    Debug.WriteLine($"Current: {currentlySelectedForce.Name}, {force1.Name}, oX: {offset.X}, oY: {offset.Y}");
                 }
             }
 
@@ -178,28 +175,28 @@ namespace ChapterMaster.UI
         }
         public int CalculateWidth(Force node)
         {
-            return (int)Assets.ARJULIAN.MeasureString($"{node.name}").X;
+            return (int)Assets.ARJULIAN.MeasureString($"{node.Name}").X;
         }
         private void RenderForce(Node node)
         {
             Force force = (Force)node;
-            string text = $"{force.name}";
+            string text = $"{force.Name}";
             Vector2 sizeText = Assets.ARJULIAN.MeasureString(text);
             Vector2 posText = new Vector2(0, 2);
-            posText.X = force.width / 2 - sizeText.X / 2;
+            posText.X = force.Width / 2 - sizeText.X / 2;
 
-            _spriteBatch.Draw(Assets.UITextures["force_background"], new Rectangle(force.position.ToPoint(), new Point(force.width, force.height)), Color.White);
-            _spriteBatch.DrawString(Assets.ARJULIAN, text, force.position + posText, Color.White);
+            _spriteBatch.Draw(Assets.UITextures["force_background"], new Rectangle(force.Position.ToPoint(), new Point(force.Width, force.Height)), Color.White);
+            _spriteBatch.DrawString(Assets.ARJULIAN, text, force.Position + posText, Color.White);
             if (force.Parent != null && !force.Emancipated)
             {
                 Force parent = (Force)force.Parent;
-                string textParent = $"{parent.name}";
+                string textParent = $"{parent.Name}";
                 Vector2 sizeParentText = Assets.ARJULIAN.MeasureString(textParent);
-                primitive.Line(parent.position + new Vector2(((Force)force.Parent).width / 2, ((Force)force.Parent).height), force.position + new Vector2(force.width / 2, 0), Color.White);
+                primitive.Line(parent.Position + new Vector2(((Force)force.Parent).Width / 2, ((Force)force.Parent).Height), force.Position + new Vector2(force.Width / 2, 0), Color.White);
             }
 
-            Rectangle box = new Rectangle(new Point((int)force.position.X, (int)force.position.Y), new Point(force.width, force.height));
-            if (force.grabbed)
+            Rectangle box = new Rectangle(new Point((int)force.Position.X, (int)force.Position.Y), new Point(force.Width, force.Height));
+            if (force.Grabbed)
             {
 
             }
@@ -216,7 +213,7 @@ namespace ChapterMaster.UI
             tree.Parent.Traverse(tree.Parent, RenderForce);
             if (currentlySelectedForce != null)
             {
-                spriteBatch.DrawString(Assets.ARJULIAN, $"{currentlySelectedForce.name}", new Vector2(0, 5), Color.White);
+                spriteBatch.DrawString(Assets.ARJULIAN, $"{currentlySelectedForce.Name}", new Vector2(0, 5), Color.White);
             }
             if (isResizing)
             {

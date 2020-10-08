@@ -10,26 +10,26 @@ namespace ChapterMaster.Combat
 {
     public class Force : Node
     {
-        public bool grabbed = false;
-        public string name;
+        public bool Grabbed = false;
+        public string Name;
         //public int number;
-        public Vector2 position = new Vector2(0, 0);
-        public int width = 125;
-        public int height = 175;
+        public Vector2 Position = new Vector2(0, 0);
+        public int Width = 125;
+        public int Height = 175;
         public List<Squad> Squads = new List<Squad>();
         public Force(string name, int x, int y) : base()
         {
-            this.name = name;
-            this.position = new Vector2(x, y);
+            this.Name = name;
+            this.Position = new Vector2(x, y);
         }
         public bool MouseOver()
         {
-            return new Rectangle(position.ToPoint(), new Point(width, height)).Contains(Mouse.GetState().Position);
+            return new Rectangle(Position.ToPoint(), new Point(Width, Height)).Contains(Mouse.GetState().Position);
         }
 
         public Rectangle GetRectangle()
         {
-            return new Rectangle (position.ToPoint(), new Point(this.width, this.height));
+            return new Rectangle (Position.ToPoint(), new Point(this.Width, this.Height));
         }
     }
 }

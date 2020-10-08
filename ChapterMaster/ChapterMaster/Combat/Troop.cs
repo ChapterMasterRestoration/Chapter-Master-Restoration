@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,21 @@ namespace ChapterMaster.Combat
         public Vector2 Size = new Vector2(31, 39);
         public Weapon.Weapon Weapon;
         public Troop Target;
+        public bool Grabbed;
 
         public Troop()
         {
 
         }
-    }
+
+        public Rectangle GetRectangle()
+        {
+            return new Rectangle(Position.ToPoint(), Size.ToPoint());
+        }
+
+        public bool MouseOver() // Will probably have to be moved to ViewController.S
+        {
+            return GetRectangle().Contains(Mouse.GetState().Position);
+        }
+     }
 }
