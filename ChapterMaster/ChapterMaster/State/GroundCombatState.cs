@@ -36,19 +36,34 @@ namespace ChapterMaster.State
             screen = new GroundCombatScreen(0, "bg_combat_grass", new MapFrameAlign(0, 0, 0, 0), planet, false);
             screen.Primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
             // Squads are going to be selected by the player through the Attack screen.
-            playerSquads.Add(new Squad(planet, GenerateTroops(4)));
+            playerSquads.Clear();
+            //playerSquads.Add(new Squad(planet, GenerateTroops(4)));
             playerSquads.Add(new Squad(planet, GenerateTroops(12)));
-            playerSquads.Add(new Squad(planet, GenerateTroops(8)));
+            //playerSquads.Add(new Squad(planet, GenerateTroops(8)));
             playerSquads.Sort((a, b) => { return a.Troops.Count.CompareTo(b.Troops.Count); });
             for (int numberOfSquads = 0; numberOfSquads < playerSquads.Count; numberOfSquads++)
             {
                 Squad squad = playerSquads[numberOfSquads];
-                int squadX = 5 + (31 * 2 ) * numberOfSquads; // TODO: Find with size of biggest troop.
-                for (int currentTroop = 0; currentTroop < squad.Troops.Count; currentTroop++)
+                // int squadX = 5 + (31 * 2 ) * numberOfSquads; // TO DO: Find with size of biggest troop.
+                int noColumns = squad.Troops.Count % 5 == 0 ? squad.Troops.Count / 5 : (squad.Troops.Count / 5) + 1;
+                for (int currentColumn = 0; currentColumn < noColumns; currentColumn++)
                 {
-                    Troop troop = squad.Troops[currentTroop];
-                    troop.Position = new Vector2(squadX, (10 + troop.Size.Y * 2) * currentTroop);
+                    int noRow = 5;
+                    if (currentColumn == noColumns - 1 && noColumns % 5 != 0)
+                    {
+                        noRow = noColumns % 5;
+                    }
+                    for (int currentRow = 0; currentRow < noRow - 1; currentRow++)
+                    {
+                        Troop troop = squad.Troops[(currentColumn * 5) + currentRow];
+                        troop.Position = new Vector2(31 * currentColumn + 36, (10 + troop.Size.Y * 2) * currentRow);
+                    }
                 }
+                //for (int currentTroop = 0; currentTroop < squad.Troops.Count; currentTroop++)
+                //{
+                //    Troop troop = squad.Troops[currentTroop];
+                //    troop.Position = new Vector2(squadX, (10 + troop.Size.Y * 2) * currentTroop);
+                //}
             }
             screen.Squads = playerSquads;
         }

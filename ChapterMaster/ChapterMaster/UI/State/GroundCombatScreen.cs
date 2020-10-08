@@ -28,7 +28,7 @@ namespace ChapterMaster.UI
 
         private Point scalePoint(Point point, float factor) 
         {
-            return new Point(point.X / factor, point.Y / factor); 
+            return new Point((int)(point.X / factor), (int)(point.Y / factor)); 
         }
 
         public override void Render(SpriteBatch spriteBatch, ViewController view)
