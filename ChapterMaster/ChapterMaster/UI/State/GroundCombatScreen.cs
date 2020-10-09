@@ -59,7 +59,7 @@ namespace ChapterMaster.UI
                                 troop.Grabbed = true;
                                 currentlySelectedTroop = troop;
                                 dragging = false;
-                                orderStart = mouseOffset;
+                                orderStart = squad.Position + troop.Position + new Vector2(troop.Size.X, troop.Size.Y / 2);
                                 assigningOrder = true;
                             }
                         }
@@ -151,7 +151,19 @@ namespace ChapterMaster.UI
             }
             if(assigningOrder)
             {
-                Primitive.Line(orderStart, orderEnd, Color.White);
+                Vector2 position = orderStart + new Vector2(currentlySelectedTroop.Size.X + 5, currentlySelectedTroop.Size.Y / 2);
+                Rectangle rect = new Rectangle(position.ToPoint().X, 
+                    position.ToPoint().Y, 
+                    Math.Abs((orderEnd - position).ToPoint().X), 
+                    Math.Abs((orderEnd - position).ToPoint().Y));
+                float rot = (float)Math.Atan2(orderEnd.Y - orderStart.Y, orderEnd.X - orderStart.X);
+                spriteBatch.Draw(Assets.UITextures["order_move_arrow"], position, rect, 
+                    Color.White, rot, 
+                    orderStart + new Vector2(5, 32),
+                    new Vector2(1, 1),
+                    SpriteEffects.None, 0);
+
+                Debug.WriteLine($"PX: {position.X}, PY: {position.Y}, RX: {rect.X}, RY: {rect.Y}, RW: {rect.Width}, RH: {rect.Height}, RO: {rot}");
             }
         }
 
