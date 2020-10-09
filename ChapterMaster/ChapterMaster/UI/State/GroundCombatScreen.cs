@@ -22,10 +22,14 @@ namespace ChapterMaster.UI
             this.planet = planet;
         }
 
+        bool dragging = false;
         Troop currentlySelectedTroop;
         Squad currentlySelectedSquad;
         Vector2 mouseOffset = new Vector2(0, 0);
         Vector2 troopOffset = new Vector2(0, 0);
+        Vector2 orderStart = new Vector2(0, 0);
+        Vector2 orderEnd = new Vector2(0, 0);
+        bool assigningOrder = false;
         public override void Update(ViewController view)
         {
             base.Update(view);
@@ -37,31 +41,49 @@ namespace ChapterMaster.UI
                     Troop troop = squad.Troops[currentTroop];
                     if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                     {
-                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                        if (Mouse.GetState().RightButton == ButtonState.Pressed) // start drag
                         {
                             if (currentlySelectedTroop == null && troop.MouseOver(squad))
                             {
                                 mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
                                 troop.Grabbed = true;
                                 currentlySelectedTroop = troop;
+                                dragging = true;
                             }
-                            else
-                            {
-                                //currentlySelectedTroop = null;
-                            }
-                        }
-                        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                        } else
+                        if (Mouse.GetState().LeftButton == ButtonState.Pressed) // start order
                         {
-
+                            if (currentlySelectedTroop == null && troop.MouseOver(squad))
+                            {
+                                mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
+                                troop.Grabbed = true;
+                                currentlySelectedTroop = troop;
+                                dragging = false;
+                                orderStart = mouseOffset;
+                                assigningOrder = true;
+                            }
                         }
                         if (troop.Grabbed && currentlySelectedTroop == troop)
                         {
-                            Debug.WriteLine($"Currently moving troop i {currentTroop} to ${Mouse.GetState().Position.X}");
-                            currentlySelectedTroop.Position = Mouse.GetState().Position.ToVector2() - mouseOffset;
-                            if (Mouse.GetState().RightButton == ButtonState.Released)
+                            if (dragging)
                             {
-                                troop.Grabbed = false;
-                                currentlySelectedTroop = null;
+                                Debug.WriteLine($"Currently moving troop i {currentTroop} to ${Mouse.GetState().Position.X}");
+                                currentlySelectedTroop.Position = Mouse.GetState().Position.ToVector2() - mouseOffset;
+                                if (Mouse.GetState().RightButton == ButtonState.Released) // release drag
+                                {
+                                    troop.Grabbed = false;
+                                    currentlySelectedTroop = null;
+                                    dragging = false;
+                                }
+                            } else
+                            {
+                                orderEnd = Mouse.GetState().Position.ToVector2();
+                                if (Mouse.GetState().LeftButton == ButtonState.Released) // release order
+                                {
+                                    troop.Grabbed = false;
+                                    currentlySelectedTroop = null;
+                                    assigningOrder = false;
+                                }
                             }
                         }
                     }
@@ -126,6 +148,10 @@ namespace ChapterMaster.UI
             if(currentlySelectedTroop != null)
             {
                 //spriteBatch.DrawString(Assets.ARJULIAN, $"cur: {currentlySelectedTroop}") // draw currently selected troop id
+            }
+            if(assigningOrder)
+            {
+                Primitive.Line(orderStart, orderEnd, Color.White);
             }
         }
 
