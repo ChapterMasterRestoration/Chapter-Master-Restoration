@@ -23,7 +23,9 @@ namespace ChapterMaster.UI
         }
 
         Troop currentlySelectedTroop;
+        Squad currentlySelectedSquad;
         Vector2 mouseOffset = new Vector2(0, 0);
+        Vector2 troopOffset = new Vector2(0, 0);
         public override void Update(ViewController view)
         {
             base.Update(view);
@@ -33,27 +35,65 @@ namespace ChapterMaster.UI
                 for (int currentTroop = 0; currentTroop < squad.Troops.Count; currentTroop++)
                 {
                     Troop troop = squad.Troops[currentTroop];
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                     {
-                        if (currentlySelectedTroop == null && troop.MouseOver())
+                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
                         {
-                            mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
-                            troop.Grabbed = true;
-                            currentlySelectedTroop = troop;
+                            if (currentlySelectedTroop == null && troop.MouseOver(squad))
+                            {
+                                mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
+                                troop.Grabbed = true;
+                                currentlySelectedTroop = troop;
+                            }
+                            else
+                            {
+                                //currentlySelectedTroop = null;
+                            }
                         }
-                        else
+                        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                         {
-                            //currentlySelectedTroop = null;
+
+                        }
+                        if (troop.Grabbed && currentlySelectedTroop == troop)
+                        {
+                            Debug.WriteLine($"Currently moving troop i {currentTroop} to ${Mouse.GetState().Position.X}");
+                            currentlySelectedTroop.Position = Mouse.GetState().Position.ToVector2() - mouseOffset;
+                            if (Mouse.GetState().RightButton == ButtonState.Released)
+                            {
+                                troop.Grabbed = false;
+                                currentlySelectedTroop = null;
+                            }
                         }
                     }
-                    if (troop.Grabbed && currentlySelectedTroop == troop)
+                    else
                     {
-                        Debug.WriteLine($"Currently moving troop i {currentTroop} to ${Mouse.GetState().Position.X}");
-                        currentlySelectedTroop.Position = Mouse.GetState().Position.ToVector2() - mouseOffset;
-                        if (Mouse.GetState().LeftButton == ButtonState.Released)
+                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                        {
+                            if (currentlySelectedSquad == null && currentlySelectedTroop == null && troop.MouseOver(squad))
+                            {
+                                //mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
+                                troopOffset = Mouse.GetState().Position.ToVector2() - squad.Position;
+                                troop.Grabbed = true;
+                                squad.Grabbed = true;
+                                currentlySelectedTroop = troop;
+                                currentlySelectedSquad = squad;
+                            }
+                        }
+                    }
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+
+                    }
+                    if(troop.Grabbed && squad.Grabbed && currentlySelectedTroop == troop && currentlySelectedSquad == squad)
+                    {
+                        squad.Position = Mouse.GetState().Position.ToVector2() - troopOffset;
+                        Debug.WriteLine($"Currently moving squad i {currentSquad} to ${Mouse.GetState().Position.X}");
+                        if (Mouse.GetState().RightButton == ButtonState.Released)
                         {
                             troop.Grabbed = false;
+                            squad.Grabbed = false;
                             currentlySelectedTroop = null;
+                            currentlySelectedSquad = null;
                         }
                     }
                 }
@@ -74,12 +114,12 @@ namespace ChapterMaster.UI
                 for (int i = 0; i < squad.Troops.Count; i++)
                 {
                     Troop troop = squad.Troops[i];
-                    Rectangle rect = new Rectangle(troop.Position.ToPoint(), troop.Size.ToPoint());
+                    Rectangle rect = new Rectangle(squad.Position.ToPoint() + troop.Position.ToPoint(), troop.Size.ToPoint());
                     spriteBatch.Draw(Assets.UITextures["spr_mar_collision_0"],
                                      rect,Color.White);
                     string leaderTag = i == Squads.Count - 1 ? "L" : "";
                     spriteBatch.DrawString(Assets.ARJULIAN, $"{troop.Health} i {i}",
-                                           new Vector2(troop.Position.X, troop.Position.Y - 10),
+                                           squad.Position + new Vector2(troop.Position.X, troop.Position.Y - 10),
                                            Color.White);
                 }
             }

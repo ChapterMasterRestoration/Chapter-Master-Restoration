@@ -26,14 +26,14 @@ namespace ChapterMaster.Combat
 
         }
 
-        public Rectangle GetRectangle()
+        public Rectangle GetRectangle(Squad squad)
         {
-            return new Rectangle(Position.ToPoint(), Size.ToPoint());
+            return new Rectangle((Position + squad.Position).ToPoint(), Size.ToPoint());
         }
 
-        public bool MouseOver() // Will probably have to be moved to ViewController.S
+        public bool MouseOver(Squad squad) // Will probably have to be moved to ViewController.S
         {
-            return GetRectangle().Contains(Mouse.GetState().Position);
+            return GetRectangle(squad).Contains(Mouse.GetState().Position);
         }
      }
 }

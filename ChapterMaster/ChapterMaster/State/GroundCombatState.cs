@@ -63,7 +63,8 @@ namespace ChapterMaster.State
                 #endregion
                 int count = squad.Troops.Count;
                 int noColumns = count % 5 == 0 ? count / 5 : (count / 5) + 1;
-                int squadTop = 10 + (5 * (31 + 15) + 5) * currentSquad;
+                int squadTop = 10 + (5 * (31 + 20) + 5) * currentSquad;
+                squad.Position = new Vector2(10, squadTop);
                 for (int currentTroop = 0; currentTroop < count; currentTroop++)
                 {
                     Troop troop = squad.Troops[currentTroop];
@@ -73,8 +74,8 @@ namespace ChapterMaster.State
                     //                             (10 + currentCol * (troop.Size.Y + 15)));]
                     int currentCol = (currentTroop % 5);
                     int currentRow = (currentTroop / 5);
-                    troop.Position = new Vector2(10 + currentRow * (troop.Size.X + 25),
-                                                 (squadTop + currentCol * (troop.Size.Y + 15)));
+                    troop.Position = new Vector2(currentRow * (troop.Size.X + 25),
+                                                 (currentCol * (troop.Size.Y + 15)));
                 }
             }
             screen.Squads = playerSquads;

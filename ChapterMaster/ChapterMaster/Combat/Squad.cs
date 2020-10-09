@@ -1,4 +1,5 @@
 ﻿using ChapterMaster.World;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,9 @@ namespace ChapterMaster.Combat
     {
         public string Name = "Maneus Squad";
         public Planet Planet;
+        public Vector2 Position = new Vector2(0,0);
         public List<Troop> Troops = new List<Troop>();
+        public bool Grabbed;
 
         public Squad(Planet planet, List<Troop> troops)
         {
