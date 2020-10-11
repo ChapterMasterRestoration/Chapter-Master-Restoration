@@ -157,10 +157,11 @@ namespace ChapterMaster.UI
                     Math.Abs((orderEnd - position).ToPoint().X), 
                     Math.Abs((orderEnd - position).ToPoint().Y));
                 float rot = (float)Math.Atan2(orderEnd.Y - orderStart.Y, orderEnd.X - orderStart.X);
-                spriteBatch.Draw(Assets.UITextures["order_move_arrow"], position, rect, 
+                float scale = (orderEnd - orderStart).Length()/128;
+                spriteBatch.Draw(Assets.UITextures["order_move_arrow"], position, null, 
                     Color.White, rot, 
-                    orderStart + new Vector2(5, 32),
-                    new Vector2(1, 1),
+                    new Vector2(0, currentlySelectedTroop.Size.Y/2 + 16),
+                    new Vector2(scale, 1 + scale/20),
                     SpriteEffects.None, 0);
 
                 Debug.WriteLine($"PX: {position.X}, PY: {position.Y}, RX: {rect.X}, RY: {rect.Y}, RW: {rect.Width}, RH: {rect.Height}, RO: {rot}");
