@@ -110,6 +110,7 @@ namespace ChapterMaster.State
                         Assets.ButtonTextures[7] = Loader.LoadPNG("spr_mm_butts_2");
                         Assets.ButtonTextures[8] = Loader.LoadPNG("spr_mm_butts_3");
                         Assets.ButtonTextures[9] = Loader.LoadPNG("spr_mm_butts_4");
+                        //Assets.ButtonTextures[10] = Loader.LoadPNG("");
                         break;
                     case "UI Textures":
                         Assets.UITextures = new Dictionary<string, Texture2D>();
@@ -125,6 +126,9 @@ namespace ChapterMaster.State
                         Assets.UITextures.Add("bg_combat_grass", Loader.LoadPNG("combat/Zelda Textures/Zelda Texture - Grass 11x Scale"));
                         Assets.UITextures.Add("spr_mar_collision_0", Loader.LoadPNG("combat/troop/spr_mar_collision_0"));
                         Assets.UITextures.Add("order_move_arrow", Loader.LoadPNG("combat/order_move_arrow")); // Move this to a different loading stage
+                        //Assets.UITextures.Add("", Loader.LoadPNG(""));
+                        Assets.UITextures.Add("faction_creator", Loader.LoadPNG("spr_popup_medium_0")); // Move this to the UI folder, you utter beefbroth.
+                        Assets.UITextures.Add("faction_creator_background", Loader.LoadPNG("spr_settings_bg_0"));
                         break;
                     case "Fonts":
                         break;

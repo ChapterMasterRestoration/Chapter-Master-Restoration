@@ -17,7 +17,7 @@ namespace ChapterMaster.UI.Align
         {
             width = view.viewPortWidth;
             height = view.viewPortHeight;
-            return new Rectangle(0, 0, view.viewPortWidth, view.viewPortHeight);
+            return new Rectangle(0, 0, width, height);
         }
     }
 }

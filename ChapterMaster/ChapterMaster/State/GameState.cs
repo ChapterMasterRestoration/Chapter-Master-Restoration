@@ -40,7 +40,7 @@ namespace ChapterMaster
             renderer = new SectorRenderer();
             ChapterMaster.ViewController = new ViewController();
             spriteBatch = new SpriteBatch(graphicsDevice);
-            ChapterMaster.MainScreen = new Screen(0, "mapframe", new MapFrameAlign(11, 61, 11, 10), false); // TODO: The proletariat will rise. Enable advanced occlusion for the map frame.
+            ChapterMaster.MainScreen = new Screen(0, "mapframe", new MapFrameAlign(11, 61, 11, 10), false); // TO DO: The proletariat will rise. Enable advanced occlusion for the map frame.
             //ChapterMaster.ViewController.viewPortWidth = GameManager.GetWidth();
             //ChapterMaster.ViewController.viewPortHeight = GameManager.GetHeight();
             GameManager.graphics.PreferredBackBufferWidth = GameManager.window.ClientBounds.Width;
@@ -109,7 +109,7 @@ namespace ChapterMaster
             renderer.Render(spriteBatch, ChapterMaster.Sector, ChapterMaster.ViewController);
             // Draw warp lanes
             // Draw UI
-            //MainScreen.Rect = new Rectangle(0, 0, GetWidth(), GetHeight()); // TODO: implement scaling properly in Screen class.
+            //MainScreen.Rect = new Rectangle(0, 0, GetWidth(), GetHeight()); // TO DO: implement scaling properly in Screen class.
             ChapterMaster.MainScreen.Render(spriteBatch, ChapterMaster.ViewController);
             spriteBatch.DrawString(Assets.ARJULIAN, ChapterMaster.DebugString, new Vector2(0, 100), Color.White);
             spriteBatch.End();
