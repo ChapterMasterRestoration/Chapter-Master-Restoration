@@ -17,7 +17,7 @@ namespace ChapterMaster.UI.State
 
         public FactionCreatorScreen(int screenId, string backgroundTexture, Align.Align align, bool DoesOcclusion = true) : base(screenId, backgroundTexture, align, DoesOcclusion)
         {
-            this.factionAlign = new CenterAlign(468, 324, 0, 0, 0, 0);
+            this.factionAlign = new CenterAlign(400,500, 170, 80, 0, 0);
         }
 
 

@@ -18,10 +18,10 @@ namespace ChapterMaster.UI.Align
         {
             int centerX = view.viewPortWidth / 2;
             int centerY = view.viewPortHeight / 2;
-            float scaleX = ((float) width / (float) 800) * view.viewPortWidth; // This doesn't work.
-            float scaleY = ((float) height / (float) 600) * view.viewPortHeight;
+            float scaleX = ((float) 1 / (float) 800) * view.viewPortWidth; // This doesn't work.
+            float scaleY = ((float) 1 / (float) 600) * view.viewPortHeight;
 
-            return new Rectangle(centerX - (width / 2), centerY - (height / 2), (int) (width * scaleX), (int) (height * scaleY)); // TO DO: Scale by window size.
+            return new Rectangle((int)(centerX - (width * scaleX / 2)),(int) (centerY - (height * scaleY / 2)), (int) (width * scaleX), (int) (height * scaleY)); // TO DO: Scale by window size.
         }
     }
 }

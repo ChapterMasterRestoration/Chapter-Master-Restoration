@@ -26,8 +26,7 @@ namespace ChapterMaster.UI.Align
             switch(Corner)
             {
                 case Corner.TOPLEFT:
-
-                    break;
+                    return new Rectangle(leftMargin, topMargin, view.viewPortWidth/2, view.viewPortHeight/2 + 100);
                 case Corner.TOPRIGHT:
 
                     break;
