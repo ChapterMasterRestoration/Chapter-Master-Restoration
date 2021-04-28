@@ -14,19 +14,27 @@ namespace ChapterMaster.UI.Align
     public class CornerAlign : Align
     {
         Corner Corner;
-
+        Align subAlign;
         public CornerAlign(Corner corner, int width, int height,int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0) : base(width,height,leftMargin, topMargin, rightMargin, bottomMargin)
         {
             Corner = corner;
         }
-
+        public CornerAlign(Corner corner, int width, int height, Align subAlign,int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0) : base(width, height, leftMargin, topMargin, rightMargin, bottomMargin)
+        {
+            Corner = corner;
+            this.subAlign = subAlign;
+        }
         public override Rectangle GetRect(ViewController view)
         {
-
+            
             switch(Corner)
             {
                 case Corner.TOPLEFT:
-                    return new Rectangle(leftMargin, topMargin, view.viewPortWidth/2, view.viewPortHeight/2 + 100);
+                    //Console.WriteLine(Screen.align.leftMargin);
+                    if(subAlign != null)
+                        return new Rectangle(subAlign.leftMargin + leftMargin, subAlign.topMargin + topMargin, width, height);
+                    else
+                        return new Rectangle(Screen.align.leftMargin + leftMargin, Screen.align.topMargin + topMargin, width, height);
                 case Corner.TOPRIGHT:
 
                     break;

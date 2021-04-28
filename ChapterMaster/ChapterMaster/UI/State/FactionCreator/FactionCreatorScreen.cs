@@ -13,7 +13,7 @@ namespace ChapterMaster.UI.State
     public class FactionCreatorScreen : Screen
     {
         public PrimitiveBuddy.Primitive primitive;
-        CenterAlign factionAlign;
+        public CenterAlign factionAlign;
 
         public FactionCreatorScreen(int screenId, string backgroundTexture, Align.Align align, bool DoesOcclusion = true) : base(screenId, backgroundTexture, align, DoesOcclusion)
         {
@@ -29,7 +29,22 @@ namespace ChapterMaster.UI.State
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
             base.Render(spriteBatch, view);
-            spriteBatch.Draw(Assets.UITextures["faction_creator"], factionAlign.GetRect(view), Color.White);
+            Rect = factionAlign.GetRect(view); //align.GetRect(view);
+            spriteBatch.Draw(Assets.UITextures["faction_creator"], Rect, Color.White);
+            foreach (Button button in Buttons)
+            {
+                button.Render(spriteBatch, view);
+            }
+            // The proletariat will rise.
+            for (int n = 0; n < Screens.Count; n++)
+            {
+                if (WasModified)
+                {
+                    //wasModified = false; // idk
+                    //break;
+                }
+                Screens[n].Render(spriteBatch, view);
+            }
         }
 
         public override void Update(ViewController view)

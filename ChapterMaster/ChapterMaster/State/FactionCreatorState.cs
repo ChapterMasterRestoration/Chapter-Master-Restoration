@@ -4,6 +4,7 @@ using ChapterMaster.UI.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,15 +25,24 @@ namespace ChapterMaster.State
             this.graphicsDevice = graphicsDevice;
             SpriteBatch = new SpriteBatch(graphicsDevice);
             viewController = new MenuViewController();
+
             GameManager.graphics.PreferredBackBufferWidth = GameManager.window.ClientBounds.Width;
             GameManager.graphics.PreferredBackBufferHeight = GameManager.window.ClientBounds.Height;
             viewController.viewPortWidth = GameManager.window.ClientBounds.Width;
             viewController.viewPortHeight = GameManager.window.ClientBounds.Height;
-            GameManager.graphics.ApplyChanges(); // I'm not questioning why this works. I, Cato Sicarius, approve of this action, because I, Cato Sicarius, am the most well versed Captain when it comes to the Codex Astartes!
+            GameManager.graphics.ApplyChanges(); // I'm not questioning why this works.
+            
             screen = new FactionCreatorScreen(0, "faction_creator_background", new MapFrameAlign(0, 0, 0, 0), false);
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
+            CornerAlign c = new CornerAlign(Corner.TOPLEFT, 128, 32, screen.factionAlign, 64);
+            Button b = new Button(5, "", c, NewGame);
+            screen.AddButton(b);
+            
         }
 
+        private void NewGame(MouseState mouseState, object sender) {
+            Console.WriteLine("test");
+        }
         public override void Update(GameTime gameTime)
         {
             screen.Update(viewController);
