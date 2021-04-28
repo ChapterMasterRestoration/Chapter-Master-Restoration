@@ -35,14 +35,23 @@ namespace ChapterMaster.State
             screen = new FactionCreatorScreen(0, "faction_creator_background", new MapFrameAlign(0, 0, 0, 0), false);
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
             CornerAlign c = new CornerAlign(Corner.TOPLEFT, 128, 32, screen.factionAlign, 64);
+            CornerAlign exit = new CornerAlign(Corner.BOTTOMRIGHT, 128, 32, 64); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
             Button b = new Button(5, "", c, NewGame);
+            Button e = new Button(9, "", exit, Back);
             screen.AddButton(b);
+            screen.AddButton(e);
             
         }
 
         private void NewGame(MouseState mouseState, object sender) {
             Console.WriteLine("test");
         }
+
+        private void Back(MouseState mouseState, object sender)
+        {
+            gameManager.ChangeState(new MenuState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
+        }
+
         public override void Update(GameTime gameTime)
         {
             screen.Update(viewController);
