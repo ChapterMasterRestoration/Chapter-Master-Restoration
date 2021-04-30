@@ -28,7 +28,8 @@ namespace ChapterMaster
             {
                 ChapterMaster.Sector.Prepare();
                 // idk what minimum distance we should do
-                ChapterMaster.Sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
+                //ChapterMaster.Sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
+                ChapterMaster.Sector.clusterGenerate();
                 ChapterMaster.Sector.WarpLaneGenerate();
                 ChapterMaster.Sector.GenerateSystemNames();
                 ChapterMaster.Sector.GeneratePlanets();
@@ -79,7 +80,8 @@ namespace ChapterMaster
             if (Keyboard.GetState().IsKeyUp(Keys.E)) buttonDown = false;
             if (Keyboard.GetState().IsKeyDown(Keys.E) && !buttonDown)
             {
-                ChapterMaster.Sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
+                //ChapterMaster.Sector.GridGenerate(50, 100, Constants.SystemSize, Constants.WorldWidth, Constants.WorldHeight);
+                ChapterMaster.Sector.clusterGenerate();
                 ChapterMaster.Sector.WarpLaneGenerate();
                 ChapterMaster.Sector.GenerateSystemNames();
                 ChapterMaster.Sector.GeneratePlanets();

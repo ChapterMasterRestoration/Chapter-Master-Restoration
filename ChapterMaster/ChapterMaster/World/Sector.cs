@@ -688,6 +688,9 @@ namespace ChapterMaster.World
         }
         */
         #endregion
+
+        #region Old Generator Code
+            /*
         public void GridGenerate(int clusterNo, int minDistance, int clusterSize, int width, int height)
         {
             Systems.Clear();
@@ -737,7 +740,31 @@ namespace ChapterMaster.World
                 }
             }
         }
+        */
         //Pain.
+        #endregion
+
+        public void clusterGenerate()
+        {
+            Noise perlin = new Noise(1, 0.023 , 10, 6, random.Next(42));
+
+            Systems.Clear();
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    double a = perlin.Get2D(i*40, j*40);
+                    Console.WriteLine(a);
+                    if (a > 10)
+                    {
+                        Systems.Add(new System(random.Next(6), i*40, j*40));
+                    }
+                }
+
+            }
+        }
+
+        
         public void WarpLaneGenerate()
         {
             WarpLanes.Clear();
