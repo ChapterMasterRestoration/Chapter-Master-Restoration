@@ -37,6 +37,7 @@ namespace ChapterMaster
                 ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 1, 0));
                 ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
                 ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 1, 1));
+                ChapterMaster.Sector.Finalize();
             }
             renderer = new SectorRenderer();
             ChapterMaster.ViewController = new ViewController();

@@ -29,19 +29,19 @@ namespace ChapterMaster
         public virtual void UpdateKeyboard()
         {
             int cameraSpeed = (int)(_cameraSpeed / zoom);
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (Keyboard.GetState().IsKeyDown(Keys.Right)|| Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 camX += cameraSpeed;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 camX -= cameraSpeed;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 camY -= cameraSpeed;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 camY += cameraSpeed;
             }
@@ -49,7 +49,7 @@ namespace ChapterMaster
         }
         int prevMouseWheelValue;
         int currentMouseWheelValue;
-        public virtual void UpdateMouse()
+        public virtual void UpdateMouse() //TO DO: Fix mouse bounds issue when moving camera to the right in fullscreen.
         {
             int cameraSpeed = (int)(_cameraSpeed / zoom);
             if (Mouse.GetState().X <= 0)
@@ -96,13 +96,13 @@ namespace ChapterMaster
             {
                 camY = 0;
             }
-            if (camX > Constants.WorldWidth)
+            if (camX > Sector.WorldWidth)
             {
-                camX = (int)(Constants.WorldWidth);
+                camX = (int)(Sector.WorldWidth);
             }
-            if (camY > Constants.WorldHeight)
+            if (camY > Sector.WorldHeight)
             {
-                camY = (int)(Constants.WorldHeight);
+                camY = (int)(Sector.WorldHeight);
             }
         }
 
@@ -203,7 +203,7 @@ namespace ChapterMaster
         int delayTimer;
         public int openSystem = -1; // screw it, i'll leave it here for now
         ButtonState previousLMBState; // Left Mouse Button for you uninitiated, uncultured reactionist neo-liberals.
-        // TODO: create list of moused-over systems and use that to disable no-shift clear
+        // TO DO: create list of moused-over systems and use that to disable no-shift clear
         public virtual void MouseSelection(Sector sector)
         {
             int mouseX = Mouse.GetState().X;

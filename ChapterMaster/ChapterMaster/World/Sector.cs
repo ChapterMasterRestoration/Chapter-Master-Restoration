@@ -7,6 +7,8 @@ namespace ChapterMaster.World
 {
     public class Sector
     {
+        public static int WorldWidth = 600;
+        public static int WorldHeight = 600;
         public List<System> Systems = new List<System>();
         // static organization of lane graph
         public List<WarpLane> WarpLanes = new List<WarpLane>(); // like this?
@@ -901,6 +903,25 @@ namespace ChapterMaster.World
             }
         }
 
+        private void ResizeBounds()
+        {
+            int maxWidth = 600; //int.MinValue;
+            int maxHeight = 600; //int.MinValue;
+            foreach (System type in Systems)
+            {
+                if (type.x > maxWidth)
+                {
+                    maxWidth = type.x;
+                }
+                if (type.y > maxHeight)
+                {
+                    maxHeight = type.y;
+                }
+            }
+            WorldWidth = maxWidth;
+            WorldHeight = maxHeight;
+        }
+
         public string GetImperialDate()
         {
             int millenium = 42;
@@ -923,6 +944,11 @@ namespace ChapterMaster.World
         public Faction.Faction GetFaction()
         {
             return Factions[CurrentFaction];
+        }
+
+        public void Finalize()
+        {
+            ResizeBounds();
         }
     }
 }

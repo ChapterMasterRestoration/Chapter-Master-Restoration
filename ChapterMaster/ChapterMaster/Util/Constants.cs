@@ -10,8 +10,6 @@ namespace ChapterMaster
     {
         public const string ImageDirectory = "textures";
         public const int SystemSize = 80;
-        public const int WorldWidth = 1024;
-        public const int WorldHeight = 1024;
         /*
         Chaos = 0
         Civilian = 1
