@@ -36,7 +36,7 @@ namespace ChapterMaster.State
 
         private void NewGame(MouseState mouseState, object sender)
         {
-            gameManager.ChangeState(new FactionCreatorState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
+            gameManager.ChangeState(new CampaignPickerState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
         }
 
         private void LoadGame(MouseState mouseState, object sender)

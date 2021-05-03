@@ -1,7 +1,6 @@
 ﻿using ChapterMaster.UI;
 using ChapterMaster.UI.Align;
 using ChapterMaster.UI.State;
-using ChapterMaster.UI.State.FactionCreator;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.State
 {
-    public class FactionCreatorState : State
+    public class CampaignPickerState : State
     {
         GameManager gameManager;
         GraphicsDevice graphicsDevice;
         private MenuViewController viewController;
-        FactionScreen screen;
-        public FactionCreatorState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(gameManager, graphicsDevice, contentManager)
+        CampaignPicker screen;
+        public CampaignPickerState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
             this.graphicsDevice = graphicsDevice;
@@ -32,20 +31,25 @@ namespace ChapterMaster.State
             viewController.viewPortWidth = GameManager.window.ClientBounds.Width;
             viewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works.
-
-            screen = new FactionScreen(0, "faction_creator_background", new MapFrameAlign(0, 0, 0, 0), false);
+            
+            screen = new CampaignPicker(0, "faction_creator_background", new MapFrameAlign(0, 0, 0, 0), false);
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
             CornerAlign c = new CornerAlign(Corner.TOPLEFT, 64, 128, screen.factionAlign, 64);
-            CornerAlign exit = new CornerAlign(Corner.BOTTOMLEFT, 128, 32, 64); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
-            //Button b = new Button(10, "", c, NewSpaceMarineChapter); Replace with other button definition.
+            CornerAlign exit = new CornerAlign(Corner.BOTTOMRIGHT, 128, 32, 64); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
+            Button b = new Button(10, "", c, NewSpaceMarineChapter);
             Button e = new Button(9, "", exit, Back);
-            //screen.AddButton(b);
+            screen.AddButton(b);
             screen.AddButton(e);
+        }
+
+        private void NewSpaceMarineChapter(MouseState mouseState, object sender)
+        {
+            gameManager.ChangeState(new FactionCreatorState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
         }
 
         private void Back(MouseState mouseState, object sender)
         {
-            gameManager.ChangeState(new CampaignPickerState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
+            gameManager.ChangeState(new MenuState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
         }
 
         public override void Update(GameTime gameTime)

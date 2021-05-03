@@ -50,13 +50,14 @@
     <Compile Include="Assets.cs" />
     <Compile Include="ChapterMaster.cs" />
     <Compile Include="GameManager.cs" />
+    <Compile Include="State\FactionCreatorState.cs" />
     <Compile Include="Util\Noise.cs" />
     <Compile Include="UI\Align\CenterAlign.cs" />
-    <Compile Include="UI\State\FactionCreator\FactionCreatorScreen.cs" />
-    <Compile Include="UI\State\FactionCreator\FactionScreen.cs" />
+    <Compile Include="UI\State\CampaignPicker\CampaignPicker.cs" />
+    <Compile Include="UI\State\FactionScreen.cs" />
     <Compile Include="View\MenuViewController.cs" />
     <Compile Include="State\CharacterCreatorState.cs" />
-    <Compile Include="State\FactionCreatorState.cs" />
+    <Compile Include="State\CampaignPickerState.cs" />
     <Compile Include="State\ForceManagerState.cs" />
     <Compile Include="State\ForceOrganizerState.cs" />
     <Compile Include="State\GroundCombatState.cs" />

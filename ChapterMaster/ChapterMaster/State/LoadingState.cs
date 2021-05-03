@@ -110,6 +110,7 @@ namespace ChapterMaster.State
                         Assets.ButtonTextures[7] = Loader.LoadPNG("spr_mm_butts_2");
                         Assets.ButtonTextures[8] = Loader.LoadPNG("spr_mm_butts_3");
                         Assets.ButtonTextures[9] = Loader.LoadPNG("spr_mm_butts_4");
+                        Assets.ButtonTextures[10] = Loader.LoadPNG("spr_master_splash_0");
                         //Assets.ButtonTextures[10] = Loader.LoadPNG("");
                         break;
                     case "UI Textures":
