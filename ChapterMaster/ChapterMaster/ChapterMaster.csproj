@@ -51,6 +51,7 @@
     <Compile Include="ChapterMaster.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="State\FactionCreatorState.cs" />
+    <Compile Include="UI\Textbox.cs" />
     <Compile Include="Util\Noise.cs" />
     <Compile Include="UI\Align\CenterAlign.cs" />
     <Compile Include="UI\State\CampaignPicker\CampaignPicker.cs" />

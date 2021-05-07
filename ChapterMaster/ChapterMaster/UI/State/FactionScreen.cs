@@ -14,11 +14,11 @@ namespace ChapterMaster.UI.State.FactionCreator
     public class FactionScreen : Screen
     {
         public PrimitiveBuddy.Primitive primitive;
-        public CenterAlign factionAlign;
+        //public CenterAlign factionAlign;
 
         public FactionScreen(int screenId, string backgroundTexture, Align.Align align, bool DoesOcclusion = true) : base(screenId, backgroundTexture, align, DoesOcclusion)
         {
-            this.factionAlign = new CenterAlign(400, 500, 170, 80, 0, 0);
+            //this.factionAlign = new CenterAlign(400, 500, 170, 80, 0, 0);
         }
 
 
@@ -30,8 +30,8 @@ namespace ChapterMaster.UI.State.FactionCreator
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
             base.Render(spriteBatch, view);
-            Rect = factionAlign.GetRect(view); //align.GetRect(view);
-            spriteBatch.Draw(Assets.UITextures["faction_creator"], Rect, Color.White);
+            //Rect = factionAlign.GetRect(view); //align.GetRect(view);
+            //spriteBatch.Draw(Assets.UITextures["faction_creator"], Rect, Color.White);
             foreach (Button button in Buttons)
             {
                 button.Render(spriteBatch, view);

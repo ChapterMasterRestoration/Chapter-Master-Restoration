@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,16 +34,21 @@ namespace ChapterMaster.State
             viewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works.
 
-            screen = new FactionScreen(0, "faction_creator_background", new MapFrameAlign(0, 0, 0, 0), false);
+            screen = new FactionScreen(0, "black_background", new MapFrameAlign(0, 0, 0, 0), false);
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
-            CornerAlign c = new CornerAlign(Corner.TOPLEFT, 64, 128, screen.factionAlign, 64);
+            CornerAlign c = new CornerAlign(Corner.TOPLEFT, 250, 50, 64); // , screen.factionAlign
             CornerAlign exit = new CornerAlign(Corner.BOTTOMLEFT, 128, 32, 64); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
             //Button b = new Button(10, "", c, NewSpaceMarineChapter); Replace with other button definition.
             Button e = new Button(9, "", exit, Back);
             //screen.AddButton(b);
-            screen.AddButton(e);
+            Textbox textbox = new Textbox(11, "", c, textboxClick);
+            screen.AddButton(textbox);
+            //screen.AddButton(e);
         }
-
+        private void textboxClick(MouseState mouseState, object sender)
+        {
+            //((Textbox)sender).Check(viewController, ((Textbox)sender).align);
+        }
         private void Back(MouseState mouseState, object sender)
         {
             gameManager.ChangeState(new CampaignPickerState(gameManager, gameManager.GraphicsDevice, gameManager.Content));

@@ -16,6 +16,7 @@ namespace ChapterMaster.UI
         public int width, height;
         protected MouseHandler handler;
         protected bool wasClicked = false;
+        protected bool inFocus = false;
         public InteractiveElement(MouseHandler mouseHandler)
         {
             handler = mouseHandler;

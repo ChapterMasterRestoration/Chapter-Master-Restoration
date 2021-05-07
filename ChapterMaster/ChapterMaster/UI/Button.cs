@@ -21,12 +21,12 @@ namespace ChapterMaster.UI
         }
         public Button(int buttonTextureId, string text, Align.Align align, MouseHandler mouseHandler) : this(buttonTextureId, text, mouseHandler)
         {
-            // TODO: Fix this
+            // TO DO: Fix this
             this.align = align;
         }
         public virtual void Render(SpriteBatch spriteBatch, ViewController view)
         {
-            position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TODO: fix: don't even expose position
+            position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TO DO: fix: don't even expose position
             if (buttonTextureId >= 0)
             {
                 spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
