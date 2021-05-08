@@ -10,18 +10,31 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.UI
 {
-    public class Textbox : Button
+    public delegate void TextboxHandler(object sender, string value);
+    public class TextBox : Button
     {
-        protected MouseHandler outOfFocus;
+        protected TextboxHandler outOfFocus;
+        protected TextboxHandler updateKey;
         public string Value;
-        public Textbox(int textboxTextureId, string initalText ,MouseHandler mouseHandler) : base(textboxTextureId, initalText, mouseHandler)
+        public int charLimit;
+        public TextBox(string textboxTextureId, string initialText, MouseHandler onClick = null,
+            TextboxHandler outOfFocus = null, TextboxHandler updateKey = null, int charLimit = 26) : base(
+            textboxTextureId, initialText, onClick)
         {
-            Value = initalText;
+            Value = initialText;
+            this.charLimit = charLimit;
+            this.outOfFocus = outOfFocus;
+            this.updateKey = updateKey;
         }
-        public Textbox(int textboxTextureId, string initalText, Align.Align align, MouseHandler mouseHandler) : base(textboxTextureId, initalText, mouseHandler)
+        public TextBox(string textboxTextureId, string initialText, Align.Align align, MouseHandler onClick = null,
+            TextboxHandler outOfFocus = null, TextboxHandler updateKey = null, int charLimit = 26) : base(
+            textboxTextureId, initialText, onClick)
         {
             this.align = align;
-            Value = initalText;
+            Value = initialText;
+            this.charLimit = charLimit;
+            this.outOfFocus = outOfFocus;
+            this.updateKey = updateKey;
         }
         Keys currentKey;
         bool shift = false;
@@ -39,17 +52,18 @@ namespace ChapterMaster.UI
             { 
                if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY)
                {
-                    //handler(view.GetMouse(), this);
-                    inFocus = true;
-                    wasClicked = true;
+                   if(handler != null)
+                        handler(view.GetMouse(), this);
+                   inFocus = true;
+                   wasClicked = true;
                }
-                else
-                {
+               else
+               {
                     inFocus = false;
-                    //outOfFocus(view.GetMouse(), this);
-                    Debug.WriteLine("clicked out" + Value);
-                }
-                Debug.WriteLine("clicked " + mouseX + " br" + brCornerX);
+                    if(outOfFocus != null)
+                        outOfFocus(this, Value);
+               }
+               Debug.WriteLine("clicked " + mouseX + " br" + brCornerX);
             }
             var keys = Keyboard.GetState().GetPressedKeys();
             if (keys.Contains(Keys.LeftShift) || keys.Contains(Keys.Right)) shift = true;
@@ -70,7 +84,8 @@ namespace ChapterMaster.UI
                 }
                 else if (currentKey == Keys.Space)
                 {
-                    Value += " ";
+                    if(Value.Length < charLimit)
+                        Value += " ";
                 }
                 else if(currentKey == Keys.Enter)
                 {
@@ -78,7 +93,8 @@ namespace ChapterMaster.UI
                 }
                 else
                 {
-                    Value += shift ? letter : letter.ToLower();
+                    if (Value.Length < charLimit)
+                        Value += shift ? letter : letter.ToLower();
                 }
                 currentKey = Keys.None;
             }
@@ -86,11 +102,12 @@ namespace ChapterMaster.UI
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
             position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TO DO: fix: don't even expose position
-            if (buttonTextureId >= 0)
+            if (buttonTextureId.Length > 0)
             {
                 spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
             }
-            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, Value, position + new Vector2(10,10), Color.White);
+            
+            spriteBatch.DrawString(Assets.Courier_New, Value, position + new Vector2(25,10), Color.White);
         }
     }
 }

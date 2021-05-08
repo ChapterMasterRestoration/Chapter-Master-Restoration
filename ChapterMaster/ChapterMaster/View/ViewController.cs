@@ -397,7 +397,7 @@ namespace ChapterMaster
                 bool notWasOverFleet = true;
                 for (int fleetId = 0; fleetId < ChapterMaster.Sector.Fleets.Count; fleetId++)
                 {
-                    Debug.WriteLine($"Fleet ID {fleetId}");
+                    //Debug.WriteLine($"Fleet ID {fleetId}");
                     if (ChapterMaster.Sector.Fleets[fleetId].Intersects(this))
                     {
                         if (!selectedFleets.Contains(fleetId))

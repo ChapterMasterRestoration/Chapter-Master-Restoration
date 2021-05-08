@@ -30,8 +30,8 @@ namespace ChapterMaster.State
             menuViewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works. I, Cato Sicarius, approve of this action, because I, Cato Sicarius, am the most well versed Captain when it comes to the Codex Astartes!
             menuScreen = new Screen(0, "title_splash", new MapFrameAlign(0, 0, 0, 0), false);
-            menuScreen.AddButton(new Button(5, "", new CornerAlign(Corner.BOTTOMLEFT, 256, 48, 50, 0, 0, 20), NewGame));
-            menuScreen.AddButton(new Button(6, "", new CornerAlign(Corner.BOTTOMLEFT, 256, 48, 356, 0, 0, 20), LoadGame));
+            menuScreen.AddButton(new Button("new_game", "", new CornerAlign(Corner.BOTTOMLEFT, 256, 48, 50, 0, 0, 20), NewGame));
+            menuScreen.AddButton(new Button("load_game", "", new CornerAlign(Corner.BOTTOMLEFT, 256, 48, 356, 0, 0, 20), LoadGame));
         }
 
         private void NewGame(MouseState mouseState, object sender)

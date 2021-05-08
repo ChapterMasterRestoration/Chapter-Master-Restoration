@@ -10,16 +10,16 @@ namespace ChapterMaster.UI
 {
     public class Button : InteractiveElement
     {
-        public int buttonTextureId;
+        public string buttonTextureId = "";
         public string text = "";
 
         public Align.Align align;
-        protected Button(int buttonTextureId, string text, MouseHandler mouseHandler) : base(mouseHandler)
+        protected Button(string buttonTextureId, string text, MouseHandler mouseHandler) : base(mouseHandler)
         {
             this.buttonTextureId = buttonTextureId;
             this.text = text;
         }
-        public Button(int buttonTextureId, string text, Align.Align align, MouseHandler mouseHandler) : this(buttonTextureId, text, mouseHandler)
+        public Button(string buttonTextureId, string text, Align.Align align, MouseHandler mouseHandler) : this(buttonTextureId, text, mouseHandler)
         {
             // TO DO: Fix this
             this.align = align;
@@ -27,7 +27,7 @@ namespace ChapterMaster.UI
         public virtual void Render(SpriteBatch spriteBatch, ViewController view)
         {
             position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TO DO: fix: don't even expose position
-            if (buttonTextureId >= 0)
+            if (buttonTextureId.Length > 0)
             {
                 spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
             }

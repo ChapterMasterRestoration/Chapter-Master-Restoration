@@ -36,8 +36,8 @@ namespace ChapterMaster.State
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
             CornerAlign c = new CornerAlign(Corner.TOPLEFT, 64, 128, screen.factionAlign, 64);
             CornerAlign exit = new CornerAlign(Corner.BOTTOMRIGHT, 128, 32, 64); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
-            Button b = new Button(10, "", c, NewSpaceMarineChapter);
-            Button e = new Button(9, "", exit, Back);
+            Button b = new Button("space_marine", "", c, NewSpaceMarineChapter);
+            Button e = new Button("back", "", exit, Back);
             screen.AddButton(b);
             screen.AddButton(e);
         }

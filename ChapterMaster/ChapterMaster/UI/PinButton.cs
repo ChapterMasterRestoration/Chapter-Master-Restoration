@@ -19,7 +19,7 @@ namespace ChapterMaster.UI
         /// bourgeois society.
         /// </summary>
         Screen screen;
-        public PinButton(MouseHandler mouseHandler,Screen screen, int buttonTextureId = 4) : base(buttonTextureId,"", mouseHandler)
+        public PinButton(MouseHandler mouseHandler,Screen screen, string buttonTextureId = "pinbutton") : base(buttonTextureId,"", mouseHandler)
         {
             this.buttonTextureId = buttonTextureId;
             // TODO: Fix this
@@ -27,7 +27,7 @@ namespace ChapterMaster.UI
         }
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
-            if (buttonTextureId >= 0)
+            if (buttonTextureId.Length > 0)
             {
                 ((RectAlign)align).position = position;
                 spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);

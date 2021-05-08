@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.MediaFoundation;
 
 namespace ChapterMaster
 {
@@ -19,6 +20,7 @@ namespace ChapterMaster
         public ContentManager ContentManager;
         SpriteBatch spriteBatch;
         SectorRenderer renderer;
+        Ledger Ledger;
         public GameState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager, bool preserveState) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
@@ -33,16 +35,16 @@ namespace ChapterMaster
                 ChapterMaster.Sector.WarpLaneGenerate();
                 ChapterMaster.Sector.GenerateSystemNames();
                 ChapterMaster.Sector.GeneratePlanets();
+                string factionName = ChapterMaster.Sector.CurrentFaction;
                 ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 0, 0));
-                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 1, 0));
-                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(2, 1, 1));
-                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 1, 1));
+                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 0, 0));
+                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(2, 0, 1));
+                ChapterMaster.Sector.Fleets.Add(new Fleet.Fleet(0, 0, 1));
                 ChapterMaster.Sector.Finalize();
             }
             renderer = new SectorRenderer();
             ChapterMaster.ViewController = new ViewController();
             spriteBatch = new SpriteBatch(graphicsDevice);
-            ChapterMaster.MainScreen = new Screen(0, "mapframe", new MapFrameAlign(11, 61, 11, 10), false); // TO DO: The proletariat will rise. Enable advanced occlusion for the map frame.
             //ChapterMaster.ViewController.viewPortWidth = GameManager.GetWidth();
             //ChapterMaster.ViewController.viewPortHeight = GameManager.GetHeight();
             GameManager.graphics.PreferredBackBufferWidth = GameManager.window.ClientBounds.Width;
@@ -50,10 +52,24 @@ namespace ChapterMaster
             ChapterMaster.ViewController.viewPortWidth = GameManager.window.ClientBounds.Width;
             ChapterMaster.ViewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works. ;) #relatable
-            // 144 43
-            ChapterMaster.MainScreen.AddButton(new Button(0, "End Turn", new CornerAlign(Corner.BOTTOMRIGHT, 144, 43), new MouseHandler(EndTurn)));
             renderer.Initialize(graphicsDevice, spriteBatch);
             RenderHelper.Initialize(graphicsDevice, spriteBatch);
+            
+            ChapterMaster.MainScreen = new Screen(0,
+                "mapframe",
+                new MapFrameAlign(11,
+                    61,
+                    11,
+                    10),
+                false); // TO DO: The proletariat will rise. Enable advanced occlusion for the map frame.
+            ChapterMaster.MainScreen.AddButton(new Button("ui_but_0",
+                "End Turn",
+                new CornerAlign(Corner.BOTTOMRIGHT,
+                    144,
+                    43),
+                new MouseHandler(EndTurn)));
+            Ledger = new Ledger(1, "ledger_background", new CornerAlign(Corner.BOTTOMRIGHT, 120, 280,topMargin: 10,leftMargin:2,bottomMargin:58));
+            ChapterMaster.MainScreen.AddChildScreen(Ledger);
         }
 
         private void EndTurn(MouseState mouseState, object sender)
@@ -87,6 +103,17 @@ namespace ChapterMaster
                 ChapterMaster.Sector.GenerateSystemNames();
                 ChapterMaster.Sector.GeneratePlanets();
                 buttonDown = true;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Home))
+            {
+                if (ChapterMaster.Sector.GetHomeSystem() != null)
+                {
+                    World.System system = ChapterMaster.Sector.GetHomeSystem();
+                    ChapterMaster.ViewController.camX = system.x;
+                    ChapterMaster.ViewController.camY = system.y;
+                    // TODO: Select home system?
+                }
             }
             ChapterMaster.ViewController.MouseSelection(ChapterMaster.Sector);
             ChapterMaster.DebugString += "\n" + ChapterMaster.Sector.GetImperialDate();

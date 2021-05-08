@@ -832,6 +832,10 @@ namespace ChapterMaster.World
             {
                 Systems[n].name = SystemNames[n];
             }
+
+            System home = GetHomeSystem();
+            if (home != null) home.name = Factions[CurrentFaction].HomeSystemName;
+
         }
         int forgeMinimum = 4;
         int forgeMaximum = 10; // TODO: implement
@@ -897,6 +901,7 @@ namespace ChapterMaster.World
             }
             Turn++;
             Systems[0].Planets[0].FactionOwner = "Orks";
+            Systems[0].Planets[1].FactionOwner = CurrentFaction;
             foreach (KeyValuePair<string, float> DasKapital in Systems[0].FindOwners())
             {
                 Debug.WriteLine($"Faction : {DasKapital.Key}, Control : {DasKapital.Value}");
@@ -946,6 +951,19 @@ namespace ChapterMaster.World
             return Factions[CurrentFaction];
         }
 
+        public System GetHomeSystem()
+        {
+            if (Factions.ContainsKey(CurrentFaction))
+            {
+                int homeSystem = Factions[CurrentFaction].HomeSystem;
+                if (homeSystem != -1)
+                {
+                    return Systems[homeSystem];
+                }
+            }
+
+            return null;
+        }
         public void Finalize()
         {
             ResizeBounds();

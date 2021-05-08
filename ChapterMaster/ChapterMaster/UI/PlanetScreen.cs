@@ -16,7 +16,7 @@ namespace ChapterMaster.UI
         {
             this.systemId = systemId;
             this.planetId = planetId;
-            AddButton(new Button(-1, "Attack", new RectAlign(this,new Vector2(200,270),20, 20), Attack));
+            AddButton(new Button("", "Attack", new RectAlign(this,new Vector2(200,270),20, 20), Attack));
         }
 
         public override void Render(SpriteBatch spriteBatch, ViewController view)
@@ -27,7 +27,7 @@ namespace ChapterMaster.UI
             // background
             spriteBatch.Draw(Assets.UITextures[backgroundTexture], Rect, Color.White);
             // disposition height
-            string disposition = "Disposition ???/100";
+            string disposition = "Disposition ???/100 ";
             int dH = (int) Assets.Caslon_Antique_Regular.MeasureString(disposition).Y;
             // planet type texture
             Vector2 pos = MathUtil.Add(Rect.Location, new Vector2(8, 8 + dH + 2));
@@ -42,10 +42,13 @@ namespace ChapterMaster.UI
             string title = planet.GetName();
             spriteBatch.DrawString(Assets.Caslon_Antique_Bold, title, titlePos, Color.Gray);
             int tH = (int)Assets.Caslon_Antique_Regular.MeasureString(title).Y; // title height
+            int cH = (int)Assets.Caslon_Antique_Regular.MeasureString(planet.FactionOwner).Y; // controller name height
+            Vector2 controllerPos = MathUtil.Offset(titlePos, 0, tH);
+            spriteBatch.DrawString(Assets.Caslon_Antique_Bold, planet.FactionOwner, controllerPos, Color.Gray);
             // population
-            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Population: " + planet.Population, MathUtil.Offset(titlePos,0,tH + 2), Color.Gray);
+            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Population: " + planet.Population, MathUtil.Offset(controllerPos,0, cH + 2), Color.Gray);
             // defense force
-            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Defense Force: " + planet.Population, MathUtil.Offset(titlePos, 0, tH + tH + 2), Color.Gray);
+            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Defense Force: " + planet.Population, MathUtil.Offset(controllerPos, 0, cH + cH + 2), Color.Gray);
             foreach (Button button in Buttons)
             {
                 button.Render(spriteBatch, view);

@@ -20,16 +20,18 @@ namespace ChapterMaster.Fleet
         public int destinationSystemId;
         public int fleetSpeed = 50;
         public int fleetFaction;
+        public string factionName;
         public int fleetMoveProgress;
         public bool isMoving;
         public int fleetState;
         public bool isSelected;
         //public bool wasJustSelected;
-        public Fleet(int systemId, int fleetFaction, int fleetSate)
+        public Fleet(int systemId, int fleetFaction, int fleetState, string factionName = "Space Marine")
         {
             this.originSystemId = systemId;
             this.fleetFaction = fleetFaction;
-            this.fleetState = fleetSate;
+            this.fleetState = fleetState;
+            this.factionName = factionName;
         }
         public void Update(Sector sector)
         {
@@ -108,5 +110,10 @@ namespace ChapterMaster.Fleet
             }
             return fleets;
         }
+        public string GetFleetTextureFaction()
+        {
+            return Constants.FleetTexture[fleetFaction];
+        }
+        
     }
 }

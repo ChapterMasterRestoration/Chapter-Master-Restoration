@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChapterMaster.World.Faction;
 
 namespace ChapterMaster.State
 {
@@ -21,6 +22,7 @@ namespace ChapterMaster.State
         GraphicsDevice graphicsDevice;
         private MenuViewController viewController;
         FactionScreen screen;
+        private Faction playerFaction;
         public FactionCreatorState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
@@ -36,18 +38,36 @@ namespace ChapterMaster.State
 
             screen = new FactionScreen(0, "black_background", new MapFrameAlign(0, 0, 0, 0), false);
             screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
-            CornerAlign c = new CornerAlign(Corner.TOPLEFT, 250, 50, 64); // , screen.factionAlign
-            CornerAlign exit = new CornerAlign(Corner.BOTTOMLEFT, 128, 32, 64); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
-            //Button b = new Button(10, "", c, NewSpaceMarineChapter); Replace with other button definition.
-            Button e = new Button(9, "", exit, Back);
-            //screen.AddButton(b);
-            Textbox textbox = new Textbox(11, "", c, textboxClick);
-            screen.AddButton(textbox);
-            //screen.AddButton(e);
+           
+            playerFaction = new Faction();
+            
+            Button exitButton = new Button("back", "", new CornerAlign(Corner.BOTTOMLEFT, 128, 32, 64), Back); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
+            Button startButton = new Button("ui_but_0", "START", new CornerAlign(Corner.BOTTOMRIGHT, 128, 32, rightMargin:64), Start);
+            TextBox factionNameBox = new TextBox("textbox", "Faction Name", new CornerAlign(Corner.TOPLEFT, 250, 50, leftMargin:64,topMargin:20), outOfFocus:FactionName);
+            TextBox homeWorldNameBox = new TextBox("textbox", "Homeworld Name", new CornerAlign(Corner.TOPLEFT, 250, 50, leftMargin:64,topMargin:100), outOfFocus:HomeWorldName);
+            screen.AddButton(factionNameBox);
+            screen.AddButton(homeWorldNameBox);
+            screen.AddButton(exitButton);
+            screen.AddButton(startButton);
         }
-        private void textboxClick(MouseState mouseState, object sender)
+
+        private void FactionName(object sender, string value)
         {
-            //((Textbox)sender).Check(viewController, ((Textbox)sender).align);
+            // TODO: Sanitize player faction name.
+            playerFaction.Name = value;
+        }
+        private void HomeWorldName(object sender, string value)
+        {
+            // TODO: Sanitize player faction name.
+            playerFaction.HomeSystemName = value;
+        }
+        private void Start(MouseState mouseState, object sender)
+        {
+            // Initialize Sector with Faction information.
+            ChapterMaster.Sector.Factions.Add(playerFaction.Name, playerFaction);
+            ChapterMaster.Sector.CurrentFaction = playerFaction.Name;
+            gameManager.ChangeState(new GameState(gameManager, gameManager.GraphicsDevice, gameManager.Content, false));
+
         }
         private void Back(MouseState mouseState, object sender)
         {

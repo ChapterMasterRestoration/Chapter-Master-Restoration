@@ -75,9 +75,9 @@ namespace ChapterMaster
             {
                 texture.Value.Dispose();
             }
-            for (int i = 0; i < Assets.ButtonTextures.Length - 1; i++)
+            foreach (KeyValuePair<string, Texture2D> texture in Assets.ButtonTextures)
             {
-                Assets.ButtonTextures[i].Dispose();
+                texture.Value.Dispose();
             }
             for (int i = 1; i < Assets.PlanetTypeTextures.Length; i++)
             {
