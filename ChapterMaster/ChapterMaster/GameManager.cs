@@ -48,6 +48,8 @@ namespace ChapterMaster
             this.IsMouseVisible = true;
             Window.Title = "Chapter Master Revived";
             graphicsDevice = GraphicsDevice;
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromSeconds(1 / 60.0f);
             currentState = new State.LoadingState(this, GraphicsDevice, Content);
             Debug.WriteLine("loading state created");
         }

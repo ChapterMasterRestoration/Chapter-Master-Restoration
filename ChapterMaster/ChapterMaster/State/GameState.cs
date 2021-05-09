@@ -140,7 +140,7 @@ namespace ChapterMaster
             // Draw warp lanes
             // Draw UI
             //MainScreen.Rect = new Rectangle(0, 0, GetWidth(), GetHeight()); // TO DO: implement scaling properly in Screen class.
-            ChapterMaster.ViewController.animationDelta = (float) (50.0 * gameTime.ElapsedGameTime.TotalSeconds);
+            ChapterMaster.ViewController.animationDelta = (float) (100.0 * gameTime.ElapsedGameTime.TotalSeconds);
             ChapterMaster.MainScreen.Render(spriteBatch, ChapterMaster.ViewController);
             spriteBatch.DrawString(Assets.ARJULIAN, ChapterMaster.DebugString, new Vector2(0, 100), Color.White);
             spriteBatch.End();
