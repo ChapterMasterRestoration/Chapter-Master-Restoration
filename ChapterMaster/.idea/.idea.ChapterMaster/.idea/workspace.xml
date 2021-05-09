@@ -4,32 +4,15 @@
     <projectFile>ChapterMaster/ChapterMaster.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ChapterMaster/UI/Align/EdgeAlign.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChapterMaster/UI/Ledger.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChapterMaster/UI/Slider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/contentModel.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/indexLayout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/modules.xml" beforeDir="false" />
+    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented.">
+      <change afterPath="$PROJECT_DIR$/ChapterMaster/UI/Animation/Animation.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChapterMaster/UI/Animation/Slide.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/riderModule.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/Assets.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/Assets.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/CampaignPickerState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/CampaignPickerState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/FactionCreatorState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/FactionCreatorState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/LoadingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/LoadingState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/MenuState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/MenuState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Button.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Button.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/InvisibleButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/InvisibleButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/PinButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/PinButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/PlanetScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/PlanetScreen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Textbox.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/TextBox.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/World/Faction/Faction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/World/Faction/Faction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/World/Fleet/Fleet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/World/Fleet/Fleet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/World/Sector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/World/Sector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Align/CornerAlign.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Align/CornerAlign.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Align/EdgeAlign.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Align/EdgeAlign.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Ledger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Ledger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Screen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Screen.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,9 +23,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9AECFB6F-6EE1-4BB3-9CEC-F864D8D0E1D7/3f/c04b9622/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/Assets.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -64,8 +45,12 @@
       <option value="$PROJECT_DIR$/ChapterMaster/UI/PlanetScreen.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/State/LoadingState.cs" />
-      <option value="$PROJECT_DIR$/ChapterMaster/UI/Ledger.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/UI/Align/CornerAlign.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Align/EdgeAlign.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/UI/Screen.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/UI/Ledger.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/UI/Animation/Animation.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/UI/Animation/Slide.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1gMFRbQbAJG5qQFCxN9Fc4HInyn" />
@@ -118,8 +103,17 @@
       <option name="presentableId" value="Default" />
       <updated>1597916548662</updated>
       <workItem from="1597916583994" duration="1199000" />
-      <workItem from="1620429781074" duration="12994000" />
+      <workItem from="1620429781074" duration="13614000" />
+      <workItem from="1620580805866" duration="8083000" />
     </task>
+    <task id="LOCAL-00001" summary="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented.">
+      <created>1620442974068</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1620442974072</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -137,8 +131,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented." />
   </component>
 </project>

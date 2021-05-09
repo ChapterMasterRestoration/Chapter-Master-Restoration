@@ -43,8 +43,6 @@ namespace ChapterMaster.UI.Align
                 case Corner.BOTTOMRIGHT:
                     return new Rectangle(view.viewPortWidth - Screen.align.rightMargin - width, view.viewPortHeight - Screen.align.bottomMargin - height,width,height);
                 //break; idk if I wanna do it differently
-                default:
-                    throw new NotImplementedException("Not a real corner.");
             }
             return new Rectangle(0, 0, width, height);
         }

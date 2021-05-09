@@ -14,6 +14,7 @@ namespace ChapterMaster.UI
         public Screen Parent;
         public List<Screen> Screens = new List<Screen>();
         public List<Button> Buttons = new List<Button>();
+        public List<Animation.Animation> Animations = new List<Animation.Animation>();
         public Align.Align align;
         public bool WasModified;
         public bool DoesOcclusion;
@@ -55,9 +56,14 @@ namespace ChapterMaster.UI
         public virtual void Render(SpriteBatch spriteBatch, ViewController view)
         {
             Rect = align.GetRect(view);
+            for (int i = 0; i < Animations.Count; i++)
+            {
+                Rect = Animations[i].Apply(Rect);
+            }
             spriteBatch.Draw(Assets.UITextures[backgroundTexture], Rect, Color.White);
             foreach (Button button in Buttons)
             {
+                // TODO: implement button animations
                 button.Render(spriteBatch, view);
             }
             // The proletariat will rise.
@@ -67,6 +73,10 @@ namespace ChapterMaster.UI
                 {
                     //wasModified = false; // idk
                     //break;
+                }
+                for (int i = 0; i < Animations.Count; i++)
+                {
+                    Screens[n].AddAnimation(Animations[i]);
                 }
                 Screens[n].Render(spriteBatch, view);
             }
@@ -90,6 +100,11 @@ namespace ChapterMaster.UI
             Button button1 = button;
             button1.align.Screen = this;
             Buttons.Add(button1);
+        }
+
+        public void AddAnimation(Animation.Animation animation)
+        {
+            Animations.Add(animation);
         }
     }
 }
