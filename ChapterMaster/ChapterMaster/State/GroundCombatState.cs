@@ -45,7 +45,7 @@ namespace ChapterMaster.State
             {
                 Squad squad = playerSquads[currentSquad];
                 #region Failed Grid Attempts
-                // int squadX = 5 + (31 * 2 ) * numberOfSquads; // TO DO: Find with size of biggest troop.
+                // int squadX = 5 + (31 * 2 ) * numberOfSquads; // TODO Find with size of biggest troop.
                 //int noColumns = squad.Troops.Count % 5 == 0 ? squad.Troops.Count / 5 : (squad.Troops.Count / 5) + 1;
                 //for (int currentColumn = 0; currentColumn < noColumns; currentColumn++)
                 //{

@@ -1,7 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 
 namespace ChapterMaster.UI
@@ -63,7 +66,6 @@ namespace ChapterMaster.UI
             spriteBatch.Draw(Assets.UITextures[backgroundTexture], Rect, Color.White);
             foreach (Button button in Buttons)
             {
-                // TODO: implement button animations
                 button.Render(spriteBatch, view);
             }
             // The proletariat will rise.
@@ -74,10 +76,7 @@ namespace ChapterMaster.UI
                     //wasModified = false; // idk
                     //break;
                 }
-                for (int i = 0; i < Animations.Count; i++)
-                {
-                    Screens[n].AddAnimation(Animations[i]);
-                }
+
                 Screens[n].Render(spriteBatch, view);
             }
         }
@@ -105,6 +104,15 @@ namespace ChapterMaster.UI
         public void AddAnimation(Animation.Animation animation)
         {
             Animations.Add(animation);
+            foreach (Button button in Buttons)
+            {
+                // TODO: implement button animations
+                button.AddAnimation(animation);
+            }
+            for (int i = 0; i < Screens.Count; i++)
+            {
+                Screens[i].AddAnimation(animation);
+            }
         }
     }
 }

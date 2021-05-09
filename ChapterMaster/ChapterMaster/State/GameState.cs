@@ -61,7 +61,7 @@ namespace ChapterMaster
                     61,
                     11,
                     10),
-                false); // TO DO: The proletariat will rise. Enable advanced occlusion for the map frame.
+                false); // TODO: The proletariat will rise. Enable advanced occlusion for the map frame.
             ChapterMaster.MainScreen.AddButton(new Button("ui_but_0",
                 "End Turn",
                 new CornerAlign(Corner.BOTTOMRIGHT,
@@ -139,8 +139,8 @@ namespace ChapterMaster
             renderer.Render(spriteBatch, ChapterMaster.Sector, ChapterMaster.ViewController);
             // Draw warp lanes
             // Draw UI
-            //MainScreen.Rect = new Rectangle(0, 0, GetWidth(), GetHeight()); // TO DO: implement scaling properly in Screen class.
-            ChapterMaster.ViewController.animationDelta = (float) (100.0 * gameTime.ElapsedGameTime.TotalSeconds);
+            //MainScreen.Rect = new Rectangle(0, 0, GetWidth(), GetHeight()); // TODO implement scaling properly in Screen class.
+            ChapterMaster.ViewController.animationDelta = (float) (10.0 * gameTime.ElapsedGameTime.TotalSeconds);
             ChapterMaster.MainScreen.Render(spriteBatch, ChapterMaster.ViewController);
             spriteBatch.DrawString(Assets.ARJULIAN, ChapterMaster.DebugString, new Vector2(0, 100), Color.White);
             spriteBatch.End();

@@ -11,7 +11,7 @@ namespace ChapterMaster.UI.Animation
     public class Slide : Animation
     {
         private SlideDirection direction;
-        public Slide(SlideDirection slideDirection, int leftBound, int rightBound, int topBound, int bottomBound) : base(leftBound, rightBound, topBound, bottomBound)
+        public Slide(SlideDirection slideDirection, int leftBound, int rightBound, int topBound, int bottomBound, OnFinish onFinish = null, object animatedObject = null, object owner = null) : base(leftBound, rightBound, topBound, bottomBound, onFinish, animatedObject, owner)
         {
             direction = slideDirection;
         }
@@ -33,30 +33,46 @@ namespace ChapterMaster.UI.Animation
             }
         }
 
+        public bool reachedTheEnd = false;
         public Vector2 Bound(Vector2 d)
         {
-            if (d.X < leftBound)
+            Vector2 newBound = d;
+            if (activated && !reachedTheEnd)
             {
-                activated = false;
-                return new Vector2(leftBound, d.Y);
-            }
-            else if (d.X > rightBound)
-            {
-                activated = false; Debug.WriteLine("deactivated at " + d.X + " bound= " + rightBound);
-                return new Vector2(rightBound, d.Y);
-            }
+                if (d.X < leftBound)
+                {
+                    activated = false;
+                    reachedTheEnd = true;
+                    newBound = new Vector2(leftBound, d.Y);
+                }
+                else if (d.X > rightBound)
+                {
+                    activated = false;
+                    reachedTheEnd = true;
+                    Debug.WriteLine("deactivated at " + d.X + " bound= " + rightBound + " " + reachedTheEnd);
+                    newBound = new Vector2(rightBound, d.Y);
+                }
 
-            if (d.Y < topBound)
-            {
-                activated = false;
-                return new Vector2(d.X, topBound);
+                if (d.Y < topBound)
+                {
+                    activated = false;
+                    reachedTheEnd = true;
+                    newBound = new Vector2(d.X, topBound);
+                }
+                else if (d.Y > bottomBound)
+                {
+                    activated = false;
+                    reachedTheEnd = true;
+                    newBound = new Vector2(d.X, bottomBound);
+                }
             }
-            else if (d.Y > bottomBound)
+            if (reachedTheEnd)
             {
-                activated = false;
-                return new Vector2(d.X, bottomBound);
+                Debug.WriteLine("reached the end of animation");
+                onFinish(animatedObject, owner);
+                reachedTheEnd = false;
             }
-            return d;
+            return newBound;
         }
 
         private Vector2 d = new Vector2(0, 0); // TODO: Implement starting position in constructor;
@@ -66,10 +82,9 @@ namespace ChapterMaster.UI.Animation
             if (activated)
             {
                 d = Bound(d + delta * Slide.GetDirection(direction));
-                p = p + d;
-                Debug.WriteLine("animation pos: pX: " + p.X + " pY: " + p.Y + " dX: " + d.X + " dY: " + d.Y + " dirY: " + Slide.GetDirection(direction).X + " delta: " + delta);
+                //Debug.WriteLine("animation pos: pX: " + p.X + " pY: " + p.Y + " dX: " + d.X + " dY: " + d.Y + " dirY: " + Slide.GetDirection(direction).X + " delta: " + delta);
             }
-
+            p = p + d;
             return new Rectangle((int)p.X,(int)p.Y,rectangle.Width, rectangle.Height);
         }
     }

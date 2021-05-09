@@ -51,7 +51,7 @@ namespace ChapterMaster
         }
         int prevMouseWheelValue;
         int currentMouseWheelValue;
-        public virtual void UpdateMouse() //TO DO: Fix mouse bounds issue when moving camera to the right in fullscreen.
+        public virtual void UpdateMouse() //TODO Fix mouse bounds issue when moving camera to the right in fullscreen.
         {
             int cameraSpeed = (int)(_cameraSpeed / zoom);
             if (Mouse.GetState().X <= 0)
@@ -205,7 +205,7 @@ namespace ChapterMaster
         int delayTimer;
         public int openSystem = -1; // screw it, i'll leave it here for now
         ButtonState previousLMBState; // Left Mouse Button for you uninitiated, uncultured reactionist neo-liberals.
-        // TO DO: create list of moused-over systems and use that to disable no-shift clear
+        // TODO create list of moused-over systems and use that to disable no-shift clear
         public virtual void MouseSelection(Sector sector)
         {
             int mouseX = Mouse.GetState().X;

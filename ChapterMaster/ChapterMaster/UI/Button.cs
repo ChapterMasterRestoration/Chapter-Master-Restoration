@@ -21,15 +21,21 @@ namespace ChapterMaster.UI
         }
         public Button(string buttonTextureId, string text, Align.Align align, MouseHandler mouseHandler) : this(buttonTextureId, text, mouseHandler)
         {
-            // TO DO: Fix this
+            // TODO Fix this
             this.align = align;
         }
         public virtual void Render(SpriteBatch spriteBatch, ViewController view)
         {
-            position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TO DO: fix: don't even expose position
+            Rectangle Rect = align.GetRect(view);
+            //position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TODO fix: don't even expose position
+            for (int i = 0; i < Animations.Count; i++)
+            {
+                Rect = Animations[i].Apply(Rect, view.animationDelta);
+            }
+            position = Rect.Location.ToVector2(); // ???
             if (buttonTextureId.Length > 0)
             {
-                spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
+                spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], Rect, Color.White);
             }
             spriteBatch.DrawString(Assets.Caslon_Antique_Regular, text, position, Color.White);
         }

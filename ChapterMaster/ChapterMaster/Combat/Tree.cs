@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.Combat
 {
-    public class Tree // TO DO: make generic or something
+    public class Tree // TODO make generic or something
     {
         public Force Parent;
 

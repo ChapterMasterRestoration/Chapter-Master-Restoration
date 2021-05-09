@@ -127,7 +127,7 @@ namespace ChapterMaster.UI
         }
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
-            base.Render(spriteBatch, view); // TO DO: Change background to match planet type.
+            base.Render(spriteBatch, view); // TODO Change background to match planet type.
             string name = planet.GetName();
             spriteBatch.DrawString(Assets.ARJULIAN, name, new Vector2(view.viewPortWidth / 2 - Assets.ARJULIAN.MeasureString(name).X, 2), Color.White);
             for (int currentSquad = 0; currentSquad < Squads.Count; currentSquad++)

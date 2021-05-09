@@ -114,6 +114,7 @@ namespace ChapterMaster.State
                         Assets.ButtonTextures.Add("space_marine",Loader.LoadPNG("spr_master_splash_0"));
                         Assets.ButtonTextures.Add("textbox", Loader.LoadPNG("spr_new_banner_0"));
                         Assets.ButtonTextures.Add("creation_arrow_right", Loader.LoadPNG("spr_creation_arrow_1"));
+                        Assets.ButtonTextures.Add("creation_arrow_left", Loader.LoadPNG("spr_creation_arrow_0"));
                         break;
                     case "UI Textures":
                         Assets.UITextures = new Dictionary<string, Texture2D>();

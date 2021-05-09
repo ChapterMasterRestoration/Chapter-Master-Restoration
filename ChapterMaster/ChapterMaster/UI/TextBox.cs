@@ -101,7 +101,7 @@ namespace ChapterMaster.UI
         }
         public override void Render(SpriteBatch spriteBatch, ViewController view)
         {
-            position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TO DO: fix: don't even expose position
+            position = new Vector2(align.GetRect(view).X, align.GetRect(view).Y); // TODO fix: don't even expose position
             if (buttonTextureId.Length > 0)
             {
                 spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
