@@ -4,15 +4,12 @@
     <projectFile>ChapterMaster/ChapterMaster.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented.">
-      <change afterPath="$PROJECT_DIR$/ChapterMaster/UI/Animation/Animation.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChapterMaster/UI/Animation/Slide.cs" afterDir="false" />
+    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Added animations to screens. Tons of work is needed to make it work properly. Need to implement delta time propely.">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Align/CornerAlign.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Align/CornerAlign.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Align/EdgeAlign.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Align/EdgeAlign.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Ledger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Ledger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Animation/Slide.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Animation/Slide.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Screen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Screen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +25,6 @@
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Textbox.cs" />
-      <option value="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/World/Fleet/Fleet.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/World/Faction/Faction.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/World/Sector.cs" />
@@ -43,14 +39,15 @@
       <option value="$PROJECT_DIR$/ChapterMaster/UI/TextBox.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/PinButton.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/PlanetScreen.cs" />
-      <option value="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/State/LoadingState.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Align/CornerAlign.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Align/EdgeAlign.cs" />
-      <option value="$PROJECT_DIR$/ChapterMaster/UI/Screen.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Ledger.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Animation/Animation.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/UI/Screen.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Animation/Slide.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1gMFRbQbAJG5qQFCxN9Fc4HInyn" />
@@ -104,7 +101,7 @@
       <updated>1597916548662</updated>
       <workItem from="1597916583994" duration="1199000" />
       <workItem from="1620429781074" duration="13614000" />
-      <workItem from="1620580805866" duration="8083000" />
+      <workItem from="1620580805866" duration="9043000" />
     </task>
     <task id="LOCAL-00001" summary="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented.">
       <created>1620442974068</created>
@@ -113,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620442974072</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added animations to screens. Tons of work is needed to make it work properly. Need to implement delta time propely.">
+      <created>1620590603865</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1620590603865</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,6 +140,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented." />
+    <MESSAGE value="Added animations to screens. Tons of work is needed to make it work properly. Need to implement delta time propely." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added animations to screens. Tons of work is needed to make it work properly. Need to implement delta time propely." />
   </component>
 </project>

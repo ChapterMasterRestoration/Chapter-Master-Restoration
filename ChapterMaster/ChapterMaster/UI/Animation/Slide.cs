@@ -67,7 +67,7 @@ namespace ChapterMaster.UI.Animation
             {
                 d = Bound(d + delta * Slide.GetDirection(direction));
                 p = p + d;
-                Debug.WriteLine("animation pos: pX: " + p.X + " pY: " + p.Y + " dX: " + d.X + " dY: " + d.Y + " dirY: " + Slide.GetDirection(direction).X);
+                Debug.WriteLine("animation pos: pX: " + p.X + " pY: " + p.Y + " dX: " + d.X + " dY: " + d.Y + " dirY: " + Slide.GetDirection(direction).X + " delta: " + delta);
             }
 
             return new Rectangle((int)p.X,(int)p.Y,rectangle.Width, rectangle.Height);

@@ -24,6 +24,8 @@ namespace ChapterMaster
         public bool PlanetScreenOpen;
         public bool IsOccluded;
         SystemScreenAlign currentSystemScreenAlign;
+
+        public float animationDelta = 10f; // TODO: Implement properly.
         //public Rectangle VisibleArea;
         //public Matrix Transform;
         public virtual void UpdateKeyboard()

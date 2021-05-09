@@ -58,7 +58,7 @@ namespace ChapterMaster.UI
             Rect = align.GetRect(view);
             for (int i = 0; i < Animations.Count; i++)
             {
-                Rect = Animations[i].Apply(Rect);
+                Rect = Animations[i].Apply(Rect, view.animationDelta);
             }
             spriteBatch.Draw(Assets.UITextures[backgroundTexture], Rect, Color.White);
             foreach (Button button in Buttons)
