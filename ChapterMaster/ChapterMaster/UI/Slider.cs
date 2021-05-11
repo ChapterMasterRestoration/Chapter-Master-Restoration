@@ -19,7 +19,7 @@ namespace ChapterMaster.UI
         public int minValue;
         public int maxValue;
         public float increment;
-        protected Slider(string sliderTextureId, int initialValue, int minValue, int maxValue, float increment = 1.0f,
+        public Slider(string sliderTextureId, int initialValue, int minValue, int maxValue, float increment = 1.0f,
             MouseHandler onClick = null, SliderHandler outOfFocus = null, SliderHandler updateValue = null) : base(
             sliderTextureId, "", onClick)
         {

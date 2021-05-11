@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,25 @@ namespace ChapterMaster.Combat
         public bool MouseOver(Squad squad) // Will probably have to be moved to ViewController.S
         {
             return GetRectangle(squad).Contains(Mouse.GetState().Position);
+        }
+
+        public bool IsCollidingWith(Squad thisSquad, Squad otherSquad,Troop otherTroop)
+        {
+            return GetRectangle(thisSquad).Intersects(otherTroop.GetRectangle(otherSquad));
+        }
+
+        public bool IsCollidingWithAny(Squad thisSquad, Squad otherSquad)
+        {
+            foreach(Troop otherTroop in otherSquad.Troops)
+            {
+                if (this != otherTroop)
+                {
+                    if (GetRectangle(thisSquad).Intersects(otherTroop.GetRectangle(otherSquad)))
+                        return true;
+                }
+            }
+            Debug.WriteLine("checking for collision");
+            return false;
         }
      }
 }

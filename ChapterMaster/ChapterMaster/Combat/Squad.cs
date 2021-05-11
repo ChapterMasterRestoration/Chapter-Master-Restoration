@@ -12,14 +12,16 @@ namespace ChapterMaster.Combat
     {
         public string Name = "Maneus Squad";
         public Planet Planet;
+        public string Faction = "Space Marine";
         public Vector2 Position = new Vector2(0,0);
         public List<Troop> Troops = new List<Troop>();
         public bool Grabbed;
 
-        public Squad(Planet planet, List<Troop> troops)
+        public Squad(Planet Planet, List<Troop> Troops, string Faction)
         {
-            this.Planet = planet;
-            this.Troops = troops;
+            this.Planet = Planet;
+            this.Troops = Troops;
+            this.Faction = Faction;
         }
         public float GetHealth()
         {

@@ -22,13 +22,15 @@ namespace ChapterMaster.UI
             this.planet = planet;
         }
 
-        bool dragging = false;
+        bool draggingTroop = false;
+        private bool draggingSquad = false;
         Troop currentlySelectedTroop;
         Squad currentlySelectedSquad;
         Vector2 mouseOffset = new Vector2(0, 0);
         Vector2 troopOffset = new Vector2(0, 0);
         Vector2 orderStart = new Vector2(0, 0);
         Vector2 orderEnd = new Vector2(0, 0);
+        private Vector2 startDragPosition;
         bool assigningOrder = false;
         public override void Update(ViewController view)
         {
@@ -36,86 +38,174 @@ namespace ChapterMaster.UI
             for (int currentSquad = 0; currentSquad < Squads.Count; currentSquad++)
             {
                 Squad squad = Squads[currentSquad];
-                for (int currentTroop = 0; currentTroop < squad.Troops.Count; currentTroop++)
+                if (squad.Faction == ChapterMaster.Sector.CurrentFaction)
                 {
-                    Troop troop = squad.Troops[currentTroop];
-                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+                    for (int currentTroop = 0; currentTroop < squad.Troops.Count; currentTroop++)
                     {
-                        if (Mouse.GetState().RightButton == ButtonState.Pressed) // start drag
+                        Troop troop = squad.Troops[currentTroop];
+                        if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                         {
-                            if (currentlySelectedTroop == null && troop.MouseOver(squad))
+                            if (draggingSquad)
                             {
-                                mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
-                                troop.Grabbed = true;
-                                currentlySelectedTroop = troop;
-                                dragging = true;
+                                draggingSquad = false;
                             }
-                        } else
-                        if (Mouse.GetState().LeftButton == ButtonState.Pressed) // start order
-                        {
-                            if (currentlySelectedTroop == null && troop.MouseOver(squad))
+                            if (Mouse.GetState().RightButton == ButtonState.Pressed) // start drag
                             {
-                                mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
-                                troop.Grabbed = true;
-                                currentlySelectedTroop = troop;
-                                dragging = false;
-                                orderStart = squad.Position + troop.Position + new Vector2(troop.Size.X, troop.Size.Y / 2);
-                                assigningOrder = true;
-                            }
-                        }
-                        if (troop.Grabbed && currentlySelectedTroop == troop)
-                        {
-                            if (dragging)
-                            {
-                                Debug.WriteLine($"Currently moving troop i {currentTroop} to ${Mouse.GetState().Position.X}");
-                                currentlySelectedTroop.Position = Mouse.GetState().Position.ToVector2() - mouseOffset;
-                                if (Mouse.GetState().RightButton == ButtonState.Released) // release drag
+                                if (currentlySelectedTroop == null && currentlySelectedSquad == null &&troop.MouseOver(squad))
                                 {
-                                    troop.Grabbed = false;
-                                    currentlySelectedTroop = null;
-                                    dragging = false;
-                                }
-                            } else
-                            {
-                                orderEnd = Mouse.GetState().Position.ToVector2();
-                                if (Mouse.GetState().LeftButton == ButtonState.Released) // release order
-                                {
-                                    troop.Grabbed = false;
-                                    currentlySelectedTroop = null;
-                                    assigningOrder = false;
+                                    mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
+                                    troop.Grabbed = true;
+                                    currentlySelectedTroop = troop;
+                                    currentlySelectedSquad = squad;
+                                    startDragPosition = currentlySelectedTroop.Position;
+                                    Debug.WriteLine("start drag position: " + startDragPosition.ToString());
+                                    draggingTroop = true;
                                 }
                             }
-                        }
-                    }
-                    else
-                    {
-                        if (Mouse.GetState().RightButton == ButtonState.Pressed)
-                        {
-                            if (currentlySelectedSquad == null && currentlySelectedTroop == null && troop.MouseOver(squad))
+                            
+                            if (Mouse.GetState().LeftButton == ButtonState.Pressed) // start order
                             {
-                                //mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
-                                troopOffset = Mouse.GetState().Position.ToVector2() - squad.Position;
-                                troop.Grabbed = true;
-                                squad.Grabbed = true;
-                                currentlySelectedTroop = troop;
-                                currentlySelectedSquad = squad;
+                                if (currentlySelectedTroop == null && troop.MouseOver(squad))
+                                {
+                                    mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
+                                    troop.Grabbed = true;
+                                    currentlySelectedTroop = troop;
+                                    draggingTroop = false;
+                                    orderStart = squad.Position + troop.Position +
+                                                 new Vector2(troop.Size.X, troop.Size.Y / 2);
+                                    assigningOrder = true;
+                                }
                             }
-                        }
-                    }
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
 
-                    }
-                    if(troop.Grabbed && squad.Grabbed && currentlySelectedTroop == troop && currentlySelectedSquad == squad)
-                    {
-                        squad.Position = Mouse.GetState().Position.ToVector2() - troopOffset;
-                        Debug.WriteLine($"Currently moving squad i {currentSquad} to ${Mouse.GetState().Position.X}");
-                        if (Mouse.GetState().RightButton == ButtonState.Released)
+                            if (troop.Grabbed && currentlySelectedTroop == troop && currentlySelectedSquad == squad)
+                            {
+                                if (draggingTroop)
+                                {
+                                    Debug.WriteLine($"Currently moving troop i {currentTroop} to ${Mouse.GetState().Position.X}");
+                                    // Check for collisions
+                                    //Vector2 prevPosition = currentlySelectedTroop.Position;
+                                    currentlySelectedTroop.Position =
+                                        Mouse.GetState().Position.ToVector2() - mouseOffset; // maybe check for collision here and find last valid position?
+                                    if (Mouse.GetState().RightButton == ButtonState.Released) // release drag
+                                    {
+                                        foreach (Squad other in Squads)
+                                        {
+                                            Debug.WriteLine("over squad" + other.Troops.Count);
+                                            if (currentlySelectedSquad != null && currentlySelectedTroop != null)
+                                            {
+                                                if(currentlySelectedTroop.IsCollidingWithAny(currentlySelectedSquad, other))
+                                                {
+                                                    Debug.WriteLine("collision squad: " + squad.Troops.Count + "with other squad: " + other.Troops.Count);
+                                                    currentlySelectedTroop.Position = startDragPosition;
+                                                }
+                                                else
+                                                {
+                                                    Debug.WriteLine("no collision");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Debug.WriteLine("this should not happen");
+                                            }
+                                        }
+                                        troop.Grabbed = false;
+                                        Debug.WriteLine("drag released");
+                                        currentlySelectedTroop = null;
+                                        currentlySelectedSquad = null;
+                                        draggingTroop = false;
+                                    }
+                                }
+                                else
+                                {
+                                    orderEnd = Mouse.GetState().Position.ToVector2();
+                                    if (Mouse.GetState().LeftButton == ButtonState.Released) // release order
+                                    {
+                                        troop.Grabbed = false;
+                                        currentlySelectedTroop = null;
+                                        assigningOrder = false;
+                                    }
+                                }
+                            }
+                        }
+                        else
                         {
-                            troop.Grabbed = false;
-                            squad.Grabbed = false;
+                            if (draggingTroop)
+                            {
+                                if (Mouse.GetState().RightButton == ButtonState.Released) // does this actually work as intended?
+                                {
+                                    foreach (Squad other in Squads)
+                                    {
+                                        Debug.WriteLine("over squad" + other.Troops.Count);
+                                        if (currentlySelectedSquad != null && currentlySelectedTroop != null)
+                                        {
+                                            if(currentlySelectedTroop.IsCollidingWithAny(currentlySelectedSquad, other))
+                                            {
+                                                Debug.WriteLine("collision squad: " + squad.Troops.Count + "with other squad: " + other.Troops.Count);
+                                                currentlySelectedTroop.Position = startDragPosition;
+                                            }
+                                            else
+                                            {
+                                                Debug.WriteLine("no collision");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Debug.WriteLine("this should not happen");
+                                        }
+                                    }
+
+                                    Debug.WriteLine("drag released");
+                                    if (!draggingSquad)
+                                    {
+                                        troop.Grabbed = false;
+                                        currentlySelectedTroop = null;
+                                        currentlySelectedSquad = null;
+                                    }
+                                    draggingTroop = false;
+                                }
+
+                                
+                            }
+                            if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                            {
+                                if (!draggingSquad && currentlySelectedSquad == null && currentlySelectedTroop == null &&
+                                    troop.MouseOver(squad))
+                                {
+                                    //mouseOffset = Mouse.GetState().Position.ToVector2() - troop.Position;
+                                    troopOffset = Mouse.GetState().Position.ToVector2() - squad.Position;
+                                    troop.Grabbed = true;
+                                    squad.Grabbed = true;
+                                    currentlySelectedTroop = troop;
+                                    currentlySelectedSquad = squad;
+                                    draggingSquad = true;
+                                }
+                            }
+                        }
+
+                        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                        {
+
+                        }
+
+                        if (!draggingSquad && !draggingTroop && !assigningOrder) // TODO: fix this.
+                        {
                             currentlySelectedTroop = null;
                             currentlySelectedSquad = null;
+                        }
+                        if (draggingSquad && troop.Grabbed && squad.Grabbed && currentlySelectedTroop == troop &&
+                            currentlySelectedSquad == squad)
+                        {
+                            squad.Position = Mouse.GetState().Position.ToVector2() - troopOffset;
+                            Debug.WriteLine(
+                                $"Currently moving squad i {currentSquad} to ${Mouse.GetState().Position.X}");
+                            if (Mouse.GetState().RightButton == ButtonState.Released)
+                            {
+                                troop.Grabbed = false;
+                                squad.Grabbed = false;
+                                currentlySelectedTroop = null;
+                                currentlySelectedSquad = null;
+                                draggingSquad = false;
+                            }
                         }
                     }
                 }

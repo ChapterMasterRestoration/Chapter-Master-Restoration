@@ -21,7 +21,8 @@ namespace ChapterMaster.State
         private MenuViewController viewController;
         GroundCombatScreen screen;
         List<Squad> playerSquads = new List<Squad>();
-
+        List<Squad> alliedSquads = new List<Squad>();
+        List<Squad> enemySquad = new List<Squad>();
         public GroundCombatState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager, Planet planet) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
@@ -37,13 +38,29 @@ namespace ChapterMaster.State
             screen.Primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
             // Squads are going to be selected by the player through the Attack screen.
             playerSquads.Clear();
-            playerSquads.Add(new Squad(planet, GenerateTroops(4)));
-            playerSquads.Add(new Squad(planet, GenerateTroops(12)));
+            playerSquads.Add(new Squad(planet, GenerateTroops(4), "Space Marine"));
+            playerSquads.Add(new Squad(planet, GenerateTroops(12), "Space Marine"));
             //playerSquads.Add(new Squad(planet, GenerateTroops(8)));
-            playerSquads.Sort((a, b) => { return a.Troops.Count.CompareTo(b.Troops.Count); }); // unsure what order to put squads in
-            for (int currentSquad = 0; currentSquad < playerSquads.Count; currentSquad++)
+            GenerateGrid(playerSquads);
+            screen.Squads = playerSquads;
+        }
+
+        private List<Troop> GenerateTroops(int n)
+        {
+            List<Troop> troops = new List<Troop>();
+            for (int i = 0; i < n; i++)
             {
-                Squad squad = playerSquads[currentSquad];
+                troops.Add(new Troop());
+            }
+            return troops;
+        }
+
+        private List<Squad> GenerateGrid(List<Squad> squads, int size = 2)
+        {
+            squads.Sort((a, b) => { return a.Troops.Count.CompareTo(b.Troops.Count); }); // unsure what order to put squads in
+            for (int currentSquad = 0; currentSquad < squads.Count; currentSquad++)
+            {
+                Squad squad =squads[currentSquad];
                 #region Failed Grid Attempts
                 // int squadX = 5 + (31 * 2 ) * numberOfSquads; // TODO Find with size of biggest troop.
                 //int noColumns = squad.Troops.Count % 5 == 0 ? squad.Troops.Count / 5 : (squad.Troops.Count / 5) + 1;
@@ -62,8 +79,8 @@ namespace ChapterMaster.State
                 //}
                 #endregion
                 int count = squad.Troops.Count;
-                int noColumns = count % 5 == 0 ? count / 5 : (count / 5) + 1;
-                int squadTop = 10 + (5 * (31 + 20) + 5) * currentSquad;
+                int noColumns = count % size == 0 ? count / size : (count / size) + 1;
+                int squadTop = 10 + (size * (31 + 20) + size) * currentSquad;
                 squad.Position = new Vector2(10, squadTop);
                 for (int currentTroop = 0; currentTroop < count; currentTroop++)
                 {
@@ -72,25 +89,15 @@ namespace ChapterMaster.State
                     //int currentRow = (currentTroop / 5);
                     //troop.Position = new Vector2(10 + currentRow * (troop.Size.X + 15) - noColumns * (5),
                     //                             (10 + currentCol * (troop.Size.Y + 15)));]
-                    int currentCol = (currentTroop % 5);
-                    int currentRow = (currentTroop / 5);
+                    int currentCol = (currentTroop % size);
+                    int currentRow = (currentTroop / size);
                     troop.Position = new Vector2(currentRow * (troop.Size.X + 25),
                                                  (currentCol * (troop.Size.Y + 15)));
                 }
             }
-            screen.Squads = playerSquads;
-        }
 
-        private List<Troop> GenerateTroops(int n)
-        {
-            List<Troop> troops = new List<Troop>();
-            for (int i = 0; i < n; i++)
-            {
-                troops.Add(new Troop());
-            }
-            return troops;
+            return squads;
         }
-
         public override void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))

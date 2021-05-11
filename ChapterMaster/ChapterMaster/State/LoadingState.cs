@@ -129,7 +129,7 @@ namespace ChapterMaster.State
                         Assets.UITextures.Add("force_background", Loader.LoadPNG("ui/force_background_r"));
                         Assets.UITextures.Add("ledger_background", Loader.LoadPNG("ui/force_background"));
                         Assets.UITextures.Add("bg_combat_grass", Loader.LoadPNG("combat/Zelda Textures/Zelda Texture - Grass 11x Scale"));
-                        Assets.UITextures.Add("spr_mar_collision_0", Loader.LoadPNG("combat/troop/spr_mar_collision_0"));
+                        Assets.UITextures.Add("spr_mar_collision_0", Loader.LoadPNG("combat/troop/groundcombat_spacemarine")); // spr_mar_collision_0
                         Assets.UITextures.Add("order_move_arrow", Loader.LoadPNG("combat/order_move_arrow")); // Move this to a different loading stage
                         //Assets.UITextures.Add("", Loader.LoadPNG(""));
                         Assets.UITextures.Add("faction_creator", Loader.LoadPNG("spr_popup_medium_0")); // Move this to the UI folder, you utter beefbroth.
