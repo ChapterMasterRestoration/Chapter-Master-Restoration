@@ -20,10 +20,10 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <LangVersion>latestmajor</LangVersion>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -41,6 +42,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug | x86_64|AnyCPU' ">
+    <OutputPath>bin\Debug | x86_64\</OutputPath>
+  </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
@@ -50,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Assets.cs" />
     <Compile Include="ChapterMaster.cs" />
+    <Compile Include="Combat\Combat.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="State\FactionCreatorState.cs" />
     <Compile Include="UI\Align\EdgeAlign.cs" />
@@ -63,6 +68,7 @@
     <Compile Include="UI\Align\CenterAlign.cs" />
     <Compile Include="UI\State\CampaignPicker\CampaignPicker.cs" />
     <Compile Include="UI\State\FactionScreen.cs" />
+    <Compile Include="View\CombatViewController.cs" />
     <Compile Include="View\MenuViewController.cs" />
     <Compile Include="State\CharacterCreatorState.cs" />
     <Compile Include="State\CampaignPickerState.cs" />

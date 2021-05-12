@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace ChapterMaster.Combat
 {
@@ -18,8 +19,9 @@ namespace ChapterMaster.Combat
         private bool isMoving = false;
 
         public Vector2 Position = new Vector2(0, 0);
-        public Vector2 Size = new Vector2(31, 39);
-
+        public Vector2 Size = new Vector2(55, 55);
+        public float Rotation = 0.0f;
+        
         public Weapon.Weapon Weapon;
         public Troop Target;
         public bool Grabbed;
@@ -29,32 +31,43 @@ namespace ChapterMaster.Combat
 
         }
 
-        public Rectangle GetRectangle(Squad squad)
+        public void Draw(SpriteBatch spriteBatch, CombatViewController view, Squad squad)
         {
-            return new Rectangle((Position + squad.Position).ToPoint(), Size.ToPoint());
+            Rectangle rect = new Rectangle(squad.Position.ToPoint() + this.Position.ToPoint() - view.GetCameraPosition().ToPoint(), this.Size.ToPoint());
+            spriteBatch.Draw(Assets.UITextures["spr_mar_collision_0"], rect.Location.ToVector2(), null, 
+                Color.White, this.Rotation, 
+                new Vector2(Size.X/2,  Size.Y/2),
+                new Vector2(1, 1),
+                SpriteEffects.None, 0);
+
         }
 
-        public bool MouseOver(Squad squad) // Will probably have to be moved to ViewController.S
+        public Rectangle GetRectangle(CombatViewController view, Squad squad)
         {
-            return GetRectangle(squad).Contains(Mouse.GetState().Position);
+            return new Rectangle((Position + squad.Position - view.GetCameraPosition()).ToPoint(), Size.ToPoint());
         }
 
-        public bool IsCollidingWith(Squad thisSquad, Squad otherSquad,Troop otherTroop)
+        public bool MouseOver(CombatViewController view, Squad squad) // Will probably have to be moved to ViewController.S
         {
-            return GetRectangle(thisSquad).Intersects(otherTroop.GetRectangle(otherSquad));
+            return GetRectangle(view, squad).Contains(Mouse.GetState().Position);
         }
 
-        public bool IsCollidingWithAny(Squad thisSquad, Squad otherSquad)
+        public bool IsCollidingWith(CombatViewController view, Squad thisSquad, Squad otherSquad,Troop otherTroop)
+        {
+            return GetRectangle(view, thisSquad).Intersects(otherTroop.GetRectangle(view, otherSquad));
+        }
+
+        public bool IsCollidingWithAny(CombatViewController view, Squad thisSquad, Squad otherSquad)
         {
             foreach(Troop otherTroop in otherSquad.Troops)
             {
                 if (this != otherTroop)
                 {
-                    if (GetRectangle(thisSquad).Intersects(otherTroop.GetRectangle(otherSquad)))
+                    if (GetRectangle(view, thisSquad).Intersects(otherTroop.GetRectangle(view, otherSquad)))
                         return true;
                 }
             }
-            Debug.WriteLine("checking for collision");
+            //Debug.WriteLine("checking for collision");
             return false;
         }
      }

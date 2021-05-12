@@ -14,28 +14,35 @@ using System.Threading.Tasks;
 
 namespace ChapterMaster.State
 {
-    class GroundCombatState : State
+    public class GroundCombatState : State
     {
         GameManager gameManager;
         GraphicsDevice graphicsDevice;
-        private MenuViewController viewController;
+        private CombatViewController viewController;
         GroundCombatScreen screen;
-        List<Squad> playerSquads = new List<Squad>();
+        public List<Squad> playerSquads = new List<Squad>();
         List<Squad> alliedSquads = new List<Squad>();
         List<Squad> enemySquad = new List<Squad>();
+        public bool IsDeploying = true;
         public GroundCombatState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager, Planet planet) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
             this.graphicsDevice = graphicsDevice;
             SpriteBatch = new SpriteBatch(graphicsDevice);
-            viewController = new MenuViewController();
+
+            viewController = new CombatViewController(this);
             GameManager.graphics.PreferredBackBufferWidth = GameManager.window.ClientBounds.Width;
             GameManager.graphics.PreferredBackBufferHeight = GameManager.window.ClientBounds.Height;
             viewController.viewPortWidth = GameManager.window.ClientBounds.Width;
             viewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works. I, Cato Sicarius, approve of this action, because I, Cato Sicarius, am the most well versed Captain when it comes to the Codex Astartes!
+            
             screen = new GroundCombatScreen(0, "bg_combat_grass", new MapFrameAlign(0, 0, 0, 0), planet, false);
             screen.Primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
+            Button startBattle = new Button("ui_but_0","Start Combat", new CornerAlign(Corner.BOTTOMRIGHT,144, 43), StartCombat);
+            screen.AddButton(startBattle);
+            
+            
             // Squads are going to be selected by the player through the Attack screen.
             playerSquads.Clear();
             playerSquads.Add(new Squad(planet, GenerateTroops(4), "Space Marine"));
@@ -43,8 +50,13 @@ namespace ChapterMaster.State
             //playerSquads.Add(new Squad(planet, GenerateTroops(8)));
             GenerateGrid(playerSquads);
             screen.Squads = playerSquads;
+            
         }
 
+        private void StartCombat(MouseState mouseState, object sender)
+        {
+            IsDeploying = false;
+        }
         private List<Troop> GenerateTroops(int n)
         {
             List<Troop> troops = new List<Troop>();
@@ -80,7 +92,7 @@ namespace ChapterMaster.State
                 #endregion
                 int count = squad.Troops.Count;
                 int noColumns = count % size == 0 ? count / size : (count / size) + 1;
-                int squadTop = 10 + (size * (31 + 20) + size) * currentSquad;
+                int squadTop = 10 + (size * (31 + 30) + size) * currentSquad;
                 squad.Position = new Vector2(10, squadTop);
                 for (int currentTroop = 0; currentTroop < count; currentTroop++)
                 {
@@ -104,6 +116,9 @@ namespace ChapterMaster.State
             {
                 gameManager.ChangeState(new GameState(gameManager, graphicsDevice, gameManager.Content, true));
             }
+            viewController.UpdateMouse();
+            viewController.UpdateKeyboard();
+            viewController.MouseSelection(this);
             screen.Update(viewController);
         }
         public override void Draw(GameTime gameTime)

@@ -67,7 +67,7 @@ namespace ChapterMaster
                 new CornerAlign(Corner.BOTTOMRIGHT,
                     144,
                     43),
-                new MouseHandler(EndTurn)));
+                EndTurn));
             Ledger = new Ledger(1, "ledger_background", new CornerAlign(Corner.BOTTOMRIGHT, 120, 280,topMargin: 10,leftMargin:2,bottomMargin:58));
             ChapterMaster.MainScreen.AddChildScreen(Ledger);
         }

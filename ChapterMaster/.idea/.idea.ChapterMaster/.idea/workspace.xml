@@ -7,9 +7,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Added collisions for deploying single troops. Added scrollbar textures.">
+    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Removed MonoGame.Content.Builder.Task.">
+      <change afterPath="$PROJECT_DIR$/ChapterMaster/Combat/Combat.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/ChapterMaster/Content/textures/ui/scrollbar.xcf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChapterMaster/View/CombatViewController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster.sln" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/Combat/Troop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/Combat/Troop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/GroundCombatState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/GroundCombatState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/State/GroundCombatScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/State/GroundCombatScreen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/Util/MathUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/Util/MathUtil.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,16 +31,27 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9AECFB6F-6EE1-4BB3-9CEC-F864D8D0E1D7/3f/c04b9622/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/State/GroundCombatState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/GameManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4FC8466C-2738-4BB1-9C7B-81B2A6A71083/95/0fbd6bfb/ContentTypeReaderManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/State/GameState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/UI/State/GroundCombatScreen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/UI/Slider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ChapterMaster/UI/State/GroundCombatScreen.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/State/LoadingState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ChapterMaster/State/LoadingState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9AECFB6F-6EE1-4BB3-9CEC-F864D8D0E1D7/17/af62c752/__Error.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/Combat/Troop.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ChapterMaster/Combat/Troop.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ChapterMaster/Combat/Squad.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ChapterMaster/State/GroundCombatState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/UI/Animation/Animation.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ChapterMaster/State/GameState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/Combat/Squad.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/BDE361C8-5FEF-4624-B5E8-3E7B4E9406D3/49/39f4ae27/SpriteBatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://H:/Repos/ChapterMaster/ChapterMaster/State/GameState.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -56,16 +76,20 @@
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Ledger.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Animation/Slide.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Screen.cs" />
-      <option value="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Slider.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/VerticalScrollbar.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Align/CornerAlign.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Animation/Animation.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/Combat/Squad.cs" />
-      <option value="$PROJECT_DIR$/ChapterMaster/State/GroundCombatState.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/State/LoadingState.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" />
+      <option value="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/Util/MathUtil.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/Combat/Troop.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/State/GroundCombatScreen.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/View/CombatViewController.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/State/GroundCombatState.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/Combat/Combat.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1gMFRbQbAJG5qQFCxN9Fc4HInyn" />
@@ -119,7 +143,7 @@
       <updated>1597916548662</updated>
       <workItem from="1597916583994" duration="1199000" />
       <workItem from="1620429781074" duration="13614000" />
-      <workItem from="1620580805866" duration="36819000" />
+      <workItem from="1620580805866" duration="49685000" />
     </task>
     <task id="LOCAL-00001" summary="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented.">
       <created>1620442974068</created>
@@ -170,7 +194,21 @@
       <option name="project" value="LOCAL" />
       <updated>1620691812711</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Removed MonoGame.Content.Builder.Task.">
+      <created>1620755607500</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1620755607500</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Removed MonoGame.Content.Builder.Task.">
+      <created>1620755636284</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1620755636284</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,7 +237,8 @@
     <MESSAGE value="Added animation to Ledger. Added OnFinish delegate for animations. Fixed all &quot;TO DOs&quot;." />
     <MESSAGE value="Special commit for SireNuke. Adjusted animation delta time." />
     <MESSAGE value="Added collisions for deploying single troops. Added scrollbar textures." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added collisions for deploying single troops. Added scrollbar textures." />
+    <MESSAGE value="Removed MonoGame.Content.Builder.Task." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed MonoGame.Content.Builder.Task." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

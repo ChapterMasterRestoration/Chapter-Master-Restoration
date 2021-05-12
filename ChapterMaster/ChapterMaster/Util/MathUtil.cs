@@ -72,5 +72,10 @@ namespace ChapterMaster.Util
         {
             return new Vector2(v.X + x, v.Y + y);
         }
+        public static Point ScalePoint(Point point, float factor)
+        {
+            return new Point((int)(point.X / factor), (int)(point.Y / factor));
+        }
+
     }
 }
