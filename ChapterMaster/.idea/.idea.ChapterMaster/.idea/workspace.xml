@@ -7,15 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="">
+    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Rewrote MouseSelection in CombatViewController. First attempt at multiple selection of squads. Changing keys for selection and orders.">
       <change afterPath="$PROJECT_DIR$/ChapterMaster/Content/textures/ui/scrollbar.xcf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/Combat/Squad.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/Combat/Squad.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/Combat/Troop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/Combat/Troop.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/LoadingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/LoadingState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/State/GroundCombatScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/State/GroundCombatScreen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/View/CombatViewController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/View/CombatViewController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +129,7 @@
       <workItem from="1597916583994" duration="1199000" />
       <workItem from="1620429781074" duration="13614000" />
       <workItem from="1620580805866" duration="51242000" />
-      <workItem from="1620937468295" duration="17299000" />
+      <workItem from="1620937468295" duration="18062000" />
     </task>
     <task id="LOCAL-00001" summary="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented.">
       <created>1620442974068</created>
@@ -207,7 +201,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620787571227</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Rewrote MouseSelection in CombatViewController. First attempt at multiple selection of squads. Changing keys for selection and orders.">
+      <created>1620957459916</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1620957459924</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,7 +239,8 @@
     <MESSAGE value="Added collisions for deploying single troops. Added scrollbar textures." />
     <MESSAGE value="Removed MonoGame.Content.Builder.Task." />
     <MESSAGE value="Fixed bugs with move orders. Implemented collision for whole squads. Implemented rotation for troops." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bugs with move orders. Implemented collision for whole squads. Implemented rotation for troops." />
+    <MESSAGE value="Rewrote MouseSelection in CombatViewController. First attempt at multiple selection of squads. Changing keys for selection and orders." />
+    <option name="LAST_COMMIT_MESSAGE" value="Rewrote MouseSelection in CombatViewController. First attempt at multiple selection of squads. Changing keys for selection and orders." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
