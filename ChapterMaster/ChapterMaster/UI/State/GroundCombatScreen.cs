@@ -42,7 +42,7 @@ namespace ChapterMaster.UI
                 for (int i = 0; i < squad.Troops.Count; i++)
                 {
                     Troop troop = squad.Troops[i];
-                    troop.Draw(spriteBatch, combatView, squad);
+                    troop.Draw(spriteBatch, combatView, squad); 
                     //string leaderTag = i == Squads.Count - 1 ? "L" : "";
                     //spriteBatch.DrawString(Assets.ARJULIAN, $"{troop.Health} i {i}",
                     //                       squad.Position + new Vector2(troop.Position.X, troop.Position.Y - 10) - combatView.GetCameraPosition(),

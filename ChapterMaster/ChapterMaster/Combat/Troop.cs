@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame;
+using Vector2Extensions;
 
 namespace ChapterMaster.Combat
 {
@@ -19,12 +21,13 @@ namespace ChapterMaster.Combat
         private bool isMoving = false;
 
         public Vector2 Position = new Vector2(0, 0);
-        public Vector2 Size = new Vector2(55, 55);
+        public Vector2 Size = new Vector2(40, 40);
         public float Rotation = 0.0f;
         
         public Weapon.Weapon Weapon;
         public Troop Target;
         public bool Grabbed;
+        //public bool Selected = false;
 
         public Troop()
         {
@@ -34,17 +37,35 @@ namespace ChapterMaster.Combat
         public void Draw(SpriteBatch spriteBatch, CombatViewController view, Squad squad)
         {
             Rectangle rect = new Rectangle(squad.Position.ToPoint() + this.Position.ToPoint() - view.GetCameraPosition().ToPoint(), this.Size.ToPoint());
-            spriteBatch.Draw(Assets.UITextures["spr_mar_collision_0"], rect.Location.ToVector2(), null, 
-                Color.White, this.Rotation, 
-                new Vector2(Size.X/2,  Size.Y/2),
-                new Vector2(1, 1),
-                SpriteEffects.None, 0);
+            if (squad.Selected)
+            {
+                spriteBatch.DrawRectangle(GetRectangle(view, squad), Color.Yellow);
+            }
+
+            if (squad.IsSquadLeader(this))
+            {
+                spriteBatch.DrawString(Assets.Courier_New, "" + squad.GetHealth(), 
+                    rect.Location.ToVector2() -(Size / 2 + new Vector2(0, + 4)), Color.White);
+                spriteBatch.Draw(Assets.UITextures["gc_squadleader"], rect.Location.ToVector2(), null,
+                    Color.White, this.Rotation,
+                    new Vector2(Size.X / 2, Size.Y / 2),
+                    new Vector2(1, 1),
+                    SpriteEffects.None, 0);
+            }
+            else
+            {
+                spriteBatch.Draw(Assets.UITextures["gc_spacemarine"], rect.Location.ToVector2() - Size/4, null,
+                    Color.White, this.Rotation,
+                    new Vector2(Size.X / 2, Size.Y / 2),
+                    new Vector2(1, 1),
+                    SpriteEffects.None, 0);
+            }
 
         }
 
         public Rectangle GetRectangle(CombatViewController view, Squad squad)
         {
-            return new Rectangle((Position + squad.Position - view.GetCameraPosition()).ToPoint(), Size.ToPoint());
+            return new Rectangle((Position + squad.Position - view.GetCameraPosition()).ToPoint() -  Size.ToPoint().Multiply(0.5f), Size.ToPoint());
         }
 
         public bool MouseOver(CombatViewController view, Squad squad) // Will probably have to be moved to ViewController.S

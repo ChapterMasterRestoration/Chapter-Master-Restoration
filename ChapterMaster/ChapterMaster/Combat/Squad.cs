@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +16,11 @@ namespace ChapterMaster.Combat
         public string Faction = "Space Marine";
         public Vector2 Position = new Vector2(0,0);
         public List<Troop> Troops = new List<Troop>();
+        //public Troop SquadLeader;
         public bool Grabbed;
-
+        public bool Selected;
+        public Vector2 troopOffset;
+        public Vector2 startDragPosition;
         public Squad(Planet Planet, List<Troop> Troops, string Faction)
         {
             this.Planet = Planet;
@@ -32,5 +36,29 @@ namespace ChapterMaster.Combat
             }
             return totalHealth;
         }
+
+        public Troop GetSquadLeader()
+        {
+            return Troops[0];
+        }
+
+        public bool IsSquadLeader(Troop troop)
+        {
+            return troop == GetSquadLeader();
+        }
+
+        public Troop GetTroopUnderMouse(CombatViewController view)
+        {
+            foreach (Troop troop in Troops)
+            {
+                if (troop.GetRectangle(view, this).Contains(view.GetMouse().Position))
+                {
+                    //Debug.WriteLine("detected collision");
+                    return troop;
+                }
+            }
+            return null;
+        }
+        
     }
 }
