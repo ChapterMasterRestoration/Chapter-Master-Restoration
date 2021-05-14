@@ -7,9 +7,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Rewrote MouseSelection in CombatViewController. First attempt at multiple selection of squads. Changing keys for selection and orders.">
+    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Added README">
       <change afterPath="$PROJECT_DIR$/ChapterMaster/Content/textures/ui/scrollbar.xcf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +76,7 @@
       <option value="$PROJECT_DIR$/ChapterMaster/Combat/Troop.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/Combat/Squad.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/View/CombatViewController.cs" />
+      <option value="$PROJECT_DIR$/README.md" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1gMFRbQbAJG5qQFCxN9Fc4HInyn" />
@@ -129,7 +131,7 @@
       <workItem from="1597916583994" duration="1199000" />
       <workItem from="1620429781074" duration="13614000" />
       <workItem from="1620580805866" duration="51242000" />
-      <workItem from="1620937468295" duration="18062000" />
+      <workItem from="1620937468295" duration="18779000" />
     </task>
     <task id="LOCAL-00001" summary="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented.">
       <created>1620442974068</created>
@@ -208,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620957459924</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added README">
+      <created>1620957892188</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1620957892188</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,7 +249,8 @@
     <MESSAGE value="Removed MonoGame.Content.Builder.Task." />
     <MESSAGE value="Fixed bugs with move orders. Implemented collision for whole squads. Implemented rotation for troops." />
     <MESSAGE value="Rewrote MouseSelection in CombatViewController. First attempt at multiple selection of squads. Changing keys for selection and orders." />
-    <option name="LAST_COMMIT_MESSAGE" value="Rewrote MouseSelection in CombatViewController. First attempt at multiple selection of squads. Changing keys for selection and orders." />
+    <MESSAGE value="Added README" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added README" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
