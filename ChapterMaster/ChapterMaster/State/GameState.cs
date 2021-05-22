@@ -59,7 +59,7 @@ namespace ChapterMaster
                 "mapframe",
                 new MapFrameAlign(11,
                     61,
-                    11,
+                    156,
                     10),
                 false); // TODO: The proletariat will rise. Enable advanced occlusion for the map frame.
             ChapterMaster.MainScreen.AddButton(new Button("ui_but_0",

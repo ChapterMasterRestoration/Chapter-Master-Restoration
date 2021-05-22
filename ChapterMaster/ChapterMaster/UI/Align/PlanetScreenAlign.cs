@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,13 @@ namespace ChapterMaster.UI.Align
 
         public override Rectangle GetRect(ViewController view)
         {
-            Rectangle Rect = parentScreen.Rect;
-            return new Rectangle(Rect.Right,Rect.Top, width, height);
+            Rectangle Rect = new Rectangle(parentScreen.Rect.Right, parentScreen.Rect.Top, width, height);
+            Debug.WriteLine(view.viewPortWidth);
+            if (Rect.Right > view.viewPortWidth - parentScreen.Parent.align.rightMargin)
+            {
+                Rect.X = parentScreen.Rect.Left - parentScreen.Rect.Width;
+            }
+            return Rect;
         }
     }
 }

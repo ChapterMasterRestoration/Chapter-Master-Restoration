@@ -55,6 +55,9 @@
     <Compile Include="Assets.cs" />
     <Compile Include="ChapterMaster.cs" />
     <Compile Include="Combat\Combat.cs" />
+    <Compile Include="Combat\Order\MoveOrder.cs" />
+    <Compile Include="Combat\Order\Order.cs" />
+    <Compile Include="Combat\Order\OrderChain.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="State\FactionCreatorState.cs" />
     <Compile Include="UI\Align\EdgeAlign.cs" />

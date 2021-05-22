@@ -205,6 +205,7 @@ namespace ChapterMaster
         int delayTimer;
         public int openSystem = -1; // screw it, i'll leave it here for now
         protected ButtonState previousLMBState; // Left Mouse Button for you uninitiated, uncultured reactionist neo-liberals.
+        protected ButtonState previousRMBState; // Left Mouse Button for you uninitiated, uncultured reactionist neo-liberals.
         // TODO create list of moused-over systems and use that to disable no-shift clear
         public virtual void MouseSelection(Sector sector)
         {

@@ -40,7 +40,7 @@ namespace ChapterMaster.UI.Align
             }
             if (rect.Right > parentAlign.width - parentAlign.rightMargin)
             {
-                rect.X = parentAlign.width - rightMargin - rect.Width;
+                rect.X = parentAlign.width - rightMargin - rect.Width - parentAlign.rightMargin;
             }
             if (rect.Left < parentAlign.leftMargin)
             {

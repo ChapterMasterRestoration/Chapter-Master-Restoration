@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChapterMaster.Combat.Order;
 
 namespace ChapterMaster.Combat
 {
@@ -21,6 +22,7 @@ namespace ChapterMaster.Combat
         public bool Selected;
         public Vector2 troopOffset;
         public Vector2 startDragPosition;
+        public OrderChain OrderChain = new OrderChain();
         public Squad(Planet Planet, List<Troop> Troops, string Faction)
         {
             this.Planet = Planet;

@@ -7,10 +7,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Added README">
+    <list default="true" id="e1f64311-b5d7-408b-bbf4-e019f0a78042" name="Default Changelist" comment="Trying to fix ParentScreenAlign and SystemScreenAlign to work with">
+      <change afterPath="$PROJECT_DIR$/ChapterMaster/Combat/Order/MoveOrder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChapterMaster/Combat/Order/Order.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChapterMaster/Combat/Order/OrderChain.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/ChapterMaster/Content/textures/ui/scrollbar.xcf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChapterMaster/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/Combat/Squad.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/Combat/Squad.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Align/PlanetScreenAlign.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Align/PlanetScreenAlign.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/UI/Align/SystemScreenAlign.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/UI/Align/SystemScreenAlign.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/View/CombatViewController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/View/CombatViewController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,17 +75,22 @@
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Align/CornerAlign.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/Animation/Animation.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/ChapterMaster.csproj" />
-      <option value="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/Util/MathUtil.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/State/GroundCombatState.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/Combat/Combat.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/State/LoadingState.cs" />
-      <option value="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/UI/State/GroundCombatScreen.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/Combat/Troop.cs" />
+      <option value="$PROJECT_DIR$/README.md" />
+      <option value="$PROJECT_DIR$/ChapterMaster/UI/Align/SystemScreenAlign.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/State/GameState.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/UI/Align/PlanetScreenAlign.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/View/ViewController.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/Combat/Order/MoveOrder.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/Combat/Order/OrderChain.cs" />
+      <option value="$PROJECT_DIR$/ChapterMaster/Combat/Order/Order.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/Combat/Squad.cs" />
       <option value="$PROJECT_DIR$/ChapterMaster/View/CombatViewController.cs" />
-      <option value="$PROJECT_DIR$/README.md" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1gMFRbQbAJG5qQFCxN9Fc4HInyn" />
@@ -131,7 +145,8 @@
       <workItem from="1597916583994" duration="1199000" />
       <workItem from="1620429781074" duration="13614000" />
       <workItem from="1620580805866" duration="51242000" />
-      <workItem from="1620937468295" duration="18779000" />
+      <workItem from="1620937468295" duration="21296000" />
+      <workItem from="1621636654731" duration="8620000" />
     </task>
     <task id="LOCAL-00001" summary="Changed Button texture map to Dictionary.&#10;Added homeworld name textbox to FactionCreator.&#10;Added some more delegates to TextBox.&#10;Homeworld name appears in PlanetScreen.&#10;Added Slider to be implemented.&#10;Added Ledger to be implemented.">
       <created>1620442974068</created>
@@ -217,7 +232,21 @@
       <option name="project" value="LOCAL" />
       <updated>1620957892188</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Added first screenshot for README.md">
+      <created>1620958730621</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1620958730622</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Added screenshots for README.md">
+      <created>1620958758266</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1620958758266</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,7 +279,9 @@
     <MESSAGE value="Fixed bugs with move orders. Implemented collision for whole squads. Implemented rotation for troops." />
     <MESSAGE value="Rewrote MouseSelection in CombatViewController. First attempt at multiple selection of squads. Changing keys for selection and orders." />
     <MESSAGE value="Added README" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added README" />
+    <MESSAGE value="Added first screenshot for README.md" />
+    <MESSAGE value="Added screenshots for README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added screenshots for README.md" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using ChapterMaster.Combat;
+using ChapterMaster.Combat.Order;
 using ChapterMaster.State;
 using ChapterMaster.World;
 using Microsoft.Xna.Framework;
@@ -52,6 +53,8 @@ namespace ChapterMaster
         public bool assigningOrder = false;
         public Vector2 orderStart = new Vector2(0, 0);
         public Vector2 orderEnd = new Vector2(0, 0);
+        public Squad squadBeingOrdered; // todo: Replace this when https://github.com/ChapterMasterRestoration/Chapter-Master-Restoration/issues/6#issue-898644013 comes up again.
+        
         // selection
         List<Squad> selectedSquads = new List<Squad>();
         
@@ -139,7 +142,7 @@ namespace ChapterMaster
                             }
                             else
                             {
-                                assigningOrder = false;
+                                //assigningOrder = false; // todo: what is this again?
                                 if (draggingTroop)
                                 {
                                     if (Mouse.GetState().RightButton ==
@@ -328,8 +331,38 @@ namespace ChapterMaster
                         draggingSquad = false;
                     }
                 }
-
+                else if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                {
+                    if (previousRMBState == ButtonState.Released)
+                    {
+                        for (int currentSquad = 0; currentSquad < groundCombatState.playerSquads.Count; currentSquad++)
+                        {
+                            Squad squad = groundCombatState.playerSquads[currentSquad];
+                            Troop troop = squad.GetTroopUnderMouse(this);
+                            if (troop != null)
+                            {
+                                orderStart = squad.Position + troop.Position;
+                                squadBeingOrdered = squad;
+                                assigningOrder = true;
+                            }
+                        }
+                    } else if (previousRMBState == ButtonState.Pressed)
+                    {
+                        orderEnd = GetMouse().Position.ToVector2();
+                    }
+                }
+                else if(Mouse.GetState().RightButton == ButtonState.Released && squadBeingOrdered != null)
+                {
+                    if (previousRMBState == ButtonState.Pressed)
+                    {
+                        squadBeingOrdered.OrderChain.AddOrderLast(new MoveOrder(orderStart,orderEnd));
+                        Debug.WriteLine("endx: " + ((MoveOrder)squadBeingOrdered.OrderChain.GetCurrentOrder()).End.X);
+                        assigningOrder = false;
+                        squadBeingOrdered = null;
+                    }
+                }
                 previousLMBState = GetMouse().LeftButton;
+                previousRMBState = GetMouse().RightButton;
             }
         }
         
