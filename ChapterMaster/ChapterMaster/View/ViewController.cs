@@ -17,7 +17,7 @@ namespace ChapterMaster
         public float zoom = 1.0f;
         public int viewPortWidth;
         public int viewPortHeight;
-        int _cameraSpeed = 4;
+        int _cameraSpeed = 6;
         public int currentSystemId;
         public bool systemSelected;
         public List<int> selectedFleets = new List<int>();
@@ -58,7 +58,7 @@ namespace ChapterMaster
             {
                 camX -= cameraSpeed;
             }
-            if (Mouse.GetState().X >= GameManager.GetWidth())
+            if (Mouse.GetState().X >= GameManager.GetWidth() - 10)
             {
                 camX += cameraSpeed;
             }
@@ -66,7 +66,7 @@ namespace ChapterMaster
             {
                 camY -= cameraSpeed;
             }
-            if (Mouse.GetState().Y >= GameManager.GetHeight())
+            if (Mouse.GetState().Y >= GameManager.GetHeight() - 10)
             {
                 camY += cameraSpeed;
             }
@@ -85,8 +85,8 @@ namespace ChapterMaster
         public virtual void AdjustZoom(float factor)
         {
             zoom += factor;
-            zoom = (float)Math.Round(Math.Abs(zoom), 1);
-            //Debug.WriteLine("z " + zoom);
+            zoom = Math.Min(zoom, 4);
+            zoom = Math.Max(zoom, 0);
         }
         public virtual void CheckBoundaries()
         {
@@ -100,11 +100,11 @@ namespace ChapterMaster
             }
             if (camX > Sector.WorldWidth)
             {
-                camX = (int)(Sector.WorldWidth);
+                camX = Sector.WorldWidth;
             }
             if (camY > Sector.WorldHeight)
             {
-                camY = (int)(Sector.WorldHeight);
+                camY = Sector.WorldHeight;
             }
         }
 
@@ -136,6 +136,14 @@ namespace ChapterMaster
         //    UpdateVisibleArea();
         //}
         #region Transform Helpers
+        private Vector2 GetCamPos()
+        {
+            return new Vector2(camX, camY);
+        }
+        public Vector2 GetViewTransform(Vector2 vec)
+        {
+            return (vec - GetCamPos()) * zoom + new Vector2(GameManager.GetWidth(), GameManager.GetHeight()) / 2;
+        }
         public Vector2 GetViewTransform(int x, int y)
         {
             return new Vector2((int)((x - camX) * zoom + GameManager.GetWidth() / 2), (int)((y - camY) * zoom + GameManager.GetHeight() / 2));
@@ -297,103 +305,7 @@ namespace ChapterMaster
                 }
             }
             #endregion
-            #region Old Fleet Selection
-            // TODO: rewrite all this crap using Fleet.Intersect
-            /*
-            for (int fleetId = 0; fleetId < ChapterMaster.Sector.Fleets.Count; fleetId++)
-            {
-                int systemId = ChapterMaster.Sector.Fleets[fleetId].originSystemId;
-                ChapterMaster.Sector.Fleets[fleetId].fleetId = fleetId; // ???
-                ChapterMaster.Sector.Fleets[fleetId].checkedByCoFleet = false;
-                ChapterMaster.Sector.Fleets[fleetId].coFleets.Clear();
-                List<Fleet.Fleet> orbitingFleets = new List<Fleet.Fleet>();
-                for (int oFleetId = 0; oFleetId < ChapterMaster.Sector.Fleets.Count; oFleetId++)
-                {
-                    if (ChapterMaster.Sector.Fleets[oFleetId].originSystemId == systemId)
-                    {
-                        if (!ChapterMaster.Sector.Fleets[fleetId].coFleets.Contains(oFleetId))
-                        {
-                            ChapterMaster.Sector.Fleets[oFleetId].fleetId = oFleetId; // TODO: will this create problems when the list of fleets changes?
-                            orbitingFleets.Add(ChapterMaster.Sector.Fleets[oFleetId]);
-                            if (oFleetId != fleetId)
-                                ChapterMaster.Sector.Fleets[fleetId].coFleets.Add(oFleetId);
-                        }
-                    }
-                }
-                for (int orbitingFleetId = 0; orbitingFleetId < orbitingFleets.Count; orbitingFleetId++)
-                {
-                    if (orbitingFleets[orbitingFleetId].coFleets.Contains(fleetId))
-                    {
-                        orbitingFleets[orbitingFleetId].checkedByCoFleet = true;
-                    }
-                    int ulCornerX = (int)((ChapterMaster.Sector.Systems[systemId].x + (Constants.SystemSize / 4) + 30 - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                    int ulCornerY = (int)((ChapterMaster.Sector.Systems[systemId].y + (Constants.SystemSize / 4) - 30 - camY) * zoom + ChapterMaster.GetHeight() / 2);
-                    int brCornerX = (int)((ChapterMaster.Sector.Systems[systemId].x + (Constants.SystemSize / 4) + 30 + Constants.SystemSize / 2 - camX) * zoom + ChapterMaster.GetWidth() / 2);
-                    int brCornerY = (int)((ChapterMaster.Sector.Systems[systemId].y + (Constants.SystemSize / 4) - 30 + Constants.SystemSize / 2 - camY) * zoom + ChapterMaster.GetHeight() / 2);
-                    int fleetWidth = brCornerX - ulCornerX;
-                    ulCornerX = ulCornerX + fleetWidth * orbitingFleetId;
-                    brCornerX = brCornerX + fleetWidth * orbitingFleetId;
-                    bool isOverSystem = false;
-                    //Debug.WriteLine("checking fleet " + orbitingFleets[orbitingFleetId].fleetId + " with " + orbitingFleets.Count() + " others");
-                    if (mouseX > ulCornerX && mouseY > ulCornerY && mouseX < brCornerX && mouseY < brCornerY && !orbitingFleets[orbitingFleetId].checkedByCoFleet)
-                    {
-                        //isOverSystem = true;
-                        //currentSystemId = systemId;
-                        //systemSelected = true;
-                        if (!orbitingFleets[orbitingFleetId].checkedByCoFleet)
-                        {
-                            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                            {
-                                //Debug.WriteLine("pressed over fleet " + orbitingFleets[orbitingFleetId].fleetId);
-                                if (!selectedFleets.Contains(orbitingFleets[orbitingFleetId].fleetId))
-                                {
-                                    selectedFleets.Add(orbitingFleets[orbitingFleetId].fleetId);
-                                    Debug.WriteLine("selected fleet " + orbitingFleets[orbitingFleetId].fleetId + " doing " + fleetId);
-                                    ChapterMaster.Sector.Fleets[orbitingFleets[orbitingFleetId].fleetId].isSelected = true;
 
-                                }
-                                else
-                                {
-                                    Debug.WriteLine("deselecting fleet id" + orbitingFleetId);
-                                    selectedFleets.Remove(orbitingFleets[orbitingFleetId].fleetId);
-                                    ChapterMaster.Sector.Fleets[orbitingFleets[orbitingFleetId].fleetId].isSelected = false;
-                                }
-                            }
-                        }
-                    }
-                    else if (Mouse.GetState().LeftButton == ButtonState.Pressed &&
-                            !Keyboard.GetState().IsKeyDown(Keys.LeftShift) &&
-                            !ChapterMaster.Sector.Fleets[fleetId].coFleets.Contains(fleetId) && !isOverSystem &&
-                            !ChapterMaster.Sector.Fleets[fleetId].checkedByCoFleet)
-                    {
-                        bool overFleet = false;
-                        for (int i = 0; i < ChapterMaster.Sector.Fleets.Count; i++)
-                        {
-                            if (ChapterMaster.Sector.Fleets[i].Intersects(this))
-                            {
-                                overFleet = true;
-                            }
-                            else
-                            {
-
-                            }
-                        }
-                        if (!overFleet)
-                        {
-                            Debug.WriteLine("trying to deselect ");
-                            for (int i = 0; i < ChapterMaster.Sector.Fleets.Count; i++)
-                            {
-                                ChapterMaster.Sector.Fleets[i].isSelected = false;
-                                Debug.WriteLine("deselecting " + i);
-                            }
-                            selectedFleets.Clear();
-                        }
-                    }
-                    isOverSystem = false;
-                }
-            }
-            */
-            #endregion
             #region Fleet Selection
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && previousLMBState == ButtonState.Released && !IsOccluded)
             {
@@ -438,21 +350,6 @@ namespace ChapterMaster
                 }
                 if (!Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                 {
-                    //for (int fleetToDeselect = 0; fleetToDeselect < selectedFleets.Count; fleetToDeselect++)
-                    //{
-                    //    if (!ChapterMaster.Sector.Fleets[selectedFleets[fleetToDeselect]].Intersects(this))
-                    //    {
-                    //        Debug.WriteLine($"noshift deselecting fleet {fleetToDeselect}");
-                    //        ChapterMaster.Sector.Fleets[selectedFleets[fleetToDeselect]].isSelected = false;
-                    //        selectedFleets.Remove(selectedFleets[fleetToDeselect]);
-                    //    }
-                    //}
-                    // finally after weeks the fleet selection bug has been solved!! 
-                    // this is proof that the socialist revolution can happen!
-                    // marx is a god! praise Bozhe and marx and the Tsar and the Omnissiah.
-                    // kill stalin and hitler!
-                    // btw lenin sucks.
-                    // i'm not even sure how this works.
                     for (int fleetToDeselect = 0; fleetToDeselect < ChapterMaster.Sector.Fleets.Count; fleetToDeselect++)
                     {
                         if (!ChapterMaster.Sector.Fleets[fleetToDeselect].Intersects(this))

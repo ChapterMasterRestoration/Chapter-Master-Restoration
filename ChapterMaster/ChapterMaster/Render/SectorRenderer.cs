@@ -22,11 +22,7 @@ namespace ChapterMaster
         // TODO: fix zoom and scale and camera transforms
         public void DrawLine(Vector2 start, Vector2 end, Color color, ViewController view)
         {
-            // idk what to do about this transform.
-            Vector2 camPositionTransform = new Vector2(view.camX, view.camY);
-            Vector2 originTransform = new Vector2(GameManager.GetWidth() / 2, GameManager.GetHeight() / 2);
-            // primitive.Line(Vector2.Transform(start,view.Transform), Vector2.Transform(end,view.Transform), color);
-            primitive.Line((start - camPositionTransform) * view.zoom + originTransform, (end - camPositionTransform) * view.zoom + originTransform, color);
+            primitive.Line(view.GetViewTransform(start), view.GetViewTransform(end), color);
         }
         public void DrawDashedLine(Vector2 start, Vector2 end, float thickness, Color color, ViewController view)
         {
@@ -86,12 +82,12 @@ namespace ChapterMaster
                     Color.White);
                     if (orbitingFleets[orbitingFleetId].isSelected)
                     {
-                        primitive.Circle(
-                            new Vector2((ChapterMaster.Sector.Systems[fleet.originSystemId].x + 40 + 30 + (Constants.SystemSize / 2) * orbitingFleetId - view.camX)
-                                        * view.zoom + GameManager.GetWidth() / 2,
-                                        (ChapterMaster.Sector.Systems[fleet.originSystemId].y + 30 - 20 - view.camY)
-                                        * view.zoom + GameManager.GetHeight() / 2),
-                            10 * view.zoom, Color.Green);
+                       
+                        primitive.Circle(view.GetViewTransform(
+                                              ChapterMaster.Sector.Systems[fleet.originSystemId].x + 40 + 30 
+                                              + (Constants.SystemSize / 2) * orbitingFleetId,
+                                              ChapterMaster.Sector.Systems[fleet.originSystemId].x + 30 - 20),
+                                         10 * view.zoom, Color.Green);
                     }
                 }
             }
