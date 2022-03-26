@@ -14,6 +14,13 @@ using System.Text;
 using System.Threading.Tasks;
 using ChapterMaster.World.Faction;
 
+using Myra;
+using Myra.Graphics2D;
+using Myra.Graphics2D.Brushes;
+using Myra.Graphics2D.TextureAtlases;
+using Myra.Graphics2D.UI;
+using Myra.Graphics2D.UI.Styles;
+
 namespace ChapterMaster.State
 {
     public class FactionCreatorState : State
@@ -21,8 +28,11 @@ namespace ChapterMaster.State
         GameManager gameManager;
         GraphicsDevice graphicsDevice;
         private MenuViewController viewController;
-        FactionScreen screen;
+        //FactionScreen screen;
         private Faction playerFaction;
+
+        Desktop _factionCreator;
+
         public FactionCreatorState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
@@ -36,19 +46,66 @@ namespace ChapterMaster.State
             viewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works.
 
-            screen = new FactionScreen(0, "black_background", new MapFrameAlign(0, 0, 0, 0), false);
-            screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
-           
-            playerFaction = new Faction();
-            
-            Button exitButton = new Button("back", "", new CornerAlign(Corner.BOTTOMLEFT, 128, 32, 64), Back); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
-            Button startButton = new Button("ui_but_0", "START", new CornerAlign(Corner.BOTTOMRIGHT, 128, 32, rightMargin:64), Start);
-            TextBox factionNameBox = new TextBox("textbox", "Faction Name", new CornerAlign(Corner.TOPLEFT, 250, 50, leftMargin:64,topMargin:20), outOfFocus:FactionName);
-            TextBox homeWorldNameBox = new TextBox("textbox", "Homeworld Name", new CornerAlign(Corner.TOPLEFT, 250, 50, leftMargin:64,topMargin:100), outOfFocus:HomeWorldName);
-            screen.AddButton(factionNameBox);
-            screen.AddButton(homeWorldNameBox);
-            screen.AddButton(exitButton);
-            screen.AddButton(startButton);
+
+            _factionCreator = new Desktop();
+
+            var Panel = new Panel { Background = new TextureRegion(Assets.GetTexture("faction_creator_background")) };
+
+            var BackButtonTexture = new TextureRegion(Assets.GetButton("back"));
+            var BackButton = new ImageButton
+            {
+                Background = BackButtonTexture,
+                OverImage = BackButtonTexture,
+                Width = 128,
+                Height = 32,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(20, 0, 0, 20)
+            };
+            BackButton.TouchDown += (s, a) =>
+            {
+                gameManager.ChangeState(new CampaignPickerState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
+            };
+            Panel.AddChild(BackButton);
+
+            var StartButtonTexture = new TextureRegion(Assets.GetButton("ui_but_0"));
+            var StartButton = new TextButton
+            {
+                //Background = StartButtonTexture,
+                //OverImage = StartButtonTexture,
+                Text = "Start",
+                TextColor = Color.White,
+                Width = 128,
+                Height = 32,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Margin = new Thickness(0, 0, 20, 20)
+            };
+            StartButton.TouchDown += (s, a) =>
+            {
+                // Initialize Sector with Faction information.
+                playerFaction = new Faction();
+                playerFaction.Name = "TODO"; // TODO
+                ChapterMaster.Sector.Factions.Add(playerFaction.Name, playerFaction);
+                ChapterMaster.Sector.CurrentFaction = playerFaction.Name;
+                gameManager.ChangeState(new GameState(gameManager, gameManager.GraphicsDevice, gameManager.Content, false));
+            };
+            Panel.AddChild(StartButton);
+
+            var FactionPicker = new Panel
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+         
+
+            //Button exitButton = new Button("back", "", new CornerAlign(Corner.BOTTOMLEFT, 128, 32, 64), Back); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
+            //Button startButton = new Button("ui_but_0", "START", new CornerAlign(Corner.BOTTOMRIGHT, 128, 32, rightMargin:64), Start);
+            //TextBox factionNameBox = new TextBox("textbox", "Faction Name", new CornerAlign(Corner.TOPLEFT, 250, 50, leftMargin:64,topMargin:20), outOfFocus:FactionName);
+            //TextBox homeWorldNameBox = new TextBox("textbox", "Homeworld Name", new CornerAlign(Corner.TOPLEFT, 250, 50, leftMargin:64,topMargin:100), outOfFocus:HomeWorldName);
+            Panel.AddChild(FactionPicker);
+            _factionCreator.Widgets.Add(Panel);
         }
 
         private void FactionName(object sender, string value)
@@ -61,28 +118,16 @@ namespace ChapterMaster.State
             // TODO: Sanitize player faction name.
             playerFaction.HomeSystemName = value;
         }
-        private void Start(MouseState mouseState, object sender)
-        {
-            // Initialize Sector with Faction information.
-            ChapterMaster.Sector.Factions.Add(playerFaction.Name, playerFaction);
-            ChapterMaster.Sector.CurrentFaction = playerFaction.Name;
-            gameManager.ChangeState(new GameState(gameManager, gameManager.GraphicsDevice, gameManager.Content, false));
-
-        }
-        private void Back(MouseState mouseState, object sender)
-        {
-            gameManager.ChangeState(new CampaignPickerState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
-        }
 
         public override void Update(GameTime gameTime)
         {
-            screen.Update(viewController);
+            
         }
 
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch.Begin();
-            screen.Render(SpriteBatch, viewController);
+            _factionCreator.Render();
             SpriteBatch.End();
         }
 

@@ -44,7 +44,7 @@ namespace ChapterMaster.Combat
 
             if (squad.IsSquadLeader(this))
             {
-                spriteBatch.DrawString(Assets.Courier_New, "" + squad.GetHealth(), 
+                spriteBatch.DrawString(Assets.CourierNew, "" + squad.GetHealth(), 
                     rect.Location.ToVector2() -(Size / 2 + new Vector2(0, + 4)), Color.White);
                 spriteBatch.Draw(Assets.UITextures["gc_squadleader"], rect.Location.ToVector2(), null,
                     Color.White, this.Rotation,

@@ -28,27 +28,27 @@ namespace ChapterMaster.UI
             spriteBatch.Draw(Assets.UITextures[backgroundTexture], Rect, Color.White);
             // disposition height
             string disposition = "Disposition ???/100 ";
-            int dH = (int) Assets.Caslon_Antique_Regular.MeasureString(disposition).Y;
+            int dH = (int) Assets.CaslonAntiqueRegular.MeasureString(disposition).Y;
             // planet type texture
             Vector2 pos = MathUtil.Add(Rect.Location, new Vector2(8, 8 + dH + 2));
             spriteBatch.Draw(Assets.PlanetTypeTextures[planet.GetTypeTexture()], pos, Color.Gray);
             RenderHelper.PrimitiveBuddy.Rectangle(MathUtil.VectorToRectangle(pos, new Vector2(128, 128)), Color.Gray);
             //disposition
-            spriteBatch.DrawString(Assets.Courier_New, disposition,
+            spriteBatch.DrawString(Assets.CourierNew, disposition,
             MathUtil.Add(Rect.Location, new Vector2(123, 9)), Color.White);
             RenderHelper.PrimitiveBuddy.Rectangle(MathUtil.VectorToRectangle(new Vector2(pos.X, Rect.Location.Y + 8), new Vector2(290, dH)), Color.Gray);
             // title
             Vector2 titlePos = MathUtil.Add(Rect.Location, new Vector2(128 + 8 + 1, 8 + dH + 2 + 2));
             string title = planet.GetName();
-            spriteBatch.DrawString(Assets.Caslon_Antique_Bold, title, titlePos, Color.Gray);
-            int tH = (int)Assets.Caslon_Antique_Regular.MeasureString(title).Y; // title height
-            int cH = (int)Assets.Caslon_Antique_Regular.MeasureString(planet.FactionOwner).Y; // controller name height
+            spriteBatch.DrawString(Assets.CaslonAntiqueBold, title, titlePos, Color.Gray);
+            int tH = (int)Assets.CaslonAntiqueRegular.MeasureString(title).Y; // title height
+            int cH = (int)Assets.CaslonAntiqueRegular.MeasureString(planet.FactionOwner).Y; // controller name height
             Vector2 controllerPos = MathUtil.Offset(titlePos, 0, tH);
-            spriteBatch.DrawString(Assets.Caslon_Antique_Bold, planet.FactionOwner, controllerPos, Color.Gray);
+            spriteBatch.DrawString(Assets.CaslonAntiqueBold, planet.FactionOwner, controllerPos, Color.Gray);
             // population
-            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Population: " + planet.Population, MathUtil.Offset(controllerPos,0, cH + 2), Color.Gray);
+            spriteBatch.DrawString(Assets.CaslonAntiqueRegular, "Population: " + planet.Population, MathUtil.Offset(controllerPos,0, cH + 2), Color.Gray);
             // defense force
-            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, "Defense Force: " + planet.Population, MathUtil.Offset(controllerPos, 0, cH + cH + 2), Color.Gray);
+            spriteBatch.DrawString(Assets.CaslonAntiqueRegular, "Defense Force: " + planet.Population, MathUtil.Offset(controllerPos, 0, cH + cH + 2), Color.Gray);
             foreach (Button button in Buttons)
             {
                 button.Render(spriteBatch, view);

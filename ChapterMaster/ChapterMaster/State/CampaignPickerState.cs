@@ -11,6 +11,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Myra;
+using Myra.Graphics2D;
+using Myra.Graphics2D.Brushes;
+using Myra.Graphics2D.TextureAtlases;
+using Myra.Graphics2D.UI;
+using Myra.Graphics2D.UI.Styles;
+
 namespace ChapterMaster.State
 {
     public class CampaignPickerState : State
@@ -18,7 +25,9 @@ namespace ChapterMaster.State
         GameManager gameManager;
         GraphicsDevice graphicsDevice;
         private MenuViewController viewController;
-        CampaignPicker screen;
+        //CampaignPicker screen;
+
+        Desktop _campaignPicker;
         public CampaignPickerState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
@@ -31,36 +40,75 @@ namespace ChapterMaster.State
             viewController.viewPortWidth = GameManager.window.ClientBounds.Width;
             viewController.viewPortHeight = GameManager.window.ClientBounds.Height;
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works.
-            
-            screen = new CampaignPicker(0, "faction_creator_background", new MapFrameAlign(0, 0, 0, 0), false);
-            screen.primitive = new PrimitiveBuddy.Primitive(graphicsDevice, SpriteBatch);
-            CornerAlign c = new CornerAlign(Corner.TOPLEFT, 64, 128, screen.factionAlign, 64);
-            CornerAlign exit = new CornerAlign(Corner.BOTTOMRIGHT, 128, 32, 64); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
-            Button b = new Button("space_marine", "", c, NewSpaceMarineChapter);
-            Button e = new Button("back", "", exit, Back);
-            screen.AddButton(b);
-            screen.AddButton(e);
+
+            _campaignPicker = new Desktop();
+
+            var Panel = new Panel { Background = new TextureRegion(Assets.GetTexture("faction_creator_background"))};
+
+            var BackButtonTexture = new TextureRegion(Assets.GetButton("back"));
+            var BackButton = new ImageButton
+            {
+                Background = BackButtonTexture,
+                OverImage = BackButtonTexture,
+                Width = 128,
+                Height = 32,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(20, 0, 0, 20)
+            };
+            BackButton.TouchDown += (s, a) =>
+            {
+                gameManager.ChangeState(new MenuState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
+            };
+
+            Panel.AddChild(BackButton);
+
+            var CampaignPicker = new Panel
+            {
+                Background = new TextureRegion(Assets.GetTexture("campaign_picker")),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Width = 400,
+                Height = 500
+            };
+
+            var CampaignButtons = new VerticalStackPanel 
+            {
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            var SpaceMarineTexture = new TextureRegion(Assets.GetButton("space_marine"));
+            var SpaceMarine = new ImageButton
+            {
+                Background = SpaceMarineTexture,
+                OverImage = SpaceMarineTexture,
+                Width = 64,
+                Height = 128,
+                Margin = new Thickness(20,40,0,0)
+            };
+
+            SpaceMarine.TouchDown += (s, a) =>
+            {
+                gameManager.ChangeState(new FactionCreatorState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
+            };
+
+            CampaignButtons.AddChild(SpaceMarine);
+            CampaignPicker.AddChild(CampaignButtons);
+            Panel.AddChild(CampaignPicker);
+            _campaignPicker.Widgets.Add(Panel);
         }
 
-        private void NewSpaceMarineChapter(MouseState mouseState, object sender)
-        {
-            gameManager.ChangeState(new FactionCreatorState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
-        }
 
-        private void Back(MouseState mouseState, object sender)
-        {
-            gameManager.ChangeState(new MenuState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
-        }
 
         public override void Update(GameTime gameTime)
         {
-            screen.Update(viewController);
+            
         }
 
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch.Begin();
-            screen.Render(SpriteBatch, viewController);
+            _campaignPicker.Render();
             SpriteBatch.End();
         }
 

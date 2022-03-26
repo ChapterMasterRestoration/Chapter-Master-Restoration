@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Myra;
 
 namespace ChapterMaster
 {
@@ -26,6 +27,7 @@ namespace ChapterMaster
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += new EventHandler<EventArgs>(WindowResized);
             Content.RootDirectory = "Content";
+
         }
 
         public void ChangeState(State.State state)
@@ -44,13 +46,18 @@ namespace ChapterMaster
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             this.IsMouseVisible = true;
             Window.Title = "Chapter Master Revived";
             graphicsDevice = GraphicsDevice;
             IsFixedTimeStep = true;
             TargetElapsedTime = TimeSpan.FromSeconds(1 / 60.0f);
+
+            MyraEnvironment.Game = this;
+            //MyraEnvironment.DrawMouseHoveredWidgetFrame = true;
+            //MyraEnvironment.DrawWidgetsFrames = true;
+
             currentState = new State.LoadingState(this, GraphicsDevice, Content);
+            
             Debug.WriteLine("loading state created");
         }
         /// <summary>
@@ -60,7 +67,7 @@ namespace ChapterMaster
         /// 
         protected override void LoadContent()
         {
-
+            
         }
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload

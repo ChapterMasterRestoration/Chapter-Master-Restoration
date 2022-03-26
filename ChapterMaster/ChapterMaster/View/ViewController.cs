@@ -51,7 +51,7 @@ namespace ChapterMaster
         }
         int prevMouseWheelValue;
         int currentMouseWheelValue;
-        public virtual void UpdateMouse() //TODO Fix mouse bounds issue when moving camera to the right in fullscreen.
+        public virtual void UpdateMouse()
         {
             int cameraSpeed = (int)(_cameraSpeed / zoom);
             if (Mouse.GetState().X <= 0)
@@ -85,7 +85,7 @@ namespace ChapterMaster
         public virtual void AdjustZoom(float factor)
         {
             zoom += factor;
-            zoom = Math.Min(zoom, 4);
+            zoom = Math.Min(zoom, 2);
             zoom = Math.Max(zoom, 0);
         }
         public virtual void CheckBoundaries()
@@ -146,7 +146,7 @@ namespace ChapterMaster
         }
         public Vector2 GetViewTransform(int x, int y)
         {
-            return new Vector2((int)((x - camX) * zoom + GameManager.GetWidth() / 2), (int)((y - camY) * zoom + GameManager.GetHeight() / 2));
+            return new Vector2((x - camX) * zoom + GameManager.GetWidth() / 2, (y - camY) * zoom + GameManager.GetHeight() / 2);
         }
 
         /// <summary>

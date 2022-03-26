@@ -15,15 +15,15 @@ namespace ChapterMaster.UI.Align
     public class CornerAlign : Align
     {
         Corner Corner;
-        Align subAlign;
+        Align parentAlign;
         public CornerAlign(Corner corner, int width, int height,int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0) : base(width,height,leftMargin, topMargin, rightMargin, bottomMargin)
         {
             Corner = corner;
         }
-        public CornerAlign(Corner corner, int width, int height, Align subAlign,int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0) : base(width, height, leftMargin, topMargin, rightMargin, bottomMargin)
+        public CornerAlign(Corner corner, int width, int height, Align parentAlign,int leftMargin = 0, int topMargin = 0, int rightMargin = 0, int bottomMargin = 0) : base(width, height, leftMargin, topMargin, rightMargin, bottomMargin)
         {
             Corner = corner;
-            this.subAlign = subAlign;
+            this.parentAlign = parentAlign;
         }
         public override Rectangle GetRect(ViewController view)
         {
@@ -31,9 +31,10 @@ namespace ChapterMaster.UI.Align
             switch(Corner)
             {
                 case Corner.TOPLEFT:
-                    //Console.WriteLine(Screen.align.leftMargin);
-                    if(subAlign != null) // TODO: Clean up this mess.
-                        return new Rectangle(subAlign.leftMargin + leftMargin, subAlign.topMargin + topMargin, width, height);
+                    //Debug.WriteLine("left " + parentAlign.leftMargin);
+                    //Debug.WriteLine("top " + parentAlign.topMargin);
+                    if (parentAlign != null) // TODO: Clean up this mess.
+                        return new Rectangle(Screen.align.leftMargin + parentAlign.leftMargin + leftMargin, Screen.align.topMargin + parentAlign.topMargin + topMargin, width, height); // TODO: the math is not adding up here
                     else
                         return new Rectangle(Screen.align.leftMargin + leftMargin, Screen.align.topMargin + topMargin, width, height);
                 case Corner.TOPRIGHT:

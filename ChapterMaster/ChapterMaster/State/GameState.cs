@@ -127,7 +127,6 @@ namespace ChapterMaster
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.Deferred,
                   BlendState.NonPremultiplied, SamplerState.LinearWrap, null, null);
             // Draw background // Background is not tiled, merely scaled.

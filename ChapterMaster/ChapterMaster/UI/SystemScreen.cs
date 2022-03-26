@@ -35,9 +35,9 @@ namespace ChapterMaster.UI
             //pinButton.position = new Vector2(247, 20);
             // TODO: replace with align
             spriteBatch.Draw(Assets.UITextures[backgroundTexture + system.Planets.Count], Rect, Color.White); // TODO: This will go awry if a system has 5 planets. Add a new System Screen. Most likely. Crashes when you have 0 planets. Need to implement minimum.
-            Vector2 stringSize = Assets.Caslon_Antique_Bold.MeasureString(system.name + " System");
+            Vector2 stringSize = Assets.CaslonAntiqueBold.MeasureString(system.name + " System");
             //Debug.WriteLine(stringSize.X);
-            spriteBatch.DrawString(Assets.Caslon_Antique_Bold, system.name + " System", MathUtil.Add(Rect.Location, new Vector2(80, 12)), Color.Gray);
+            spriteBatch.DrawString(Assets.CaslonAntiqueBold, system.name + " System", MathUtil.Add(Rect.Location, new Vector2(80, 12)), Color.Gray);
             // TODO: replace with align component
             Point position = Rect.Location + new Point(50 - Constants.SystemSize / 2, 120 - Constants.SystemSize/2);
             Vector2 pos = new Vector2(position.X, position.Y);
@@ -54,7 +54,7 @@ namespace ChapterMaster.UI
                 PlanetAlign planetAlign = new PlanetAlign(noPlanet, pos, 80, 42, 120 - Constants.SystemSize);
                 RenderHelper.DrawPlanet(spriteBatch, new Vector2(),
                     Planet.TypeToTexture(system.Planets[noPlanet].Type), planetAlign, view);
-                spriteBatch.DrawString(Assets.Caslon_Antique_Bold, Constants.PlanetNames[system.Planets[noPlanet].planetId], planetAlign.planetPos + new Vector2(16,32), Color.Gray);
+                spriteBatch.DrawString(Assets.CaslonAntiqueBold, Constants.PlanetNames[system.Planets[noPlanet].planetId], planetAlign.planetPos + new Vector2(16,32), Color.Gray);
                 planetAligns.Add(planetAlign);
 
             }

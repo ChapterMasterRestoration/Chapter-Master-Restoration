@@ -107,7 +107,7 @@ namespace ChapterMaster.UI
                 spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], align.GetRect(view), Color.White);
             }
             
-            spriteBatch.DrawString(Assets.Courier_New, Value, position + new Vector2(25,10), Color.White);
+            spriteBatch.DrawString(Assets.CourierNew, Value, position + new Vector2(25,10), Color.White);
         }
     }
 }

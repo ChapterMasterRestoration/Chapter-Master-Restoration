@@ -45,15 +45,15 @@ namespace ChapterMaster
             Rectangle rectLabel = view.TransformedOriginRect(system.x + Constants.SystemSize/4, system.y - Constants.SystemSize/4, Constants.SystemSize, true);
             Vector2 position = new Vector2(rectLabel.Left, rectLabel.Bottom);
             string name = system.name.Replace("’", "'");
-            Vector2 nameSize = Assets.Courier_New.MeasureString(name);
+            Vector2 nameSize = Assets.CourierNew.MeasureString(name);
             // TODO: scale system name better.
-            spriteBatch.DrawString(Assets.Courier_New, name, position, Color.White, 0, new Vector2(0,0),view.zoom+0.3f, SpriteEffects.None,0);
+            spriteBatch.DrawString(Assets.CourierNew, name, position, Color.White, 0, new Vector2(0,0),view.zoom+0.3f, SpriteEffects.None,0);
             string owners = "";
             foreach(KeyValuePair<string, float> control in system.FindOwners())
             {
                 owners += control.Key.Substring(0, 1) + $": {(control.Value * 100).ToString("G3")}%,";
             }
-            spriteBatch.DrawString(Assets.Courier_New, owners, new Vector2(rectLabel.Left, rectLabel.Bottom + nameSize.Y * view.zoom + 1), Color.White, 0, new Vector2(0, 0), view.zoom + 0.3f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(Assets.CourierNew, owners, new Vector2(rectLabel.Left, rectLabel.Bottom + nameSize.Y * view.zoom + 1), Color.White, 0, new Vector2(0, 0), view.zoom + 0.3f, SpriteEffects.None, 0);
         }
         public void DrawFleet(SpriteBatch spriteBatch, Fleet.Fleet fleet, Color color, ViewController view, Sector sector)
         {

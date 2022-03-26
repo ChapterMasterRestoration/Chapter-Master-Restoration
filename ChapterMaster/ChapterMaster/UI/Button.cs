@@ -37,7 +37,7 @@ namespace ChapterMaster.UI
             {
                 spriteBatch.Draw(Assets.ButtonTextures[buttonTextureId], Rect, Color.White);
             }
-            spriteBatch.DrawString(Assets.Caslon_Antique_Regular, text, position, Color.White);
+            spriteBatch.DrawString(Assets.CaslonAntiqueRegular, text, position, Color.White);
         }
     }
 }

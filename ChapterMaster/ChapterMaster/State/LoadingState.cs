@@ -35,13 +35,17 @@ namespace ChapterMaster.State
             assetsToLoad.Push(new Asset("UI Textures", 25));
             assetsToLoad.Push(new Asset("Fonts", 5));
 
+            assetsToLoad.Push(new Asset("Faction Icons", 11));
+            // deleted 52, 36, 45, 10, 17, 18, 19, 20 bro wtf
+            // 0 is the border
+            // 1 to 9 is faction icons
             Loader.CONTENT_ROOT = contentManager.RootDirectory;
             spriteBatch = new SpriteBatch(graphicsDevice);
             #region Load Fonts
-            Assets.Caslon_Antique_Regular = contentManager.Load<SpriteFont>("font/caslon-antique.regular");
-            Assets.Caslon_Antique_Bold = contentManager.Load<SpriteFont>("font/caslon-antique.bold");
+            Assets.CaslonAntiqueRegular = contentManager.Load<SpriteFont>("font/caslon-antique.regular");
+            Assets.CaslonAntiqueBold = contentManager.Load<SpriteFont>("font/caslon-antique.bold");
             Assets.ARJULIAN = contentManager.Load<SpriteFont>("font/ARJULIAN");
-            Assets.Courier_New = contentManager.Load<SpriteFont>("font/cour");
+            Assets.CourierNew = contentManager.Load<SpriteFont>("font/cour");
             #endregion
             primitive = new PrimitiveBuddy.Primitive(graphicsDevice, spriteBatch);
             Assets.LoadingScreen = Loader.LoadPNG("loading/loading1");
@@ -100,7 +104,6 @@ namespace ChapterMaster.State
                         }
                         break;
                     case "Button Textures":
-                        Assets.ButtonTextures = new Dictionary<string, Texture2D>();
                         for (int i = 0; i < 4; i++)
                         {
                             Assets.ButtonTextures.Add("ui_but_"+i,Loader.LoadPNG("spr_ui_but_" + (i + 1) + "_0"));
@@ -117,7 +120,6 @@ namespace ChapterMaster.State
                         Assets.ButtonTextures.Add("creation_arrow_left", Loader.LoadPNG("spr_creation_arrow_0"));
                         break;
                     case "UI Textures":
-                        Assets.UITextures = new Dictionary<string, Texture2D>();
                         Assets.UITextures.Add("mapframe", Loader.LoadPNG("spr_new_ui_1"));
                         Assets.UITextures.Add("systemscreen1", Loader.LoadPNG("spr_star_screen_1"));
                         Assets.UITextures.Add("systemscreen2", Loader.LoadPNG("spr_star_screen_2"));
@@ -135,11 +137,18 @@ namespace ChapterMaster.State
                         Assets.UITextures.Add("order_move_arrow", Loader.LoadPNG("combat/order_move_arrow")); // Move this to a different loading stage
                         
                         //Assets.UITextures.Add("", Loader.LoadPNG(""));
-                        Assets.UITextures.Add("faction_creator", Loader.LoadPNG("spr_popup_medium_0")); // Move this to the UI folder, you utter beefbroth.
+                        Assets.UITextures.Add("campaign_picker", Loader.LoadPNG("spr_popup_medium_0")); // Move this to the UI folder, you utter beefbroth.
                         Assets.UITextures.Add("faction_creator_background", Loader.LoadPNG("spr_settings_bg_0"));
                         Assets.UITextures.Add("black_background", Loader.LoadPNG("background/black_background"));
                         break;
                     case "Fonts":
+                        break;
+                    case "Faction Icons":
+                        Assets.UITextures.Add("faction_icon_selected", Loader.LoadPNG("factions/spr_icon_old_0"));
+                        for(int i = 1; i < 10; i++)
+                        {
+                            Assets.IconTextures.Add("faction_icon_" + i, Loader.LoadPNG("factions/spr_icon_old_" + i));
+                        }
                         break;
                     default:
                         throw new Exception($"Asset type {asset.Item1} is not recognized");
