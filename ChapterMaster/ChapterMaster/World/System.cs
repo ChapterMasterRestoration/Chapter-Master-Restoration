@@ -1,5 +1,8 @@
 ﻿using ChapterMaster.UI;
 using ChapterMaster.UI.Align;
+using Myra.Graphics2D;
+using Myra.Graphics2D.TextureAtlases;
+using Myra.Graphics2D.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,15 +33,80 @@ namespace ChapterMaster.World
             this.y = y;
             this.name = name;
         }
-        public SystemScreen OpenSystemScreen(ViewController view, int systemId)
+        public void OpenSystemScreen(ViewController view, int systemId, Desktop desktop)
         {
             if (!view.PlanetScreenOpen)
             {
-                SystemScreen planetsScreen = new SystemScreen(1, "systemscreen", systemId, new SystemScreenAlign(ChapterMaster.MainScreen.align,systemId));
-                ChapterMaster.MainScreen.AddChildScreen(planetsScreen);
-                return planetsScreen;
+                //SystemScreen planetsScreen = new SystemScreen(1, "systemscreen", systemId, new SystemScreenAlign(ChapterMaster.MainScreen.align,systemId));
+                //ChapterMaster.MainScreen.AddChildScreen(planetsScreen);
+
+                var SystemWindow = new Window
+                {
+                    Background = new TextureRegion(Assets.GetTexture("systemscreen" + Planets.Count)),
+                    Title = name,
+                    Width  = 560,
+                    Height = 560
+                };
+
+                SystemWindow.Closed += (s, e) =>
+                {
+                    view.PlanetScreenOpen = false;
+                    view.openSystem = -1;
+                };
+
+                var Panel = new Panel
+                {
+
+                };
+
+
+                var System = new Image
+                {
+                    Background = new TextureRegion(Assets.SystemTextures[color]),
+                    Width = 128,
+                    Height = 128,
+                    Margin = new Thickness((560/320)*50 - Constants.SystemSize / 2, 138, 0, 0)
+                };
+
+                Panel.AddChild(System);
+
+                // Add Planets
+
+                for(int i = 0; i < Planets.Count; i++)
+                {
+                    var PlanetButton = new ImageButton
+                    {
+                        Background = new TextureRegion(Assets.PlanetTextures[Planet.TypeToTexture(Planets[i].Type)]),
+                        OverImage = new TextureRegion(Assets.PlanetTextures[Planet.TypeToTexture(Planets[i].Type)]),
+                        Width = 32,
+                        Height = 32,
+                        Margin = new Thickness(222 + 64 * i,180,0,0)
+                    };
+
+                    PlanetButton.TouchDown += (s, e) =>
+                    {
+                        Planets[i-1].OpenPlanetScreen(view, desktop, this);
+                    };
+
+                    var PlanetLabel = new Label
+                    {
+                        Text = Constants.PlanetNames[i],
+                        Margin = new Thickness(222 + 64 * i + 16, 212)
+                    };
+
+                    Debug.WriteLine("planet i: " + i);
+                    Panel.AddChild(PlanetLabel);
+                    Panel.AddChild(PlanetButton);
+                }
+
+
+                SystemWindow.Content = Panel;
+
+                SystemWindow.ShowModal(desktop);
+
+                //return planetsScreen;
             }
-            return null;
+            //return null;
         }
         public void CloseSystemScreen(ViewController view)
         {

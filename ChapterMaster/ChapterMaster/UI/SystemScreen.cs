@@ -90,7 +90,7 @@ namespace ChapterMaster.UI
                                 overPlanetScreen = true;
                         }
                     }
-                    if(!overPlanetScreen)
+                    if(!overPlanetScreen) // TODO implement
                         ChapterMaster.Sector.Systems[systemId].CloseSystemScreen(view);
                 }
             }
@@ -101,7 +101,7 @@ namespace ChapterMaster.UI
                     if (view.GetMouse().LeftButton == ButtonState.Pressed)
                     {
                         WasModified = Parent.WasModified = true;
-                        ChapterMaster.Sector.Systems[systemId].Planets[planetAlign.planetNo].OpenPlanetScreen(view, this);
+                        //ChapterMaster.Sector.Systems[systemId].Planets[planetAlign.planetNo].OpenPlanetScreen(view);
                     }
                 }
             }

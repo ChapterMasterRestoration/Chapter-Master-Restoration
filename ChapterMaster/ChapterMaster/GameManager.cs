@@ -22,8 +22,8 @@ namespace ChapterMaster
         {
             graphics = new GraphicsDeviceManager(this);
             window = Window;
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 800;
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += new EventHandler<EventArgs>(WindowResized);
             Content.RootDirectory = "Content";
@@ -47,7 +47,7 @@ namespace ChapterMaster
         protected override void Initialize()
         {
             this.IsMouseVisible = true;
-            Window.Title = "Chapter Master Revived";
+            Window.Title = "Chapter Master Restoration";
             graphicsDevice = GraphicsDevice;
             IsFixedTimeStep = true;
             TargetElapsedTime = TimeSpan.FromSeconds(1 / 60.0f);
@@ -158,5 +158,6 @@ namespace ChapterMaster
         {
             Program.GameManager.Exit();
         }
+
     }
 }

@@ -71,6 +71,7 @@ namespace ChapterMaster.State
                 Width = 400,
                 Height = 500
             };
+            CampaignPicker.Layout2d.Expresion = "this.w=W.w*0.45;this.h=W.h*0.95";
 
             var CampaignButtons = new VerticalStackPanel 
             {
@@ -84,7 +85,7 @@ namespace ChapterMaster.State
                 OverImage = SpaceMarineTexture,
                 Width = 64,
                 Height = 128,
-                Margin = new Thickness(20,40,0,0)
+                Margin = new Thickness(40,40,0,0)
             };
 
             SpaceMarine.TouchDown += (s, a) =>
@@ -96,6 +97,9 @@ namespace ChapterMaster.State
             CampaignPicker.AddChild(CampaignButtons);
             Panel.AddChild(CampaignPicker);
             _campaignPicker.Widgets.Add(Panel);
+
+            _campaignPicker.InvalidateLayout();
+            _campaignPicker.UpdateLayout();
         }
 
 
@@ -116,6 +120,13 @@ namespace ChapterMaster.State
         {
             viewController.viewPortWidth = window.ClientBounds.Width;
             viewController.viewPortHeight = window.ClientBounds.Height;
+            _campaignPicker.InvalidateLayout();
+            _campaignPicker.UpdateLayout();
+        }
+
+        public override Desktop GetDesktop()
+        {
+            return _campaignPicker;
         }
     }
 }

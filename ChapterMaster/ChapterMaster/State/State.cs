@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Myra.Graphics2D.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace ChapterMaster.State
     public abstract class State
     {
         public SpriteBatch SpriteBatch;
+        
         public State(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager)
         {
 
@@ -35,5 +37,7 @@ namespace ChapterMaster.State
 
         public abstract void Draw(GameTime gameTime);
         public abstract void Resize(GameWindow window);
+
+        public abstract Desktop GetDesktop();
     }
 }

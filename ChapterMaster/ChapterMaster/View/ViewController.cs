@@ -26,8 +26,10 @@ namespace ChapterMaster
         SystemScreenAlign currentSystemScreenAlign;
 
         public float animationDelta = 10f; // TODO: Implement properly.
+
+        public State.State gameState;
         //public Rectangle VisibleArea;
-        //public Matrix Transform;
+        //public Matrix Transf.orm;
         public virtual void UpdateKeyboard()
         {
             int cameraSpeed = (int)(_cameraSpeed / zoom);
@@ -259,7 +261,8 @@ namespace ChapterMaster
                         {
                             if (!PlanetScreenOpen)
                             {
-                                currentSystemScreenAlign = (SystemScreenAlign)ChapterMaster.Sector.Systems[currentSystemId].OpenSystemScreen(this, currentSystemId).align;
+                                //currentSystemScreenAlign = (SystemScreenAlign)ChapterMaster.Sector.Systems[currentSystemId].OpenSystemScreen(this, currentSystemId, gameState).align;
+                                ChapterMaster.Sector.Systems[currentSystemId].OpenSystemScreen(this, currentSystemId, gameState.GetDesktop());
                                 PlanetScreenOpen = true;
                                 openSystem = currentSystemId;
                             }

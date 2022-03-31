@@ -81,6 +81,7 @@ namespace ChapterMaster.State
                 HorizontalAlignment = HorizontalAlignment.Right,
                 Margin = new Thickness(0, 0, 20, 20)
             };
+
             StartButton.TouchDown += (s, a) =>
             {
                 // Initialize Sector with Faction information.
@@ -92,20 +93,202 @@ namespace ChapterMaster.State
             };
             Panel.AddChild(StartButton);
 
+            var FactionPickerBackground = new TextureRegion(Assets.GetTexture("campaign_picker"));
             var FactionPicker = new Panel
             {
+                Background = FactionPickerBackground,
                 VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center
+                HorizontalAlignment = HorizontalAlignment.Center,
+                //Width = 800,
+                //Height = 1000,
+            };
+            FactionPicker.Layout2d.Expresion = "this.w=W.w*0.45;this.h=W.h*0.95"; // TODO SET THIS UP
+
+            var FactionVertical = new VerticalStackPanel
+            {
+                //HorizontalAlignment = HorizontalAlignment.Center
             };
 
-         
+            var SelectFactionLabel = new Label
+            {
+                Text = "Select Chapter",
+                Font = Assets.CaslonAntiqueBoldFSS.GetFont(32),
+                TextColor = new Color(0, 143, 0),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                //Width = ,
+                Height = 80,
+                Margin = new Thickness(0, 40, 0, 0)
+            };
+            FactionVertical.AddChild(SelectFactionLabel);
+
+
+            var FoundingChaptersLabel = new Label
+            {
+                Text = "Founding Chapters",
+                Font = Assets.CaslonAntiqueBoldFSS.GetFont(32),
+                TextColor = new Color(0, 143, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                //Width = ,
+                Height = 80,
+                Margin = new Thickness(20, 0, 0, 0)
+            };
+            FactionVertical.AddChild(FoundingChaptersLabel);
+
+            var FoundingChapters = new Grid
+            {
+                ColumnSpacing = 16,
+                RowSpacing = 30,
+                ShowGridLines = false,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(15, 0, 0, 0)
+            };
+
+            for(int i = 1; i < 10; i ++)
+            {
+                var ChapterTexture = new TextureRegion(Assets.GetIcon("founding_chapter_" + i));
+                
+                var ChapterButton = new ImageButton
+                {
+                    Background = ChapterTexture,
+                    OverImage = ChapterTexture,
+                    GridColumn = i - 1
+                    //Width = 32,
+                    //Height = 32,
+                };
+                ChapterButton.Layout2d.Expresion = "this.w = W.w*0.04; this.h = W.h*0.04";
+
+                ChapterButton.TouchDown += (s, a) =>
+                {
+                    // TODO: set up faction chosed by player
+                };
+                FoundingChapters.AddChild(ChapterButton);
+
+            }
+            FactionVertical.AddChild(FoundingChapters);
+
+            var SuccessorChaptersLabel = new Label
+            {
+                Text = "Successor Chapters",
+                Font = Assets.CaslonAntiqueBoldFSS.GetFont(32),
+                TextColor = new Color(0, 143, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                //Width = ,
+                Height = 80,
+                Margin = new Thickness(20, 0, 0, 0)
+            };
+            FactionVertical.AddChild(SuccessorChaptersLabel);
+
+            var SuccessorChapters = new Grid
+            {
+                ColumnSpacing = 16,
+                RowSpacing = 30,
+                ShowGridLines = false,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(15, 0, 0, 0)
+            };
+            
+            for(int i = 1; i < 5; i++)
+            {
+                var ChapterTexture = new TextureRegion(Assets.GetIcon("successor_chapter_" + i));
+
+                var ChapterButton = new ImageButton
+                {
+                    Background = ChapterTexture,
+                    OverImage = ChapterTexture,
+                    GridColumn = i - 1,
+                    //Width = 32,
+                    //Height = 32,
+                };
+                ChapterButton.Layout2d.Expresion = "this.w = W.w*0.04; this.h = W.h*0.04";
+
+                ChapterButton.TouchDown += (s, a) =>
+                {
+                    // TODO: set up faction chosed by player
+                };
+                SuccessorChapters.AddChild(ChapterButton);
+            }
+
+
+            FactionVertical.AddChild(SuccessorChapters);
+
+
+            var CustomFactionsLabel = new Label
+            {
+                Text = "Custom Factions",
+                Font = Assets.CaslonAntiqueBoldFSS.GetFont(32),
+                TextColor = new Color(0, 143, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                //Width = ,
+                Height = 80,
+                Margin = new Thickness(20, 0, 0, 0)
+            };
+            FactionVertical.AddChild(CustomFactionsLabel);
+
+            var CustomFactions = new Grid
+            {
+                ColumnSpacing = 16,
+                RowSpacing = 30,
+                ShowGridLines = false,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(15, 0, 0, 0)
+            };
+
+            var CustomFactionButton = new TextButton
+            {
+                Text = "Create Marine Chapter",
+                TextColor = Color.White,
+                Width = 128,
+                Height = 32,
+                //VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(20, 0, 0, 0)
+            };
+
+            CustomFactionButton.TouchDown += (s, e) =>
+            {
+
+            };
+            CustomFactions.AddChild(CustomFactionButton);
+
+            FactionVertical.AddChild(CustomFactions);
+
+
+            var OrkKlansLabel = new Label
+            {
+                Text = "Ork Klans",
+                Font = Assets.CaslonAntiqueBoldFSS.GetFont(32),
+                TextColor = new Color(0, 143, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                //Width = ,
+                Height = 80,
+                Margin = new Thickness(20, 0, 0, 0)
+            };
+
+            FactionVertical.AddChild(OrkKlansLabel);
+
+            var OrkKlans = new Grid
+            {
+                ColumnSpacing = 16,
+                RowSpacing = 30,
+                ShowGridLines = false,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(15, 0, 0, 0)
+            };
+
+            FactionVertical.AddChild(OrkKlans);
 
             //Button exitButton = new Button("back", "", new CornerAlign(Corner.BOTTOMLEFT, 128, 32, 64), Back); //This button does not want to be put into subAlign. Finish adjusting CornerAlign
             //Button startButton = new Button("ui_but_0", "START", new CornerAlign(Corner.BOTTOMRIGHT, 128, 32, rightMargin:64), Start);
             //TextBox factionNameBox = new TextBox("textbox", "Faction Name", new CornerAlign(Corner.TOPLEFT, 250, 50, leftMargin:64,topMargin:20), outOfFocus:FactionName);
             //TextBox homeWorldNameBox = new TextBox("textbox", "Homeworld Name", new CornerAlign(Corner.TOPLEFT, 250, 50, leftMargin:64,topMargin:100), outOfFocus:HomeWorldName);
+
+            FactionPicker.AddChild(FactionVertical);
             Panel.AddChild(FactionPicker);
             _factionCreator.Widgets.Add(Panel);
+
+           
+            _factionCreator.InvalidateLayout();
+            _factionCreator.UpdateLayout();
         }
 
         private void FactionName(object sender, string value)
@@ -135,6 +318,13 @@ namespace ChapterMaster.State
         {
             viewController.viewPortWidth = window.ClientBounds.Width;
             viewController.viewPortHeight = window.ClientBounds.Height;
+            _factionCreator.InvalidateLayout();
+            _factionCreator.UpdateLayout();
+        }
+
+        public override Desktop GetDesktop()
+        {
+            return _factionCreator;
         }
     }
 }

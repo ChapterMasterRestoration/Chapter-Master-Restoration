@@ -42,7 +42,7 @@ namespace ChapterMaster.State
             var BackGroundImage = new TextureRegion(Assets.GetTexture("title_splash")); // , new Rectangle(0,0, 1600, 900)
             panel.Background = BackGroundImage;
 
-            var Buttons = new HorizontalStackPanel {Spacing = 200, 
+            var Buttons = new HorizontalStackPanel {Spacing = 60, 
                                                                    HorizontalAlignment = HorizontalAlignment.Center, 
                                                                    VerticalAlignment = VerticalAlignment.Bottom,
                                                                    Margin = new Thickness(0,0,0,60) 
@@ -50,6 +50,7 @@ namespace ChapterMaster.State
 
             var NewGameTexture = new TextureRegion(Assets.GetButton("new_game"));
             var LoadGameTexture = new TextureRegion(Assets.GetButton("load_game"));
+            var AboutGameTexture = new TextureRegion(Assets.GetButton("about"));
 
             Stylesheet.Current.ButtonStyle.PressedBackground = new SolidBrush("#0000000"); // TODO: rethink this later
             //Stylesheet.Current.ButtonStyle.OverBackground = new SolidBrush("#0000000");
@@ -58,7 +59,7 @@ namespace ChapterMaster.State
             {
                 Background = NewGameTexture,
                 OverImage = NewGameTexture,
-                Width = 256,
+                Width = 265,
                 Height = 48,
 
             };
@@ -73,7 +74,7 @@ namespace ChapterMaster.State
             {
                 Background = LoadGameTexture,
                 OverImage = LoadGameTexture,
-                Width = 256,
+                Width = 265,
                 Height = 48
             };
 
@@ -83,6 +84,28 @@ namespace ChapterMaster.State
            
 
             Buttons.Widgets.Add(LoadGameButton);
+
+            var AboutGameButton = new ImageButton
+            {
+                Background = AboutGameTexture,
+                OverImage = AboutGameTexture,
+                Width = 265,
+                Height = 48
+            };
+
+            AboutGameButton.TouchDown += (s, a) => {
+                gameManager.ChangeState(new AboutState(gameManager, gameManager.GraphicsDevice, gameManager.Content));
+            };
+
+
+            Buttons.Widgets.Add(AboutGameButton);
+
+            panel.AddChild(new Label
+            {
+                Text = "Chapter Master Restoration (sewer rat and SirNuke)",
+                VerticalAlignment = VerticalAlignment.Bottom,
+                HorizontalAlignment = HorizontalAlignment.Left
+            });
 
             panel.Widgets.Add(Buttons);
             _menu.Root = panel;
@@ -105,6 +128,11 @@ namespace ChapterMaster.State
         {
             menuViewController.viewPortWidth = window.ClientBounds.Width;
             menuViewController.viewPortHeight = window.ClientBounds.Height;
+        }
+
+        public override Desktop GetDesktop()
+        {
+            return _menu;
         }
     }
 }

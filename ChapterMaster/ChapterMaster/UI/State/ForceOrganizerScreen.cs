@@ -69,6 +69,7 @@ namespace ChapterMaster.UI
                     Program.GameManager.ChangeState(new ForceManagerState(Program.GameManager, Program.GameManager.GraphicsDevice, Program.GameManager.Content, force));
                     return;
                 }
+                currentlySelectedForce = null;
             }
 
             if (force.Grabbed && currentlySelectedForce == force && !isResizing && !collided)

@@ -86,7 +86,7 @@ namespace ChapterMaster
                         primitive.Circle(view.GetViewTransform(
                                               ChapterMaster.Sector.Systems[fleet.originSystemId].x + 40 + 30 
                                               + (Constants.SystemSize / 2) * orbitingFleetId,
-                                              ChapterMaster.Sector.Systems[fleet.originSystemId].x + 30 - 20),
+                                              ChapterMaster.Sector.Systems[fleet.originSystemId].y + 30 - 20),
                                          10 * view.zoom, Color.Green);
                     }
                 }

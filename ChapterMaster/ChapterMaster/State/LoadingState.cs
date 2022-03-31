@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Myra.Graphics2D.UI;
 
 namespace ChapterMaster.State
 {
@@ -46,6 +49,11 @@ namespace ChapterMaster.State
             Assets.CaslonAntiqueBold = contentManager.Load<SpriteFont>("font/caslon-antique.bold");
             Assets.ARJULIAN = contentManager.Load<SpriteFont>("font/ARJULIAN");
             Assets.CourierNew = contentManager.Load<SpriteFont>("font/cour");
+
+            byte[] ttfData = File.ReadAllBytes("Content/font/caslon-antique.bold.ttf");
+            Assets.CaslonAntiqueBoldFSS = new FontSystem();
+            Assets.CaslonAntiqueBoldFSS.AddFont(ttfData);
+
             #endregion
             primitive = new PrimitiveBuddy.Primitive(graphicsDevice, spriteBatch);
             Assets.LoadingScreen = Loader.LoadPNG("loading/loading1");
@@ -147,8 +155,12 @@ namespace ChapterMaster.State
                         Assets.UITextures.Add("faction_icon_selected", Loader.LoadPNG("factions/spr_icon_old_0"));
                         for(int i = 1; i < 10; i++)
                         {
-                            Assets.IconTextures.Add("faction_icon_" + i, Loader.LoadPNG("factions/spr_icon_old_" + i));
+                            Assets.IconTextures.Add("founding_chapter_" + i, Loader.LoadPNG("factions/spr_icon_old_" + i));
                         }
+                        Assets.IconTextures.Add("successor_chapter_1", Loader.LoadPNG("factions/spr_icon_old_11"));
+                        Assets.IconTextures.Add("successor_chapter_2", Loader.LoadPNG("factions/spr_icon_old_12"));
+                        Assets.IconTextures.Add("successor_chapter_3", Loader.LoadPNG("factions/spr_icon_old_13"));
+                        Assets.IconTextures.Add("successor_chapter_4", Loader.LoadPNG("factions/spr_icon_old_15"));
                         break;
                     default:
                         throw new Exception($"Asset type {asset.Item1} is not recognized");
@@ -164,6 +176,11 @@ namespace ChapterMaster.State
         public override void Resize(GameWindow window)
         {
 
+        }
+
+        public override Desktop GetDesktop()
+        {
+            throw new NotImplementedException();
         }
     }
 }

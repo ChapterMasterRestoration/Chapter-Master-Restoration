@@ -8,6 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.MediaFoundation;
 
+using Myra;
+using Myra.Graphics2D;
+using Myra.Graphics2D.Brushes;
+using Myra.Graphics2D.TextureAtlases;
+using Myra.Graphics2D.UI;
+using Myra.Graphics2D.UI.Styles;
+
 namespace ChapterMaster
 {
     /// <summary>
@@ -21,6 +28,7 @@ namespace ChapterMaster
         SpriteBatch spriteBatch;
         SectorRenderer renderer;
         Ledger Ledger;
+        Desktop _gameUI;
         public GameState(GameManager gameManager, GraphicsDevice graphicsDevice, ContentManager contentManager, bool preserveState) : base(gameManager, graphicsDevice, contentManager)
         {
             this.gameManager = gameManager;
@@ -44,6 +52,7 @@ namespace ChapterMaster
             }
             renderer = new SectorRenderer();
             ChapterMaster.ViewController = new ViewController();
+            ChapterMaster.ViewController.gameState = this;
             spriteBatch = new SpriteBatch(graphicsDevice);
             //ChapterMaster.ViewController.viewPortWidth = GameManager.GetWidth();
             //ChapterMaster.ViewController.viewPortHeight = GameManager.GetHeight();
@@ -54,7 +63,11 @@ namespace ChapterMaster
             GameManager.graphics.ApplyChanges(); // I'm not questioning why this works. ;) #relatable
             renderer.Initialize(graphicsDevice, spriteBatch);
             RenderHelper.Initialize(graphicsDevice, spriteBatch);
-            
+
+            _gameUI = new Desktop();
+
+            var Panel = new Panel { };
+
             ChapterMaster.MainScreen = new Screen(0,
                 "mapframe",
                 new MapFrameAlign(11,
@@ -62,19 +75,44 @@ namespace ChapterMaster
                     156,
                     10),
                 false); // TODO: The proletariat will rise. Enable advanced occlusion for the map frame.
-            ChapterMaster.MainScreen.AddButton(new Button("ui_but_0",
-                "End Turn",
-                new CornerAlign(Corner.BOTTOMRIGHT,
-                    144,
-                    43),
-                EndTurn));
+            //ChapterMaster.MainScreen.AddButton(new Button("ui_but_0",
+            //    "End Turn",
+            //    new CornerAlign(Corner.BOTTOMRIGHT,
+            //        144,
+            //        43),
+            //    EndTurn));
+
+            var EndTurnTexture = new TextureRegion(Assets.GetButton("ui_but_0"));
+            var EndTurnButton = new ImageTextButton
+            {
+                Background = EndTurnTexture,
+                OverImage = EndTurnTexture,
+                Text = "End Turn",
+                TextColor = Color.White,
+                Font = Assets.CaslonAntiqueBoldFSS.GetFont(24),
+                TextPosition = ImageTextButton.TextPositionEnum.OverlapsImage,
+                LabelHorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Width = 144,
+                Height = 43,
+                Margin = new Thickness(0, 0, 0, 0)
+            };
+
+            EndTurnButton.TouchDown += (s, a) =>
+            {
+                ChapterMaster.Sector.TurnUpdate();
+            };
+            Panel.AddChild(EndTurnButton);
+
+
             Ledger = new Ledger(1, "ledger_background", new CornerAlign(Corner.BOTTOMRIGHT, 120, 280,topMargin: 10,leftMargin:2,bottomMargin:58));
             ChapterMaster.MainScreen.AddChildScreen(Ledger);
-        }
 
-        private void EndTurn(MouseState mouseState, object sender)
-        {
-            ChapterMaster.Sector.TurnUpdate();
+            _gameUI.Widgets.Add(Panel);
+            _gameUI.InvalidateLayout();
+            _gameUI.UpdateLayout();
+
         }
 
         /// <summary>
@@ -143,11 +181,20 @@ namespace ChapterMaster
             ChapterMaster.MainScreen.Render(spriteBatch, ChapterMaster.ViewController);
             spriteBatch.DrawString(Assets.ARJULIAN, ChapterMaster.DebugString, new Vector2(0, 100), Color.White);
             spriteBatch.End();
+
+            _gameUI.Render();
         }
         public override void Resize(GameWindow window)
         {
             ChapterMaster.ViewController.viewPortWidth = window.ClientBounds.Width;
             ChapterMaster.ViewController.viewPortHeight = window.ClientBounds.Height;
+            _gameUI.InvalidateLayout();
+            _gameUI.UpdateLayout();
+        }
+
+        public override Desktop GetDesktop()
+        {
+            return _gameUI;
         }
     }
 }

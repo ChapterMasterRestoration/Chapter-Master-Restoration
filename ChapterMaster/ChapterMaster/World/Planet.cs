@@ -1,5 +1,10 @@
 ﻿using ChapterMaster.UI;
 using ChapterMaster.UI.Align;
+using Microsoft.Xna.Framework;
+using Myra.Graphics2D;
+using Myra.Graphics2D.Brushes;
+using Myra.Graphics2D.TextureAtlases;
+using Myra.Graphics2D.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -67,10 +72,55 @@ namespace ChapterMaster.World
         {
             return ChapterMaster.Sector.Systems[systemId];
         }
-        public void OpenPlanetScreen(ViewController view, SystemScreen parentScreen)
+        public void OpenPlanetScreen(ViewController view, Desktop desktop, System system)
         {
             //Debug.WriteLine("planet in system " + systemId);
-            parentScreen.AddChildScreen(new PlanetScreen(2, "planetscreen", new PlanetScreenAlign(parentScreen, planetId), systemId, planetId));
+            //parentScreen.AddChildScreen(new PlanetScreen(2, "planetscreen", new PlanetScreenAlign(parentScreen, planetId), systemId, planetId));
+
+            var PlanetWindow = new Window
+            {
+                Background = new TextureRegion(Assets.GetTexture("planetscreen"), new Rectangle(0,0,320, 294)),
+                Title = system.name + Constants.PlanetNames[planetId],
+                Width = 560,
+                Height = 560
+
+            };
+
+            var Panel = new Panel
+            {
+
+            };
+
+            var PlanetInfoStack = new VerticalStackPanel
+            {
+                Spacing = 60
+            };
+
+            var Disposition = new Label
+            {
+                Text = "Disposition ???/100",
+                Border = new SolidBrush(new Color(128, 128, 128)),
+                BorderThickness = new Thickness(4),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            PlanetInfoStack.AddChild(Disposition);
+
+            var PlanetTypeImage = new Image
+            {
+                Background = new TextureRegion(Assets.PlanetTypeTextures[GetTypeTexture()]),
+                Width = 128,
+                Height = 128,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+
+            PlanetInfoStack.AddChild(PlanetTypeImage);
+
+            Panel.AddChild(PlanetInfoStack);
+
+            PlanetWindow.Content = Panel;
+            PlanetWindow.ShowModal(desktop);
         }
         public void ClosePlanetScreen(ViewController view)
         {
