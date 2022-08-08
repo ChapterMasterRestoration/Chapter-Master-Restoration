@@ -41,16 +41,19 @@ namespace ChapterMaster
         public static Texture2D GetTexture(string id)
         {
             if (id == "background") return Background;
-            return uITextures[id];
+            if (uITextures.ContainsKey(id)) return uITextures[id];
+            return Loader.LoadPNG("unavailable");
         }
 
         public static Texture2D GetButton(string id)
-        {
-            return buttonTextures[id];
+        { 
+            if(buttonTextures.ContainsKey(id)) return buttonTextures[id];
+            return Loader.LoadPNG("unavailable");
         }
         public static Texture2D GetIcon(string id)
         {
-            return iconTextures[id];
+            if(iconTextures.ContainsKey(id)) return iconTextures[id];
+            return Loader.LoadPNG("unvailable");
         }
     }
 }

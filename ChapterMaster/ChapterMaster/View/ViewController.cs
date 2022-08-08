@@ -88,7 +88,7 @@ namespace ChapterMaster
         {
             zoom += factor;
             zoom = Math.Min(zoom, 2);
-            zoom = Math.Max(zoom, 0);
+            zoom = Math.Max(zoom, 0.1f);
         }
         public virtual void CheckBoundaries()
         {

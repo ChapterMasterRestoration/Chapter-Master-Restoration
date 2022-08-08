@@ -72,7 +72,7 @@ namespace ChapterMaster.World
 
                 // Add Planets
 
-                for(int i = 0; i < Planets.Count; i++)
+                for(int i = 0; i < Planets.Count - 1; i++)
                 {
                     var PlanetButton = new ImageButton
                     {
@@ -82,10 +82,12 @@ namespace ChapterMaster.World
                         Height = 32,
                         Margin = new Thickness(222 + 64 * i,180,0,0)
                     };
+                    Debug.WriteLine("i=" + i);
 
                     PlanetButton.TouchDown += (s, e) =>
                     {
-                        Planets[i-1].OpenPlanetScreen(view, desktop, this);
+                        Planets[i].planetId = i;
+                        Planets[i].OpenPlanetScreen(view, desktop, this);
                     };
 
                     var PlanetLabel = new Label
