@@ -53,36 +53,39 @@ namespace ChapterMaster
         }
         int prevMouseWheelValue;
         int currentMouseWheelValue;
-        public virtual void UpdateMouse()
+        public virtual void UpdateMouse(bool isActive)
         {
-            int cameraSpeed = (int)(_cameraSpeed / zoom);
-            if (Mouse.GetState().X <= 0)
+            if(isActive)
             {
-                camX -= cameraSpeed;
+                int cameraSpeed = (int)(_cameraSpeed / zoom);
+                if (Mouse.GetState().X <= 0)
+                {
+                    camX -= cameraSpeed;
+                }
+                if (Mouse.GetState().X >= GameManager.GetWidth() - 10)
+                {
+                    camX += cameraSpeed;
+                }
+                if (Mouse.GetState().Y <= 0)
+                {
+                    camY -= cameraSpeed;
+                }
+                if (Mouse.GetState().Y >= GameManager.GetHeight() - 10)
+                {
+                    camY += cameraSpeed;
+                }
+                prevMouseWheelValue = currentMouseWheelValue;
+                currentMouseWheelValue = Mouse.GetState().ScrollWheelValue;
+                if (currentMouseWheelValue > prevMouseWheelValue)
+                {
+                    AdjustZoom(0.1f);
+                }
+                if (currentMouseWheelValue < prevMouseWheelValue)
+                {
+                    AdjustZoom(-0.1f);
+                }
+                CheckBoundaries();
             }
-            if (Mouse.GetState().X >= GameManager.GetWidth() - 10)
-            {
-                camX += cameraSpeed;
-            }
-            if (Mouse.GetState().Y <= 0)
-            {
-                camY -= cameraSpeed;
-            }
-            if (Mouse.GetState().Y >= GameManager.GetHeight() - 10)
-            {
-                camY += cameraSpeed;
-            }
-            prevMouseWheelValue = currentMouseWheelValue;
-            currentMouseWheelValue = Mouse.GetState().ScrollWheelValue;
-            if (currentMouseWheelValue > prevMouseWheelValue)
-            {
-                AdjustZoom(0.1f);
-            }
-            if (currentMouseWheelValue < prevMouseWheelValue)
-            {
-                AdjustZoom(-0.1f);
-            }
-            CheckBoundaries();
         }
         public virtual void AdjustZoom(float factor)
         {
@@ -357,7 +360,7 @@ namespace ChapterMaster
                     {
                         if (!ChapterMaster.Sector.Fleets[fleetToDeselect].Intersects(this))
                         {
-                            Debug.WriteLine($"noshift deselecting fleet {fleetToDeselect}");
+                            //Debug.WriteLine($"noshift deselecting fleet {fleetToDeselect}");
                             ChapterMaster.Sector.Fleets[fleetToDeselect].isSelected = false;
                             selectedFleets.Remove(fleetToDeselect);
                         }

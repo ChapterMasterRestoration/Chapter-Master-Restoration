@@ -60,11 +60,11 @@ namespace ChapterMaster.UI
             }
             foreach (Button button in Buttons)
             {
-                button.Render(spriteBatch, view);
+                //button.Render(spriteBatch, view);
             }
             foreach (Screen screen in Screens)
             {
-                screen.Render(spriteBatch, view);
+                //screen.Render(spriteBatch, view);
             }
         }
         bool pinKeyPressed = false;

@@ -1,6 +1,8 @@
 ﻿using ChapterMaster.UI;
 using ChapterMaster.UI.Align;
+using Microsoft.Xna.Framework;
 using Myra.Graphics2D;
+using Myra.Graphics2D.Brushes;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 using System;
@@ -43,7 +45,7 @@ namespace ChapterMaster.World
                 var SystemWindow = new Window
                 {
                     Background = new TextureRegion(Assets.GetTexture("systemscreen" + Planets.Count)),
-                    Title = name,
+                    //Title = name,
                     Width  = 560,
                     Height = 560
                 };
@@ -59,6 +61,16 @@ namespace ChapterMaster.World
 
                 };
 
+                var Title = new Label
+                {
+                    Text = name,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Margin = new Thickness(14, -12, 0, 0)
+                };
+
+                Panel.AddChild(Title);
+
 
                 var System = new Image
                 {
@@ -68,11 +80,13 @@ namespace ChapterMaster.World
                     Margin = new Thickness((560/320)*50 - Constants.SystemSize / 2, 138, 0, 0)
                 };
 
+
+
                 Panel.AddChild(System);
 
                 // Add Planets
 
-                for(int i = 0; i < Planets.Count - 1; i++)
+                for(int i = 0; i < Planets.Count; i++)
                 {
                     var PlanetButton = new ImageButton
                     {
@@ -80,14 +94,14 @@ namespace ChapterMaster.World
                         OverImage = new TextureRegion(Assets.PlanetTextures[Planet.TypeToTexture(Planets[i].Type)]),
                         Width = 32,
                         Height = 32,
-                        Margin = new Thickness(222 + 64 * i,180,0,0)
+                        Margin = new Thickness(222 + 64 * i, 180, 0, 0)
                     };
-                    Debug.WriteLine("i=" + i);
+                    PlanetButton.UserData["id"] = i.ToString();
 
                     PlanetButton.TouchDown += (s, e) =>
                     {
-                        Planets[i].planetId = i;
-                        Planets[i].OpenPlanetScreen(view, desktop, this);
+                        int id = Int32.Parse(((ImageButton)s).UserData["id"]);
+                        Planets[id].OpenPlanetScreen(view, desktop, this);
                     };
 
                     var PlanetLabel = new Label

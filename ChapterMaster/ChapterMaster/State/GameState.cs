@@ -128,7 +128,7 @@ namespace ChapterMaster
                 gameManager.ChangeState(new ForceOrganizerState(gameManager, GraphicsDevice, gameManager.Content));
                 return;
             }
-            ChapterMaster.ViewController.UpdateMouse();
+            ChapterMaster.ViewController.UpdateMouse(gameManager.IsActive);
             ChapterMaster.ViewController.UpdateKeyboard();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
                 GameManager.Quit();

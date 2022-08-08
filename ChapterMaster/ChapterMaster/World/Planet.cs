@@ -80,7 +80,7 @@ namespace ChapterMaster.World
             var PlanetWindow = new Window
             {
                 Background = new TextureRegion(Assets.GetTexture("planetscreen"), new Rectangle(0,0,320, 294)),
-                Title = system.name + Constants.PlanetNames[planetId],
+                //Title = system.name + " " + Constants.PlanetNames[planetId],
                 Width = 560,
                 Height = 560
 
@@ -91,20 +91,26 @@ namespace ChapterMaster.World
 
             };
 
-            var PlanetInfoStack = new VerticalStackPanel
+            var Columns = new HorizontalStackPanel
             {
-                Spacing = 60
+
+            };
+
+            var DispositionCol = new VerticalStackPanel
+            {
+                Spacing = 10
             };
 
             var Disposition = new Label
             {
-                Text = "Disposition ???/100",
+                Text = "Disposition ??/100",
                 Border = new SolidBrush(new Color(128, 128, 128)),
                 BorderThickness = new Thickness(4),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Top
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(14, 0, 0, 0)
             };
-            PlanetInfoStack.AddChild(Disposition);
+            DispositionCol.AddChild(Disposition);
 
             var PlanetTypeImage = new Image
             {
@@ -112,15 +118,87 @@ namespace ChapterMaster.World
                 Width = 128,
                 Height = 128,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(14,0,0,0)
             };
 
-            PlanetInfoStack.AddChild(PlanetTypeImage);
+            DispositionCol.AddChild(PlanetTypeImage);
 
-            Panel.AddChild(PlanetInfoStack);
+
+
+            Columns.AddChild(DispositionCol);
+
+            // Info Col
+
+            var InfoCol = new VerticalStackPanel
+            {
+                Spacing = 5,
+                Margin = new Thickness(0,38,0,0)
+            };
+
+            var Title = new Label
+            {
+                Text = system.name + " " + Constants.PlanetNames[planetId], 
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            InfoCol.AddChild(Title);
+
+            var Controller = new Label
+            {
+                Text = "Faction: " + FactionOwner,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            InfoCol.AddChild(Controller);
+
+            var PopulationLabel = new Label
+            {
+                Text = "Population: " + Population, 
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            InfoCol.AddChild(PopulationLabel);
+
+            var DefenseForceLabel = new Label
+            {
+                Text = "Defense Force: " + Population,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            InfoCol.AddChild(DefenseForceLabel);
+
+
+
+            Columns.AddChild(InfoCol);
+
+
+            Panel.AddChild(Columns);
+
+            var QuickStrikes = new ImageTextButton
+            {
+                Text = "Quick Strikes",
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Margin = new Thickness(14,0,0,14)
+            };
+
+            Panel.AddChild(QuickStrikes);
+
+            var StartCampaign = new ImageTextButton
+            {
+                Text = "Start Campaign",
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Margin = new Thickness(0, 0, 0, 14)
+            };
+
+            Panel.AddChild(StartCampaign);
+
+            
 
             PlanetWindow.Content = Panel;
-            PlanetWindow.ShowModal(desktop);
+            PlanetWindow.ShowModal(desktop); // TODO: spawn to the left of system screen
         }
         public void ClosePlanetScreen(ViewController view)
         {

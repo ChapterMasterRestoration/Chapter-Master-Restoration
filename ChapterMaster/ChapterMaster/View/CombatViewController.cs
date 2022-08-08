@@ -27,9 +27,9 @@ namespace ChapterMaster
             }
         }
 
-        public override void UpdateMouse()
+        public override void UpdateMouse(bool isActive)
         {
-            base.UpdateMouse();
+            base.UpdateMouse(isActive);
         }
 
         public override void CheckBoundaries()

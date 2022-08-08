@@ -13,7 +13,7 @@ namespace ChapterMaster
         {
 
         }
-        public override void UpdateMouse()
+        public override void UpdateMouse(bool isActive)
         {
 
         }

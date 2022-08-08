@@ -117,7 +117,7 @@ namespace ChapterMaster.State
             {
                 gameManager.ChangeState(new GameState(gameManager, graphicsDevice, gameManager.Content, true));
             }
-            viewController.UpdateMouse();
+            viewController.UpdateMouse(gameManager.IsActive);
             viewController.UpdateKeyboard();
             viewController.MouseSelection(this);
             screen.Update(viewController);
