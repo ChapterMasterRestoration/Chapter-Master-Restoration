@@ -193,6 +193,11 @@ namespace ChapterMaster.World
                 Margin = new Thickness(0, 0, 0, 14)
             };
 
+            StartCampaign.TouchDown += (s, e) =>
+            {
+                system.OpenStartCampaign(view, desktop, this);
+            };
+
             Panel.AddChild(StartCampaign);
 
             

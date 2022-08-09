@@ -8,6 +8,7 @@ using Myra.Graphics2D.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ChapterMaster.Render;
 
 namespace ChapterMaster.World
 {
@@ -153,6 +154,101 @@ namespace ChapterMaster.World
                 factions[Planets[planetindex].FactionOwner] += (float)1 / (float)Planets.Count;
             }
             return factions;
+        }
+
+        
+        public void OpenStartCampaign(ViewController view, Desktop desktop, Planet planet)
+        {
+            var StartCampaignWindow = new Window()
+            {
+                Width = view.viewPortWidth,
+                Height = view.viewPortHeight,
+            };
+
+            var Panel = new Panel
+            {
+
+            };
+
+            var Title = new Label
+            {
+                Text = name + " Campaign",
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(0,-12,0,0)
+            };
+
+            Panel.AddChild(Title);
+
+            int currentPlanet = planet.planetId;
+
+            // Planet Provinces
+
+            var PlanetProvinces = new Panel()
+            {
+                Width = 600,
+                Height = 600,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+
+            var PlanetImage = new Image()
+            {
+                Background = new TextureRegion(Assets.PlanetTextures[Planet.TypeToTexture(planet.Type)], new Rectangle(0, 0, 32, 32)),
+                Width = 600,
+                Height = 600,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Id = "Planet"
+            };
+            
+            Panel.AddChild(PlanetImage);
+
+            for (int i = 0; i < 2; i++)
+            {
+                var ProvinceButton = new ImageTextButton()
+                {
+                    Background = new SolidBrush(Color.FromNonPremultiplied(200, 100, 0, 40)),
+                    Text = "Province  " + (i+1),
+                    Width = 300,
+                    Height = 100,
+                    Margin = new Thickness(0,200 + 200*i,0,0),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                };
+
+                PlanetProvinces.AddChild(ProvinceButton);
+            }
+
+            Panel.AddChild(PlanetProvinces);
+
+            var PlanetList = new VerticalStackPanel
+            {
+                HorizontalAlignment = HorizontalAlignment.Right
+            };
+
+
+            for (int i = 0; i < Planets.Count; i++)
+            {
+                var PlanetButton = new ImageTextButton
+                {
+                    Text = Planets[i].GetName(),
+                };
+
+                PlanetButton.UserData["id"] = i.ToString();
+
+                PlanetButton.TouchDown += (s, e) =>
+                {
+                    currentPlanet = Int32.Parse(((ImageTextButton)s).UserData["id"]);
+                    PlanetImage.Background = new TextureRegion(Assets.PlanetTextures[Planet.TypeToTexture(Planets[currentPlanet].Type)], new Rectangle(0, 0, 32, 32));
+                };
+
+                PlanetList.AddChild(PlanetButton);
+            }
+
+            Panel.AddChild(PlanetList);
+
+            StartCampaignWindow.Content = Panel;
+            StartCampaignWindow.ShowModal(desktop);
         }
     }
 }
